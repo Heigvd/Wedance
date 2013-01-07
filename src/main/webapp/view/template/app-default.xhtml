@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="page-default.xhtml">
+
+        <ui:define name="page">
+            <h:body class="yui3-skin-sam yui-skin-sam wedance-widget-loading">
+
+                <!-- YUI Base -->
+                <ui:fragment rendered="#{!wedanceProperties.assets_local}">
+                    <!-- CDN -->
+                    <script type="text/javascript" src="http://yui.yahooapis.com/3.7.2/build/yui/yui-min.js"></script>
+                </ui:fragment>
+                <ui:fragment rendered="#{wedanceProperties.assets_local}">
+                    <!-- Self hosted -->
+                    <script type="text/javascript" src="/Wedance/lib/yui3/build/yui/yui-min.js"></script>
+                </ui:fragment>
+
+                <!-- InputEx Loader -->
+                <script src="/Wedance/lib/inputex/src/loader-min.js"  type='text/javascript'></script>
+
+                <!-- Weg Dance Loader -->
+                <ui:fragment rendered="#{wedanceProperties.debug}">
+                    <script type="text/javascript" src="/Wedance/js/wedance-loader.js"></script>
+                </ui:fragment>
+                <ui:fragment rendered="#{!wedanceProperties.debug}">
+                    <script type="text/javascript" src="/Wedance/js/wedance-loader-min.js"></script>
+                </ui:fragment>
+
+                <script type="text/javascript" src="/Wedance/lib/swfobject/swfobject.js"></script>
+
+                <script type="text/javascript">
+                    YUI_config.useBrowserConsole = true;
+                    YUI_config.charset = 'ISO-8859-1';
+                    YUI_config.lang = "#{requestController.locale.toLanguageTag()}";
+                    YUI_config.insertBefore = 'customstyles';
+                    YUI_config.debug = #{wedanceProperties.debug};
+                    YUI_config.throwFail = true;                                // If throwFail is set, Y.error will generate or re-throw a JS Error. Otherwise the failure is logged.
+                    YUI_config.errorFn = function(msg, e, src) {
+                        return false;                                           // Returning true from this function will stop the Error from being thrown.
+                    };
+
+                    var base = "#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}",
+                    comboBase = base + '/rest/combo?';
+                    function setupLocalPath(groupName) {
+                        YUI_config.groups[groupName].base = base + YUI_config.groups[groupName].root;// Set up wedance path
+                        YUI_config.groups[groupName].comboBase = comboBase;
+                        //YUI_config.groups[name].comboBase = comboBase;
+                    }
+                    setupLocalPath("wedance");
+                    YUI_config.groups.inputex.root = "/lib/inputex/src/";       // Set up inputex path
+                    setupLocalPath("inputex");
+                    setupLocalPath("libraries");
+                </script>
+
+                <ui:fragment rendered="#{!wedanceProperties.debug}">
+                    <script>
+                        YUI_config.groups.inputex.combine = true;
+                    </script>
+                </ui:fragment>
+                <ui:fragment rendered="#{wedanceProperties.debug}">
+                    <script>
+                        YUI_config.groups.wedance.filter = "raw";
+                        YUI_config.groups.wedance.combine = false;
+                    </script>
+                </ui:fragment>
+
+                <ui:fragment rendered="#{wedanceProperties.assets_local}">
+                    <!-- local assets -->
+                    <script>
+                        YUI_config.comboBase = comboBase;                                   // Force use combo with self hosted yui3
+                        YUI_config.filter = "min";
+                        YUI_config.combine = false;
+                        YUI_config.root = "/lib/yui3/build/";
+                    </script>
+                </ui:fragment>
+
+                <ui:insert name="body">
+                    <script type="text/javascript">
+                        var app;
+                        YUI().use('wedance-app', function(Y) {
+                            Y.once('domready', function() {                     // When dom is ready,
+                                app = new Y.wedance.App({
+                                    instanceId: #{gameController.instance.id}
+                                });                                             // launch the app
+                                app.render();
+                            });
+                        });
+
+                        function onYouTubeIframeAPIReady() {                    // Youtube Iframe api callback
+                            app.fire("youtubeplayerready");
+                        }
+
+                        //function onYouTubePlayerReady(id) {                   // Youtube Js Api callback
+                        //    app.fire("youtubeplayerready");
+                        //}
+                    </script>
+                </ui:insert>
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>

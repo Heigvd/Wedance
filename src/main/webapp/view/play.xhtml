@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:composition template="template/app-default.xhtml">
+
+
+        <ui:define name="title">Play</ui:define>
+
+        <ui:define name="body">
+            <script type="text/javascript">
+                var app;
+                YUI().use('wedance-track', function(Y) {
+                    Y.once('domready', function() {                     // When dom is ready,
+                        app = new Y.wedance.App({
+                            instanceId: #{gameController.instance.id},
+                            widgetCfg: {
+                                type: Y.wedance.Track
+                            }
+                        });                                             // launch the app
+                        app.render();
+                    });
+                });
+
+                function onYouTubeIframeAPIReady() {                    // Youtube Iframe api callback
+                    app.fire("youtubeplayerready");
+                }
+
+                //function onYouTubePlayerReady(id) {                   // Youtube Js Api callback
+                //    app.fire("youtubeplayerready");
+                //}
+            </script>
+        </ui:define>
+    </ui:composition>
+</html>

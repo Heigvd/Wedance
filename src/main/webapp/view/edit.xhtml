@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:composition template="template/app-default.xhtml">
+
+        <ui:define name="title">Edit</ui:define>
+
+        <ui:define name="head">
+            <link rel="stylesheet" type="text/css" href="/Wedance/css/wedance-edit.css" />
+        </ui:define>¨
+
+        <ui:define name="body">
+            <script type="text/javascript">
+                var Y = YUI().use('wedance-edit', function(Y) {
+                    Y.once('domready', function() {                             // When dom is ready,
+                        var app = new Y.wedance.App({
+                            instanceId: #{gameController.instance.id},
+                            widgetCfg: {
+                                type: Y.wedance.Editor
+                            }
+                        });                                                     // launch the app
+                        app.render();
+                    });
+                });
+
+                function onYouTubeIframeAPIReady() {                            // Youtube Iframe api callback
+                    Y.wedance.app.fire("youtubeplayerready");
+                }
+
+                //function onYouTubePlayerReady(id) {                           // Youtube Js Api callback
+                //    app.fire("youtubeplayerready");
+                //}
+            </script>
+        </ui:define>
+    </ui:composition>
+</html>

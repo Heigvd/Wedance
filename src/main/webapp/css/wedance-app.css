@@ -1,0 +1,131 @@
+/*
+ * We Dance
+*/
+/*
+ * @author Francois-Xavier Aeberhard <fx@red-agent.com>
+*/
+
+/* Override default browser styles */
+body {
+    background: black;
+    color:pink;
+    overflow: hidden;
+}
+a, a:visited {
+    color: lightgray;
+}
+select {
+    margin: 0;
+}
+input[type="submit"], input[type="reset"] {
+    padding:2px 4px;
+    cursor: pointer;
+}
+
+
+/* Video */
+.yui3-wedance-video  {
+    text-align: center;
+}
+
+/* Karaoke */
+.yui3-wedance-track > .yui3-wedance-track-content .yui3-wedance-karaoke ,
+.yui3-wedance-track > .yui3-wedance-edit-content .yui3-wedance-karaoke  {
+/*    pointer-events: none;
+    position:absolute;
+    bottom: 40px;
+    width: 100%;*/
+    color: white;
+
+}
+.karaoke-type-upcoming {
+    color: lightgray;
+}
+.karaoke-type-ready {
+    color: #058359;
+}
+.karaoke-type-instrumental {
+    color: #065BC4;
+}
+.karaoke-display {
+    padding: 0 0 10px 0;
+    font-size:200%;
+    text-align:center
+}
+.karaoke-overlay {
+    color: #FF0000;
+    font-weight: normal;
+    text-decoration: underline;
+}
+
+/* Moves */
+.yui3-wedance-moves .moves-display {
+    position:absolute;
+    bottom:100px;
+    left:0px;
+    width:200%;
+    height:100px;
+}
+.yui3-wedance-moves .move {
+    position: absolute;
+    width:100px;
+    height:100px;
+    top:0;
+    background: url(../images/087.png);
+}
+
+/* Cursor */
+.yui3-wedance-cursor {
+    position: absolute;
+    bottom:135px;
+    width:100%;
+    text-align:center;
+}
+.yui3-wedance-cursor-content {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+    background: url(../images/wedance-cursor.png);
+}
+
+/* Scores styles */
+.yui3-wedance-scores {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 200px;
+}
+.yui3-wedance-score {
+    border: 1px solid purple;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.4);
+    padding:10px;
+    margin-bottom: 10px;
+    width: 150px;
+    color: white;
+}
+.yui3-wedance-score .score {
+    float: right;
+}
+
+/* Join game QR */
+.yui3-wedance-joinwidget {
+    position: absolute;
+    top:10px;
+    right:10px;
+    border: 1px solid purple;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.4);
+    padding:10px;
+    color: white;
+    text-align:center;
+}
+.yui3-wedance-joinwidget-hidden {
+    display:none;
+}
+
+/* Track styles */
+.yui3-wedance-track > div {
+/*    position: relative;*/
+}
