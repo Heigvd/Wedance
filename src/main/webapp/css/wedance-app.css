@@ -8,7 +8,7 @@
 /* Override default browser styles */
 body {
     background: black;
-    color:pink;
+    color:white;
     overflow: hidden;
 }
 a, a:visited {

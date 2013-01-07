@@ -17,18 +17,24 @@ YUI.add('wedance-edit', function (Y) {
         }
     });
 
+    var SimpleWidget = Y.Base.create("wedance-simplewidget", Y.wedance.Karaoke, [], {
+        renderUI: function () {
+            this.get("contentBox").setHTML(this.get("content"));
+        }
+    }, {
+        ATTRS: {
+            content: {}
+        }
+    });
+
     var KaraokeEditor = Y.Base.create("wedance-karaokeeditor", Y.wedance.Karaoke, [], {
+        CONTENT_TEMPLATE: "<div><div class=\"scroll\"></div></div>",
 
         renderUI: function () {
             var cb = this.get("contentBox");
-
-            // var cb = this.get("boundingBox");
-            cb.append('<div class="scroll">mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br />mmmm<br /></div>');
-            var scrollView = new Y.ScrollView({
+            this.scrollView = new Y.ScrollView({
                 srcNode: cb.one(".scroll"),
-                // height: (Y.DOM.winHeight() / 2) - 18 ,
-                height: "100px" ,
-                width: "100%",
+                height: (Y.DOM.winHeight() / 2) - 29,
                 flick: {
                     minDistance:10,
                     minVelocity:0.3,
@@ -40,9 +46,8 @@ YUI.add('wedance-edit', function (Y) {
             //                // this.scrollView.get("contentBox")
             //                // this.scrollView._uiDimensionsChange();
             //                }, this);
-            scrollView.render();
+            this.scrollView.render();
 
-            return;
 
             Y.io(this.get("simpleKRLUri"), {
                 context: this,
@@ -59,10 +64,23 @@ YUI.add('wedance-edit', function (Y) {
 
                         for (i = 0; i < timings.length; i += 1) {
                             t = timings[i];
-                            var l = (t.end - t.start) * 100;
-                        //cb.append("<div class=\"lyrics\" style=\"top:" + (t.start * 100) + "px;height: " + l +"px;\"></div>");
+
+                            var l = (t.end - t.start) * 100,
+                            w = new SimpleWidget({
+                                plugins: {
+                                    Y.Plugin.Resize
+                                }
+                            })
+
+                            cb.append("<div class=\"lyrics\" style=\"top:" + (t.start * 100) + "px;height: " + 100 +"px;\">"
+                                + "<div class=\"startl\">" + t.start + "</div>"
+                                + "<div class=\"picto\" style=\"background:url(../images/087.png)\"></div></div>"
+                                //+ "<div class=\"startl\">" + t.stop + "</div>"
+                                + "</div>");
+
+//                            cb.append("<div class=\"lyrics\" style=\"top:" + (t.start * 100) + "px;height: " + l +"px;\">"
+//                                +"<div class=\"picto\" style=\"background:url(../images/087.png)\"></div></div>");
                         }
-                        // cb.append("<div style=\"height:1000px\">x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br />x<br /></div");
                         Y.later(this.get("rate") * 1000, this, this.step, null, true);
                     },
                     failure: function () {
@@ -91,31 +109,10 @@ YUI.add('wedance-edit', function (Y) {
     Y.namespace('wedance').MovesEditor = MovesEditor;
 
     var Editor = Y.Base.create("wedance-edit", Y.wedance.Track, [], {
-        //
 
-        initTab: function (type, node) {
-            switch (type) {
-                case "Moves":
-                case "Karaoke":
-                    this.movesEditor = new MovesEditor(Y.wedance.app.get("track.moves"));
-                    this.movesEditor.render(node);
-                    break;
-
-                case "Karaoke":
-                    this.karaokeEditor = new KaraokeEditor(Y.wedance.app.get("track.karaoke"));
-                    this.karaokeEditor.render(node);
-                    break;
-            }
-        },
         renderUI: function () {
-
-
             Editor.superclass.renderUI.apply(this, arguments);
             this.player.set("height", Y.DOM.winHeight() / 2);
-
-            //            this.movesEditor = new MovesEditor(Y.wedance.app.get("track.moves"));
-            //            this.movesEditor.render(this.get("contentBox"));
-
 
             this.tabview = new Y.TabView({
                 height: Y.DOM.winHeight() / 2,
@@ -130,66 +127,43 @@ YUI.add('wedance-edit', function (Y) {
                     type: Tab
                 }]
             });
+
             this.tabview.after("render", function (e) {
-                var t = this.item(0),
-                n = t.get("panelNode");
-                this.initTab(t.get("label"), t.get("panelNode"))
-                //                n = this.get("boundingBox");
-                //t.get("panelNode").append("ooo");
-                switch (t.get("label")) {
-                    case "Moves":
-                        this.movesEditor = new MovesEditor(Y.wedance.app.get("track.moves"));
-                        this.movesEditor.render(n);
-                        break;
+                // var t = this.tabview.item(this.tabview.get("selection"));
+                var t = this.tabview.item(0);
+                this.renderTab(t.get("label"), t);
 
-                    case "Karaoke":
-                        this.karaokeEditor = new KaraokeEditor(Y.wedance.app.get("track.karaoke"));
-                        this.karaokeEditor.render(n);
-                        break;
-                }
-                this.movesEditor = new MovesEditor(Y.wedance.app.get("track.moves"));
-                this.movesEditor.render(n);
+            }, this);
 
+            this.tabview.render(this.get("boundingBox"));
+            return;
+
+            this.tabview.after("render", function (e) {
                 this.tabview.after("selectionChange", function (e) {
                     return;
 
                     var t = e.newVal || e.details[0].newVal;
                     if (t && t.get("content") === "") {
-                        switch (t.get("label")) {
-                            case "Moves":
-                                //  this.movesEditor = new MovesEditor(Y.wedance.app.get("track.moves"));
-                                //  this.movesEditor.render(t.get("panelNode"));
-                                break;
-
-                            case "Karaoke":
-                                this.karaokeEditor = new KaraokeEditor(Y.wedance.app.get("track.karaoke"));
-                                this.karaokeEditor.render(t.get("panelNode"));
-                                break;
-                        }
+                        this.renderTab(t.get("label", t));
                     }
                 });
             });
 
-            this.tabview.after("tab:render", function (e) {
-                return;
-                var t = e.target,
-                n = t.get("panelNode");
-                //                n = this.get("boundingBox");
-                //t.get("panelNode").append("ooo");
-                switch (t.get("label")) {
-                    case "Moves":
-                        this.movesEditor = new MovesEditor(Y.wedance.app.get("track.moves"));
-                        this.movesEditor.render(n);
-                        break;
+        },
 
-                    case "Karaoke":
-                        this.karaokeEditor = new KaraokeEditor(Y.wedance.app.get("track.karaoke"));
-                        this.karaokeEditor.render(t.get("panelNode"));
-                        break;
-                }
-            }, this);
 
-            this.tabview.render(this.get("boundingBox"));
+        renderTab: function (type, tab) {
+            switch (type) {
+                case "Moves":
+                    this.movesEditor = new MovesEditor(Y.wedance.app.get("track.moves"));
+                    this.movesEditor.render(tab.get("panelNode"));
+                    break;
+
+                case "Karaoke":
+                    this.karaokeEditor = new KaraokeEditor(Y.wedance.app.get("track.karaoke"));
+                    this.karaokeEditor.render(tab.get("panelNode"));
+                    break;
+            }
         }
     });
     Y.namespace('wedance').Editor = Editor;
