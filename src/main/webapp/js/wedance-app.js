@@ -72,7 +72,7 @@ YUI.add('wedance-app', function (Y) {
     }, {
         ATTRS: {
             base: {
-                value: "http://localhost:8080/wedance/"
+                value: "http://localhost:8080/Wedance/"
             },
             instanceId: {},
             widgetCfg: {},
@@ -92,7 +92,15 @@ YUI.add('wedance-app', function (Y) {
                         delay: 3,
                         simpleKRLUri: "/Wedance/res/Haddaway - What Is Love-moves.json"
                     },
-                    cursor: {}
+                    cursor: {},
+                    moveLibrary: {
+                        1: {
+                            url: "images/087.png"
+                        },
+                        2: {
+                            url: "images/087.png"
+                        }
+                    }
                 }
             }
         }

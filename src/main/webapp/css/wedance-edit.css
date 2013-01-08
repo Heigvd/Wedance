@@ -28,21 +28,94 @@
 .yui3-skin-sam .yui3-tab-panel  {
     /*    position: relative;*/
 }
-.yui3-skin-sam .yui3-wedance-karaokeeditor .lyrics {
-    border-top: 2px solid gray;
-    position: absolute;
-    width: 100%;
+.yui3-skin-sam .yui3-wedance-karaokeeditor .timeline {
+    height:2000px;
+    background: url(../images/ruler.png) repeat-y;
+}
+
+.yui3-skin-sam .yui3-wedance-karaokeeditor .yui3-wedance-simplewidget {
+    border-bottom: 1px solid gray;
+    position:relative;
+    overflow: hidden;
 }
 .yui3-skin-sam .yui3-wedance-karaokeeditor .startl {
     font-size: 9px;
     color: black;
+    padding-left: 10px;
 }
-.yui3-skin-sam .yui3-wedance-karaokeeditor .scroll {
-    height:2000px;
+.yui3-skin-sam .yui3-wedance-karaokeeditor  .picto {
+    width: 100px;
+    height: 100px;
+    margin: 0 20px;
 }
 
-.yui3-skin-sam .yui3-wedance-karaokeeditor .lyrics .picto {
-    width:100px;
-    height:100px;
-    margin:20px;
+.yui3-skin-sam .yui3-wedance-karaokeeditor .movelibrary {
+    color:black;
+    font-style: italic;
+    height:2000px;
+    font-size: 9px;
+    padding: 10px;
+}
+
+.yui3-skin-sam .yui3-wedance-karaokeeditor .movelibrary > div {
+    display:inline-block;
+    margin:2px;
+    padding:2px;
+    border: 1px solid gray;
+    text-align:center;
+}
+.yui3-wedance-moveseditor-content {
+    vertical-align: top;
+}
+.yui3-wedance-moveseditor-content > div {
+    float:left;
+    background:white;
+}
+
+/* File explorer style */
+.yui3-overlay {
+    position:absolute;
+}
+.yui3-overlay-hidden {
+    visibility:hidden;
+}
+
+.icon-edit,
+.icon-delete {
+    display:inline-block;
+    margin: 5px 5px 0 0;
+    width: 32px;
+    height: 32px;
+    background-image: url(../images/icons.png);
+    cursor: pointer;
+}
+
+.icon-edit {
+    background-position-y: -103px;
+}
+
+.yui3-skin-sam .yui3-panel .yui3-widget-hd {
+    background: white;
+}
+.yui3-skin-sam .yui3-panel .yui3-widget-hd .yui3-button-close::before {
+    content: url(../images/sprite_icons.png);
+}
+
+.part {
+    position:absolute;
+    cursor:pointer;
+    width:40px;
+    height:40px;
+    margin: -20px;
+    z-index:5;
+    border-radius:81px;
+}
+.head {
+    background:black;
+    width:120px;
+    height:120px;
+    margin:-60px;
+}
+.part:hover {
+    border: 2px solid red;
 }

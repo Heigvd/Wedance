@@ -21,7 +21,9 @@ YUI().use(function (Y) {
 
                     'wedance-edit': {
                         path: 'js/wedance-edit-min.js',
-                        requires: ["wedance-track", "tabview", "scrollview"]
+                        requires: ["wedance-track", "tabview", "scrollview", "resize-plugin", "panel",
+                        "widget-position", "widget-stack", "widget-position-align",
+                        "jsplumb-yui-all"]
                     },
                     'wedance-movedisplay': {
                         path: 'js/wedance-movedisplay-min.js',
@@ -30,13 +32,52 @@ YUI().use(function (Y) {
                     'wedance-track': {
                         path: 'js/wedance-track-min.js',
                         requires: ['wedance-app', "base", "widget", "ricekaraoke", "simplekaraokedisplay",
-                            "dom-screen", "io-base", "json", "wedance-movedisplay",
-                            "widget-parent", "widget-child", "plugin"]
+                        "dom-screen", "io-base", "json", "wedance-movedisplay",
+                        "widget-parent", "widget-child", "plugin"]
                     },
                     'wedance-controller': {
                         path: 'js/wedance-controller-min.js',
                         requires: ['wedance-app', "base", "widget", "ricekaraoke", "simplekaraokedisplay",
-                            "dom-screen", "io-base", "json"]
+                        "dom-screen", "io-base", "json"]
+                    }
+                }
+            },
+            /* jsPlumb */
+            jsplumb: {
+                combine: true,
+                base: './lib/jsPlumb/',
+                root: '/lib/jsPlumb/',
+                modules: {
+                    'jsplumb': {
+                        path: 'jsPlumb-1.3.10-RC1.js',
+                        requires: ['jsplumb-utils', 'dd']
+                    },
+                    'jsplumb-utils': {
+                        path: 'jsPlumb-util-1.3.10-RC1.js',
+                        requires: []
+                    },
+                    'jsplumb-svg': {
+                        path: 'jsPlumb-renderers-svg-1.3.10-RC1.js',
+                        requires: ['jsplumb']
+                    },
+                    'jsplumb-defaults': {
+                        path: 'jsPlumb-defaults-1.3.10-RC1.js',
+                        requires: ['jsplumb']
+                    },
+                    'jsplumb-statemachine': {
+                        path: 'jsPlumb-connectors-statemachine-1.3.10-RC1.js',
+                        requires: ['jsplumb', 'jsbezier']
+                    },
+                    'jsplumb-yui': {
+                        path: 'yui.jsPlumb-1.3.10-RC1.js',
+                        requires: ['jsplumb']
+                    },
+                    'jsplumb-yui-all': {
+                        path: 'yui.jsPlumb-1.3.15-all-min.js',
+                        requires: ["node", "dd", "anim"/*, "node-event-simulate"*/]
+                    },
+                    'jsbezier': {
+                        path: 'jsBezier-0.3-min.js'
                     }
                 }
             },
@@ -127,9 +168,9 @@ YUI().use(function (Y) {
 
     function loadModules(group) {
         var i, modules = group.modules,
-            moduleName,
-            allModules = [],
-            modulesByType = {};
+        moduleName,
+        allModules = [],
+        modulesByType = {};
         for (moduleName in modules) {                                           // Loop through all modules
             if (modules.hasOwnProperty(moduleName)) {
                 allModules.push(moduleName);                                    // Build a list of all modules
