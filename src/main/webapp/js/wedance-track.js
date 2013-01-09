@@ -134,7 +134,7 @@ YUI.add('wedance-track', function (Y) {
     var Karaoke = Y.Base.create("wedance-karaoke", Y.Widget, [], {
 
         //CONTENT_TEMPLATE: "<div><div id=\"karaoke-display\"></div></div>",
-        
+
         initializer: function () {
             this.i = 0;
         },
@@ -215,6 +215,34 @@ YUI.add('wedance-track', function (Y) {
         syncUI: function () {
             this.set("score", this.get("score"));
             this.set("name", this.get("name"));
+        },
+
+        doFeedback: function (type) {
+            var fbNode = Y.Node.create("<div class=\"fb " + type + "\">" + type + "</div>");
+            this.get("boundingBox").append(fbNode);
+
+            fbNode.plug(Y.Plugin.NodeFX, {
+                node: fbNode,
+                from: {
+                    left: 50,
+                    opacity: 0
+                },
+                to: {
+                    left: 200,
+                    opacity: 1
+                },
+                easing: 'easeIn',
+                duration: 0.3
+            });
+            fbNode.fx.on('end', function () {
+                if (this.get("reverse")) {
+                    this.get("node").remove(true);
+                } else {
+                    this.set("reverse", true);
+                    Y.later(1000, this, this.run);
+                }
+            });
+            fbNode.fx.run();
         }
 
     }, {
@@ -231,6 +259,9 @@ YUI.add('wedance-track', function (Y) {
                     this.get("contentBox").one(".score").setHTML(val);
                     return val;
                 }
+            },
+            track: {
+                value: "move"
             }
         }
     });
@@ -239,6 +270,7 @@ YUI.add('wedance-track', function (Y) {
     var Scores = Y.Base.create("wedance-scores", Y.Widget, [Y.WidgetParent], {
         initializer: function () {
             this.players = {};
+            this.playersCounter = 0;
         },
         renderUI: function () {
             this.addPlayer({
@@ -247,34 +279,38 @@ YUI.add('wedance-track', function (Y) {
                 score: 1000,
                 id: 123
             });
-            this.addPlayer({
-                type: Y.wedance.Score,
-                name: "Player 2",
-                score: 1000,
-                id: 111
-            });
             this.onPlayerUpdate({
                 id: 123,
                 score: 1222
             });
             Y.later(1000, this, function () {
                 this.onPlayerUpdate({
-                    id: 111,
+                    id: 123,
                     score: 1001,
                     move: "g"
                 });
+                this.score("move");
             });
-
         },
-        bindUI: function () {
-            if (!Y.wedance.app.channel) return;
 
-            Y.wedance.app.channel.bind('playerupdate', Y.bind(this.onPlayerUpdate, this));
+        bindUI: function () {
+            if (Y.wedance.app.channel) {
+                Y.wedance.app.channel.bind('playerupdate', Y.bind(this.onPlayerUpdate, this));
+            }
+        },
+        score: function (track) {
+            var i;
+            for (i in this.players) {
+                if (this.players[i].get("track") === track) {
+                    this.players[i].doFeedback("ok");
+                }
+            }
         },
 
         addPlayer: function (w) {
             this.add(w);
-            this.players[w.id] = this.item(this.size() - 1);
+            this.playersCounter += 1;
+            return this.players[w.id] = this.item(this.size() - 1);
         },
 
         getPlayer: function (id) {
@@ -282,10 +318,17 @@ YUI.add('wedance-track', function (Y) {
         },
 
         onPlayerUpdate: function (e) {
-            this.getPlayer(e.id).set("score", e.score);
+            var p = this.getPlayer(e.id);
+            if (!p) {
+                p = this.addPlayer(Y.mix(e, {
+                    type: Y.wedance.Score,
+                    name: "Player " + this.playersCounter,
+                    score: 0
+                }));
+            }
+            p.set("score", e.score);
             console.log("player evt received ", e);
         }
-
     });
     Y.namespace('wedance').Scores = Scores;
 
@@ -348,9 +391,9 @@ YUI.add('wedance-track', function (Y) {
 
             this.joinWidget = new JoinWidget({                                  // Join game invite, w/ QR code
                 url: Y.wedance.app.get("base") + "view/controller.html?instanceId=" + Y.wedance.app.get("instanceId"),
-                plugins: [{
-                    fn: AutoHide
-                }]
+            //plugins: [{
+            //    fn: AutoHide
+            //}]
             });
             this.joinWidget.render(cb);
 

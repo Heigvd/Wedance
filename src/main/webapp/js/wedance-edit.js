@@ -19,26 +19,13 @@ YUI.add('wedance-edit', function (Y) {
         }
     });
 
-    var jp,
-    PictoPlumb =  Y.Base.create("pictoplumb", Y.Widget, [], {
-
-        CONTENT_TEMPLATE: "<div>"
-        + "<div class=\"part head\"></div>"
-        + "<div class=\"part neck\"></div>"
-        + "<div class=\"part ass\"></div>"
-        + "<div class=\"part lfoot\"></div>"
-        + "<div class=\"part rfoot\"></div>"
-        + "<div class=\"part lshoulder\"></div>"
-        + "<div class=\"part rshoulder\"></div>"
-        + "<div class=\"part lhand\"></div>"
-        + "<div class=\"part rhand\"></div>"
-        +"</div>",
+    var PictoPlumb =  Y.Base.create("pictoplumb", Y.Widget, [], {
 
         renderUI: function() {
-            window.jsPlumb.ready(Y.bind(this.initJsPlumb, this));
+            window.jsPlumb.ready(Y.bind(this.onJsPlumbReady, this));
         },
 
-        initJsPlumb: function() {
+        onJsPlumbReady: function() {
             var cb = this.get("contentBox");
 
             this.jp = window.jsPlumb.getInstance({
@@ -56,6 +43,7 @@ YUI.add('wedance-edit', function (Y) {
             });
             var i, o, n, data = this.get("data");
             for (i in data) {
+                cb.append("<div class=\"part " + i + "\"></div>");
                 n = cb.one("." + i);
                 o= data[i];
                 //n.setXY(data[i]);
@@ -73,31 +61,31 @@ YUI.add('wedance-edit', function (Y) {
             this.connect(cb.one(".ass"), cb.one(".lfoot"));
         },
         connect: function (source, target) {
-             this.jp.connect({
-                    source: source,
-                    target: target,
-                    connector:"Straight",
-                    deleteEndpointsOnDetach: true,
-                    uniqueEndpoint: true,
-                    parameters: {
-                        transition: this
-                    },
-                    anchors:["Center", "Center"],
-                    paintStyle:{
-                        lineWidth:9,
-                        strokeStyle: "black",
-                        outlineColor:"#666",
-                        outlineWidth:0,
-                        joinstyle:"round"
-                    },
-                    endpoint:"Blank"
-                //detachable:false,
-                //endpointsOnTop:false,
-                //endpointStyle:{
-                //radius:95,
-                //fillStyle: "black"
-                //}
-                });
+            this.jp.connect({
+                source: source,
+                target: target,
+                connector:"Straight",
+                deleteEndpointsOnDetach: true,
+                uniqueEndpoint: true,
+                parameters: {
+                    transition: this
+                },
+                anchors:["Center", "Center"],
+                paintStyle:{
+                    lineWidth:9,
+                    strokeStyle: "black",
+                    outlineColor:"#666",
+                    outlineWidth:0,
+                    joinstyle:"round"
+                },
+                endpoint:"Blank"
+            //detachable:false,
+            //endpointsOnTop:false,
+            //endpointStyle:{
+            //radius:95,
+            //fillStyle: "black"
+            //}
+            });
         }
     }, {
         ATTRS: {
@@ -365,7 +353,7 @@ YUI.add('wedance-edit', function (Y) {
         renderUI: function () {
             Editor.superclass.renderUI.apply(this, arguments);
             this.player.set("height", Y.DOM.winHeight() / 2);
-
+            
             this.tabview = new Y.TabView({
                 height: Y.DOM.winHeight() / 2,
                 children: [{

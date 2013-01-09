@@ -22,21 +22,16 @@ input[type="submit"], input[type="reset"] {
     cursor: pointer;
 }
 
-
 /* Video */
 .yui3-wedance-video  {
     text-align: center;
 }
 
 /* Karaoke */
-.yui3-wedance-track > .yui3-wedance-track-content .yui3-wedance-karaoke ,
-.yui3-wedance-track > .yui3-wedance-edit-content .yui3-wedance-karaoke  {
-/*    pointer-events: none;
-    position:absolute;
-    bottom: 40px;
-    width: 100%;*/
-    color: white;
-
+.yui3-wedance-karaoke {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
 }
 .karaoke-type-upcoming {
     color: lightgray;
@@ -77,7 +72,7 @@ input[type="submit"], input[type="reset"] {
 /* Cursor */
 .yui3-wedance-cursor {
     position: absolute;
-    bottom:135px;
+    bottom:115px;
     width:100%;
     text-align:center;
 }
@@ -96,7 +91,7 @@ input[type="submit"], input[type="reset"] {
     left: 10px;
     width: 200px;
 }
-.yui3-wedance-score {
+.yui3-wedance-score-content {
     border: 1px solid purple;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.4);
@@ -108,7 +103,34 @@ input[type="submit"], input[type="reset"] {
 .yui3-wedance-score .score {
     float: right;
 }
-
+/* Scores styles: feedbacks */
+.yui3-wedance-score .fb {
+    position: absolute;
+    top: -8px;
+    opacity: 0;
+    font-weight: bolder;
+    text-transform: uppercase;
+    font-size: 40px;
+    font-family: 'Luckiest Guy', cursive;
+    text-shadow: 0px 1px 1px #fff, 0 -1px 1px #000; /* emboss effect */
+    color: #ddd;
+    /*    text-shadow: .03em .03em 0em white,
+            -.03em -.03em 0em white,
+            .03em -.03em 0em white,
+            -.03em .03em 0em white;*/
+}
+.yui3-wedance-score .fb.perfect {
+    color: green;
+}
+.yui3-wedance-score .fb.good {
+    color: greenyellow;
+}
+.yui3-wedance-score .fb.ok {
+    color: goldenrod;
+}
+.yui3-wedance-score .fb.bad {
+    color: red;
+}
 /* Join game QR */
 .yui3-wedance-joinwidget {
     position: absolute;
@@ -127,5 +149,5 @@ input[type="submit"], input[type="reset"] {
 
 /* Track styles */
 .yui3-wedance-track > div {
-/*    position: relative;*/
+    position: relative;
 }

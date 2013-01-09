@@ -22,9 +22,6 @@ YUI.add('wedance-app', function (Y) {
         render: function () {
             Y.wedance.app = this;
 
-            var w = this.create(this.get("widgetCfg"));                         // Render the widget
-            w.render();
-
             try {
                 Pusher.log = Y.log;
                 //Pusher.channel_auth_endpoint = 'pusher_auth.php';
@@ -46,9 +43,13 @@ YUI.add('wedance-app', function (Y) {
                 Y.log("Unable to initialize pusher", "error");
             }
 
+            var w = this.create(this.get("widgetCfg"));                         // Render the widget
+            w.render();
+
         },
 
         triggerPusherEvent: function (evt, data) {
+            Y.log("triggerPusherEvent");
             data.uid = "roooooger";
             data.sid = Y.wedance.app.get("instanceId");
             this.channel.trigger(evt, data);

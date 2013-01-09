@@ -16,7 +16,7 @@ YUI().use(function (Y) {
                 modules: {
                     'wedance-app': {
                         path: 'js/wedance-app-min.js',
-                        requires: ["base", "widget"]
+                        requires: ["base", "widget", "pusher", "google-font"]
                     },
 
                     'wedance-edit': {
@@ -110,6 +110,14 @@ YUI().use(function (Y) {
                 modules: {
                     youtubeapi: {
                         fullpath: "http://www.youtube.com/iframe_api"
+                    },
+                    pusher: {
+                        fullpath: "http://js.pusher.com/1.11/pusher.min.js"
+                    },
+                    "google-font": {
+                        fullpath: "http://fonts.googleapis.com/css?family=Luckiest+Guy&effect=emboss",
+                       // fullpath: "http://fonts.googleapis.com/css?family=Rancho&effect=shadow-multiple",
+                        type: "css"
                     }
                 }
             },
