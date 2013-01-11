@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:composition template="template/app-default.xhtml">
+
+        <ui:define name="title">Lobby</ui:define>
+
+        <ui:define name="body">
+            <script type="text/javascript">
+                var Y = YUI().use('wedance-lobby', function(Y) {
+                    Y.once('domready', function() {                             // When dom is ready,
+                        var app = new Y.wedance.App({
+                            widgetCfg: {
+                                type: Y.wedance.Lobby
+                            }
+                        });                                                     // launch the app
+                        app.render();
+                    });
+                });
+            </script>
+        </ui:define>
+    </ui:composition>
+</html>

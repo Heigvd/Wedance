@@ -18,9 +18,32 @@ YUI().use(function (Y) {
                         path: 'js/wedance-app-min.js',
                         requires: ["base", "widget", "pusher", "google-font", "wedance-video"]
                     },
+
+                    'wedance-track': {
+                        path: 'js/wedance-track-min.js',
+                        requires: ['wedance-app', "base", "widget", "ricekaraoke", "simplekaraokedisplay",
+                        "dom-screen", "io-base", "json", "wedance-movedisplay",
+                        "widget-parent", "widget-child", "plugin"]
+                    },
+                    'wedance-movedisplay': {
+                        path: 'js/wedance-movedisplay-min.js',
+                        requires: ["widget", "anim", "ricekaraoke"]
+                    },
                     'wedance-video': {
                         path: 'js/wedance-video-min.js'
                     },
+
+                    'wedance-lobby': {
+                        path: 'js/wedance-lobby-min.js',
+                        requires: ["wedance-app", "button", "io", "json"]
+                    },
+
+                    'wedance-controller': {
+                        path: 'js/wedance-controller-min.js',
+                        requires: ['wedance-app', "base", "widget", "ricekaraoke", "simplekaraokedisplay",
+                        "dom-screen", "io-base", "json", "button"]
+                    },
+
                     'wedance-edit': {
                         path: 'js/wedance-edit-min.js',
                         requires: ["wedance-track", "wedance-filelibrary", "tabview", "scrollview", "resize-plugin", "panel",
@@ -33,25 +56,9 @@ YUI().use(function (Y) {
                         "widget-position", "widget-stack", "widget-position-align",
                         "jsplumb-yui-all", "jpegcam", "button", "uploader", 'wedance-pictoplumb']
                     },
-
                     'wedance-pictoplumb': {
                         path: 'js/wedance-pictoplumb-min.js',
                         requires: ["jsplumb-yui-all"]
-                    },
-                    'wedance-movedisplay': {
-                        path: 'js/wedance-movedisplay-min.js',
-                        requires: ["widget", "anim", "ricekaraoke"]
-                    },
-                    'wedance-track': {
-                        path: 'js/wedance-track-min.js',
-                        requires: ['wedance-app', "base", "widget", "ricekaraoke", "simplekaraokedisplay",
-                        "dom-screen", "io-base", "json", "wedance-movedisplay",
-                        "widget-parent", "widget-child", "plugin"]
-                    },
-                    'wedance-controller': {
-                        path: 'js/wedance-controller-min.js',
-                        requires: ['wedance-app', "base", "widget", "ricekaraoke", "simplekaraokedisplay",
-                        "dom-screen", "io-base", "json", "button"]
                     }
                 }
             },

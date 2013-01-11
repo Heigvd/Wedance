@@ -13,7 +13,7 @@ YUI.add('wedance-controller', function (Y) {
 
         renderUI: function () {
             var cb = this.get("contentBox");
-            cb.append("<div class=\"descr\">What do you want to do?</div>")
+            cb.append("<div class=\"descr\">What do you want to do?</div>");
             this.micButton = new Y.Button({
                 label: "Sing",
                 disabled: true
@@ -23,7 +23,7 @@ YUI.add('wedance-controller', function (Y) {
             this.danceButton = new Y.Button({
                 label: "Dance"
             });
-            this.danceButton.on("click", function() {
+            this.danceButton.on("click", function () {
                 Y.wedance.app.triggerPusher("playerConnect", {
                     id: Y.wedance.app.get("sessionId"),
                     track: "moves"
@@ -32,12 +32,11 @@ YUI.add('wedance-controller', function (Y) {
             this.danceButton.render(cb);
 
         //<div>Name: <span class=\"player\">player</span></div><div>Score: <span class=\"score\">0</span></div>
-
         },
 
         bindUI: function () {
             Y.wedance.app.channel.bind('playerupdate', Y.bind(function (e) {
-                if (e.id === Y.wedance.app.get("playerId")) {
+                if (e.id === Y.wedance.app.get("sessionId")) {
                     this.get("contentBox").one(".score").setHTML(e.score);
                 }
             }, this));

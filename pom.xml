@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.wegas</groupId>
+    <groupId>com.wedance</groupId>
     <artifactId>wedance</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
@@ -14,7 +14,7 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
-        <netbeans.hint.license>wegas</netbeans.hint.license>
+        <netbeans.hint.license>wedance</netbeans.hint.license>
 
         <shiro.version>1.2.0</shiro.version>
         <atmosphere.version>0.9-SNAPSHOT</atmosphere.version>
@@ -32,7 +32,7 @@
         <netbeans.hint.j2eeVersion>1.7</netbeans.hint.j2eeVersion>
 
         <resources.local>true</resources.local>
-        <wegas.debug>true</wegas.debug>
+        <wedance.debug>true</wedance.debug>
         <build.optimize>false</build.optimize>
         <netbeans.hint.deploy.server>gfv3ee6</netbeans.hint.deploy.server>
     </properties>

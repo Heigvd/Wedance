@@ -93,43 +93,10 @@
         <listener-class>liquibase.integration.servlet.LiquibaseServletListener</listener-class>
     </listener>-->
 
-    <!-- Facebook Servlet -->
-    <!--<servlet>
-        <servlet-name>Facebook Servlet</servlet-name>
-        <servlet-class>com.wegas.core.security.facebook.FacebookLoginServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Facebook Servlet</servlet-name>
-        <url-pattern>/FacebookServlet</url-pattern>
-    </servlet-mapping>-->
-
     <!--File Mime Types-->
     <mime-mapping>
         <extension>json</extension>
         <mime-type>application/json;charset=ISO-8859-1</mime-type>
     </mime-mapping>
 
-    <!-- Wegas Listener -->
-    <!--<listener>
-        <listener-class>com.wegas.tools.RequestListener</listener-class>
-    </listener>-->
-    <!--Facebook Servlet-->
-    <!--
-    <servlet>
-        <servlet-name>AdminServlet</servlet-name>
-        <servlet-class>com.albasim.wegas.admin.AdminServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AdminServlet</servlet-name>
-        <url-pattern>/admin</url-pattern>
-    </servlet-mapping>-->
-    <!-- <filter>
-        <filter-name>FacebookUserFilter</filter-name>
-        <filter-class>com.albasim.session.facebook.FacebookUserFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>FacebookUserFilter</filter-name>
-        <url-pattern>/facebooktest/*</url-pattern>
-    </filter-mapping>-->
 </web-app>

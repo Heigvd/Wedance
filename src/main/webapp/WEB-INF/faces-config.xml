@@ -30,19 +30,5 @@
         </resource-bundle>
 
     </application>
-<!--
-    <navigation-rule>
-        <from-view-id>/wegas-app/view/lobby-selectteam.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>teamJoined</from-outcome>
-            <to-view-id>/wegas-app/view/play.xhtml</to-view-id>
-            <redirect>
-                <view-param>
-                    <name>id</name>
-                    <value>#{lobbyController.currentPlayer.id}</value>
-                </view-param>
-            </redirect>
-        </navigation-case>
-    </navigation-rule>-->
 
 </faces-config>

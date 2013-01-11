@@ -11,19 +11,21 @@ YUI.add('wedance-edit', function (Y) {
         ATTRS: {
             content: {
                 setter: function () {
-                    console.log("caught");
+                    //console.log("caught");
                 }
             }
         }
     });
 
     var SimpleWidget = Y.Base.create("wedance-simplewidget", Y.Widget, [], {
+
         CONTENT_TEMPLATE: "<div><div class=\"startl\">0:00</div></div>",
-        renderUI: function() {
+
+        renderUI: function () {
             this.get("contentBox").append(this.get("content"));
             this.set("height", (this.get("data.end") - this.get("data.start")) * 100);
         },
-        syncUI: function() {
+        syncUI: function () {
             this.set("data.start", this.get("data.start"));
         }
     }, {
@@ -42,7 +44,7 @@ YUI.add('wedance-edit', function (Y) {
         },
         rightPad: function(val, targetLength) {
             var i, p = Math.pow(10, targetLength),
-                    output = (Math.round(val * p) / p) + '', left;
+            output = (Math.round(val * p) / p) + '', left;
 
             if (output.split(".").length === 1) {
                 output += ".";
@@ -61,7 +63,7 @@ YUI.add('wedance-edit', function (Y) {
     var KaraokeEditor = Y.Base.create("wedance-karaokeeditor", Y.wedance.Karaoke, [], {
         CONTENT_TEMPLATE: "<div><div class=\"scroll\"></div></div>",
         SCROLLVIEWWIDTH: "100%",
-        renderUI: function() {
+        renderUI: function () {
             var cb = this.get("contentBox");
 
             this.moves = [];
@@ -85,9 +87,7 @@ YUI.add('wedance-edit', function (Y) {
             });
             this.menu.render();
             this.menu.get("contentBox").setHTML("<div class=\"icon-delete\"></div>");
-            this.menu.get("contentBox").one(".icon-delete").on("click", function() {
-
-            }, this);
+            this.menu.get("contentBox").one(".icon-delete").on("click", function() {}, this);
 
             cb.one(".timeline").delegate("mouseenter", function(e) {
                 this.menu.show();
@@ -98,57 +98,48 @@ YUI.add('wedance-edit', function (Y) {
                 });
             }, ".picto", this);
             //cb.one(".timeline").delegate("mouseleave", this.menu.hide, ".picto", this.menu);
-
-
-            Y.io(this.get("simpleKRLUri"), {
-                context: this,
-                on: {
-                    success: function(tId, e) {
-                        var i, t,
-                                timings = RiceKaraoke.simpleTimingToTiming(Y.JSON.parse(e.response)), // Simple KRL -> KRL
-                                cb = this.scrollView.get("contentBox"),
-                                w = new SimpleWidget({
-                            data: {
-                                start: 0,
-                                end: timings[0].start,
-                                index: -1
-                            },
-                            plugins: [{
-                                    fn: Y.Plugin.Resize,
-                                    cfg: {
-                                        handles: "b"
-                                    }
-                                }]
-                        });
-                        w.resize.on("resize:resize", this.onMoveResize, this);
-                        w.render(cb);
-
-                        for (i = 0; i < timings.length; i += 1) {
-                            t = timings[i];
-                            t.index = i;
-
-                            w = new SimpleWidget({
-                                content: "<div class=\"picto\" style=\"background:url(../images/087.png)\"></div>",
-                                data: t,
-                                plugins: [{
-                                        fn: Y.Plugin.Resize,
-                                        cfg: {
-                                            handles: "b"
-                                        }
-                                    }]
-                            });
-                            w.resize.on("resize:resize", this.onMoveResize, this);
-                            w.render(cb);
-                            this.moves.push(w);
-                        }
-                        //this.scrollView._uiDimensionsChange();
-                        Y.later(this.get("rate") * 1000, this, this.step, null, true);
+            this.scrollView.after("render", function () {
+                var i, t,
+                timings = RiceKaraoke.simpleTimingToTiming(Y.JSON.parse(this.get("content"))), // Simple KRL -> KRL
+                cb = this.scrollView.get("contentBox"),
+                w = new SimpleWidget({
+                    data: {
+                        start: 0,
+                        end: timings[0].start,
+                        index: -1
                     },
-                    failure: function() {
-                        alert("Error loading karaoke track.");
-                    }
+                    plugins: [{
+                        fn: Y.Plugin.Resize,
+                        cfg: {
+                            handles: "b"
+                        }
+                    }]
+                });
+                w.resize.on("resize:resize", this.onMoveResize, this);
+                w.render(cb);
+
+                for (i = 0; i < timings.length; i += 1) {
+                    t = timings[i];
+                    t.index = i;
+
+                    w = new SimpleWidget({
+                        content: "<div class=\"picto\" style=\"background:url(../images/087.png)\"></div>",
+                        data: t,
+                        plugins: [{
+                            fn: Y.Plugin.Resize,
+                            cfg: {
+                                handles: "b"
+                            }
+                        }]
+                    });
+                    w.resize.on("resize:resize", this.onMoveResize, this);
+                    w.render(cb);
+                    this.moves.push(w);
                 }
-            });
+                //this.scrollView._uiDimensionsChange();
+                Y.later(this.get("rate") * 1000, this, this.step, null, true);
+
+            }, this);
 
         },
         step: function() {
@@ -156,7 +147,7 @@ YUI.add('wedance-edit', function (Y) {
         },
         onMoveResize: function(e) {
             var i, m, w = e.currentTarget.get("widget"),
-                    offset = -w.get("data.end") + w.get("data.start") + this.height2Time(w.get("height"));
+            offset = -w.get("data.end") + w.get("data.start") + this.height2Time(w.get("height"));
             //   console.log(offset);
 
             w.set("data.end", w.get("data.start") + this.height2Time(w.get("height")));
@@ -203,15 +194,15 @@ YUI.add('wedance-edit', function (Y) {
             this.tabview = new Y.TabView({
                 height: Y.DOM.winHeight() / 2,
                 children: [{
-                        label: 'Moves',
-                        type: Tab
-                    }, {
-                        label: 'Karaoke',
-                        type: Tab
-                    }, {
-                        label: 'Move designer',
-                        type: Tab
-                    }]
+                    label: 'Moves',
+                    type: Tab
+                }, {
+                    label: 'Karaoke',
+                    type: Tab
+                }, {
+                    label: 'Move designer',
+                    type: Tab
+                }]
             });
 
             this.tabview.after("render", function(e) {
@@ -239,12 +230,12 @@ YUI.add('wedance-edit', function (Y) {
         renderTab: function(type, tab) {
             switch (type) {
                 case "Moves":
-                    this.movesEditor = new MovesEditor(Y.wedance.app.get("track.moves"));
+                    this.movesEditor = new MovesEditor(Y.wedance.app.get("tune.moves"));
                     this.movesEditor.render(tab.get("panelNode"));
                     break;
 
                 case "Karaoke":
-                    this.karaokeEditor = new KaraokeEditor(Y.wedance.app.get("track.karaoke"));
+                    this.karaokeEditor = new KaraokeEditor(Y.wedance.app.get("tune.karaoke"));
                     this.karaokeEditor.render(tab.get("panelNode"));
                     break;
             }

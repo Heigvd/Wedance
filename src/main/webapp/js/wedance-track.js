@@ -32,24 +32,14 @@ YUI.add('wedance-track', function (Y) {
         },
 
         renderUI: function () {
-            Y.io(this.get("simpleKRLUri"), {
-                context: this,
-                on: {
-                    success: function (tId, e) {
-                        var numDisplayLines = this.get("numDisplayLines"),
-                        timings = RiceKaraoke.simpleTimingToTiming(Y.JSON.parse(e.response)), // Simple KRL -> KRL
-                        karaoke = new RiceKaraoke(timings),
-                        renderer = new (this.get("engine"))(this.get("contentBox").generateID(), numDisplayLines);
+            var numDisplayLines = this.get("numDisplayLines"),
+            timings = RiceKaraoke.simpleTimingToTiming(Y.JSON.parse(this.get("content"))), // Simple KRL -> KRL
+            karaoke = new RiceKaraoke(timings),
+            renderer = new (this.get("engine"))(this.get("contentBox").generateID(), numDisplayLines);
 
-                        this.show = karaoke.createShow(renderer, numDisplayLines);
+            this.show = karaoke.createShow(renderer, numDisplayLines);
 
-                        Y.later(this.get("rate") * 1000, this, this.step, null, true);
-                    },
-                    failure: function () {
-                        alert("Error loading karaoke track.");
-                    }
-                }
-            });
+            Y.later(this.get("rate") * 1000, this, this.step, null, true);
         },
         step: function () {
             this.show.render(this.get("currentTime"), false);
@@ -57,7 +47,7 @@ YUI.add('wedance-track', function (Y) {
     }, {
         ATTRS: {
             player: {},
-            simpleKRLUri: {},
+            content: {},
             numDisplayLines: {
                 value: 2
             },
@@ -78,13 +68,12 @@ YUI.add('wedance-track', function (Y) {
                     this.get("player").getCurrentTime() : this.i * this.get("rate");
 
                     this.i = this.i + 1;
-                    return t - this.get("delay")
+                    return t - this.get("delay");
                 }
             }
         }
     });
     Y.namespace('wedance').Karaoke = Karaoke;
-
 
     var KaraokePlayer = Y.Base.create("wedance-karaokeplayer", Y.wedance.Karaoke, [], {});
 
@@ -117,7 +106,7 @@ YUI.add('wedance-track', function (Y) {
          */
         doFeedback: function (type) {
             var types = ["bad", "ok", "good", "perfect"];                       // Random generate feedback (temporary)
-            type = types[Math.round(Math.random()*3)];
+            type = types[Math.round(Math.random() * 3)];
 
             var fbNode = Y.Node.create("<div class=\"fb " + type + "\">" + type + "</div>");
             this.get("boundingBox").append(fbNode);
@@ -228,7 +217,7 @@ YUI.add('wedance-track', function (Y) {
 
             Y.on("mouseEnter", function () {
                 //console.log("move");
-            }, this);
+                }, this);
         },
         doHide: function () {
             this.get("host").hide();
@@ -278,32 +267,32 @@ YUI.add('wedance-track', function (Y) {
             var k, m, c, s, cb = this.get("contentBox");
 
             this.joinWidget = new JoinWidget({                                  // Join game invite, w/ QR code
-                url: Y.wedance.app.get("base") + "view/controller.html?instanceId=" + Y.wedance.app.get("instanceId"),
+                url: Y.wedance.app.get("base") + "view/controller.html?instanceId=" + Y.wedance.app.get("instanceId")
             //plugins: [{
             //    fn: AutoHide
             //}]
             });
             this.joinWidget.render(cb);
 
-            this.player = new Y.wedance.YoutubeVideo(Y.mix(Y.wedance.app.get("track.video"), { // Video player widget (in this case youtube)
+            this.player = new Y.wedance.YoutubeVideo(Y.mix(Y.wedance.app.get("tune.video"), { // Video player widget (in this case youtube)
                 height: Y.DOM.winHeight(),
                 width: Y.DOM.winWidth()
             }));
             this.player.render(cb);
 
-            k = new KaraokePlayer(Y.mix(Y.wedance.app.get("track.karaoke"), {         // Render karaoke lyrics
+            k = new KaraokePlayer(Y.mix(Y.wedance.app.get("tune.karaoke"), {    // Render karaoke lyrics
                 player: this.player
             }));
             k.render(cb);
 
-            m = new Moves(Y.mix(Y.wedance.app.get("track.moves"), {             // Render moves display
+            m = new Moves(Y.mix(Y.wedance.app.get("tune.moves"), {              // Render moves display
                 player: this.player
             }));
             m.render(cb);
 
-            c = new Cursor(Y.mix(Y.wedance.app.get("track.cursor"), {           // Render pulsing cursor
+            c = new Cursor({                                                    // Render pulsing cursor
                 player: this.player
-            }));
+            });
             c.render(cb);
 
             s = new Scores();                                                   // Render scores display (contains on Y.Wedance.Score per player)

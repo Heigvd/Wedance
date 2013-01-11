@@ -1,11 +1,5 @@
 /*
- * Wegas
- * http://www.albasim.com/wegas/
- *
- * School of Business and Engineering Vaud, http://www.heig-vd.ch/
- * Media Engineering :: Information Technology Managment :: Comem
- *
- * Copyright (C) 2012
+ * Wedance
  */
 package com.wedance.core.rest.util;
 
@@ -21,12 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
- * This filters takes the first path segment and uses it as the current View in
- * the
- *
- * @see com.wegas.core.ejb.RequestManager . Available view are "Index",
- * "Public", "Private" and "Export".
  *
  * @author Francois-Xavier Aeberhard <fx@red-agent.com>
  */

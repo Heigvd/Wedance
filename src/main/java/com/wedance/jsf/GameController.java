@@ -1,17 +1,11 @@
 /*
- * Wegas
- * http://www.albasim.com/wegas/
- *
- * School of Business and Engineering Vaud, http://www.heig-vd.ch/
- * Media Engineering :: Information Technology Managment :: Comem
- *
- * Copyright (C) 2012
+ * Wedance
  */
 package com.wedance.jsf;
 
 import com.sun.faces.util.Util;
-import com.wedance.core.ejb.InstanceFacade;
-import com.wedance.core.persistence.Instance;
+import com.wedance.core.ejb.*;
+import com.wedance.core.persistence.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Locale;
@@ -35,17 +29,31 @@ public class GameController implements Serializable {
     /**
      *
      */
-    @ManagedProperty(value = "#{param.instanceId}")
+    @ManagedProperty("#{param.instanceId}")
     private Long instanceId;
     /**
      *
      */
+    @ManagedProperty("#{param.tuneId}")
+    private Long tuneId;
+    /**
+     *
+     */
     @EJB
-    InstanceFacade instanceFacade;
+    private InstanceFacade instanceFacade;
+    /**
+     *
+     */
+    @EJB
+    private TuneFacade tuneFacade;
     /**
      *
      */
     private Instance instance;
+    /**
+     *
+     */
+    private Tune tune;
 
     /**
      *
@@ -53,15 +61,18 @@ public class GameController implements Serializable {
      */
     @PostConstruct
     public void init() throws IOException {
-        final ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 
+        if (this.getTuneId() != null) {
+            this.tune = tuneFacade.find(this.getTuneId());
+        }
         if (this.getInstanceId() == null) {
             this.instance = new Instance();
             instanceFacade.create(this.instance);
         } else {
             this.instance = instanceFacade.find(this.getInstanceId());
         }
-        // externalContext.dispatch("/wegas-app/view/error/gameerror.xhtml");
+        //final ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        // externalContext.dispatch("/view/error/gameerror.xhtml");
     }
 
     public Locale calculateLocale(FacesContext context) {
@@ -102,5 +113,23 @@ public class GameController implements Serializable {
     public String getSession() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         return session.getId();
+    }
+
+    /**
+     * @return the tuneId
+     */
+    public Long getTuneId() {
+        return tuneId;
+    }
+
+    /**
+     * @param tuneId the tuneId to set
+     */
+    public void setTuneId(Long tuneId) {
+        this.tuneId = tuneId;
+    }
+
+    public Tune getTune() {
+        return this.tune;
     }
 }

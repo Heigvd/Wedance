@@ -12,22 +12,23 @@
             <script type="text/javascript">
                 var app;
                 YUI().use('wedance-track', function(Y) {
-                    Y.once('domready', function() {                     // When dom is ready,
+                    Y.once('domready', function() {                             // When dom is ready,
                         app = new Y.wedance.App({
                             instanceId: #{gameController.instance.id},
                             widgetCfg: {
                                 type: Y.wedance.Track
-                            }
+                            },
+                            tune: #{gameController.getTune().toJson()}
                         });                                             // launch the app
                         app.render();
                     });
                 });
 
-                function onYouTubeIframeAPIReady() {                    // Youtube Iframe api callback
+                function onYouTubeIframeAPIReady() {                            // Youtube Iframe api callback
                     app.fire("youtubeplayerready");
                 }
 
-                //function onYouTubePlayerReady(id) {                   // Youtube Js Api callback
+                //function onYouTubePlayerReady(id) {                           // Youtube Js Api callback
                 //    app.fire("youtubeplayerready");
                 //}
             </script>

@@ -1,15 +1,9 @@
 /*
- * Wegas.
- * http://www.albasim.com/wegas/
- *
- * School of Business and Engineering Vaud, http://www.heig-vd.ch/
- * Media Engineering :: Information Technology Managment :: Comem
- *
- * Copyright (C) 2012
+ * Wedance
  */
 package com.wedance.core.ejb;
 
-import com.wedance.core.persistence.Track;
+import com.wedance.core.persistence.Tune;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -21,7 +15,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 @LocalBean
-public class TrackFacade extends AbstractFacadeImpl<Track> {
+public class TuneFacade extends AbstractFacadeImpl<Tune> {
 
     /**
      *
@@ -32,8 +26,8 @@ public class TrackFacade extends AbstractFacadeImpl<Track> {
     /**
      *
      */
-    public TrackFacade() {
-        super(Track.class);
+    public TuneFacade() {
+        super(Tune.class);
     }
 
     @Override

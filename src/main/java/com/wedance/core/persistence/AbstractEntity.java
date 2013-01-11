@@ -1,11 +1,5 @@
 /*
- * Wegas.
- * http://www.albasim.com/wegas/
- *
- * School of Business and Engineering Vaud, http://www.heig-vd.ch/
- * Media Engineering :: Information Technology Managment :: Comem
- *
- * Copyright (C) 2012
+ * Wedance
  */
 package com.wedance.core.persistence;
 
@@ -16,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -24,6 +19,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 @XmlRootElement
 @XmlType(name = "")                                                             // This forces to use Class's short name as type
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 public abstract class AbstractEntity implements Serializable, Cloneable {
 
     /**
@@ -45,7 +41,7 @@ public abstract class AbstractEntity implements Serializable, Cloneable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += ( getId() != null ? getId().hashCode() : 0 );
+        hash += (getId() != null ? getId().hashCode() : 0);
         hash += getClass().hashCode();
         return hash;
     }
@@ -81,8 +77,7 @@ public abstract class AbstractEntity implements Serializable, Cloneable {
         try {
             ae = this.getClass().newInstance();
             ae.merge(this);
-        }
-        catch (InstantiationException | IllegalAccessException ex) {
+        } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(AbstractEntity.class.getName()).log(Level.SEVERE, "Error during clone", ex);
         }
         return ae;

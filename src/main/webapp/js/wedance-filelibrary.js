@@ -40,12 +40,12 @@ YUI.add('wedance-filelibrary', function (Y) {
             });
             this.panel.render();
 
-            var i, moves = Y.wedance.app.get("track.moveLibrary"),
+            var i, moves = Y.wedance.app.get("tune.pictoLibrary"),
             cb = this.scrollView.get("contentBox"),
             menuCb = this.menu.get("contentBox"),
             fileNode;
 
-            for (i in moves) {
+            for (i = 0; i < moves.length; i += 1) {
                 fileNode = Y.Node.create("<div class=\"file\"></div>");
                 fileNode.append("<img src=\"" + Y.wedance.app.get("base") + moves[i].url + "\" /><br />" + moves[i].url);
                 fileNode.plug(Y.Plugin.Drag);

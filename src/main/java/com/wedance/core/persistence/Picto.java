@@ -15,10 +15,10 @@ import org.codehaus.jackson.annotate.JsonSubTypes;
  */
 @Entity
 @JsonSubTypes(value = {
-    @JsonSubTypes.Type(name = "VideoTrack", value = VideoTrack.class),
-    @JsonSubTypes.Type(name = "KaraokeTrack", value = KaraokeTrack.class)
+    @JsonSubTypes.Type(name = "FilePicto", value = FilePicto.class),
+    @JsonSubTypes.Type(name = "VectorPicto", value = VectorPicto.class)
 })
-public class Track extends AbstractEntity {
+public class Picto extends AbstractEntity {
 
     /**
      *
@@ -27,15 +27,11 @@ public class Track extends AbstractEntity {
     @XmlID
     @GeneratedValue
     private Long id;
-    /**
-     *
-     */
-    private Long delay;
 
     /**
      *
      */
-    public Track() {
+    public Picto() {
     }
 
     /**
@@ -44,7 +40,6 @@ public class Track extends AbstractEntity {
      */
     @Override
     public void merge(AbstractEntity other) {
-        this.setDelay(((Track) other).getDelay());
     }
 
     /**
@@ -60,19 +55,5 @@ public class Track extends AbstractEntity {
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * @return the delay
-     */
-    public Long getDelay() {
-        return delay;
-    }
-
-    /**
-     * @param delay the delay to set
-     */
-    public void setDelay(Long delay) {
-        this.delay = delay;
     }
 }

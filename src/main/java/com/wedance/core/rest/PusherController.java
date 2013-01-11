@@ -3,12 +3,11 @@ package com.wedance.core.rest;
 import com.wedance.pusher.Pusher;
 import java.io.IOException;
 import javax.ejb.Stateless;
-import javax.servlet.ServletContext;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.*;
+import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
