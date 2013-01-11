@@ -8,10 +8,8 @@ YUI.add('wedance-filelibrary', function (Y) {
 
     var Overlay = Y.Base.create("overlay", Y.Widget, [Y.WidgetParent, Y.WidgetPosition, Y.WidgetPositionAlign, Y.WidgetStack]),
     FileLibrary = Y.Base.create("wedance-filelibrary", Y.Widget, [Y.WidgetStdMod, Y.WidgetButtons], {
-
         CONTENT_TEMPLATE: "<div><div class=\"movelibrary\"></div></div>",
-
-        renderUI: function () {
+        renderUI: function() {
             //            this.addButton(new Y.Button({
             //                label: "Test"
             //            }));
@@ -19,10 +17,10 @@ YUI.add('wedance-filelibrary', function (Y) {
                 srcNode: this.get("contentBox").one(".movelibrary"),
                 height: (Y.DOM.winHeight() / 2) - 39,
                 flick: {
-                    minDistance:10,
-                    minVelocity:0.3,
-                    axis: "y"
-                }
+                    minDistance: 10,
+                    minVelocity: 0.3
+                },
+                axis: "y"
             });
             this.scrollView.render();
 
@@ -44,33 +42,44 @@ YUI.add('wedance-filelibrary', function (Y) {
 
             var i, moves = Y.wedance.app.get("track.moveLibrary"),
             cb = this.scrollView.get("contentBox"),
-            menuCb = this.menu.get("contentBox");
+            menuCb = this.menu.get("contentBox"),
+            fileNode;
 
             for (i in moves) {
-                cb.append("<div class=\"file\"><img src=\"" + Y.wedance.app.get("base") + moves[i].url + "\" /><br />" + moves[i].url + "</div>");
+                fileNode = Y.Node.create("<div class=\"file\"></div>");
+                fileNode.append("<img src=\"" + Y.wedance.app.get("base") + moves[i].url + "\" /><br />" + moves[i].url);
+                fileNode.plug(Y.Plugin.Drag);
+                fileNode.dd.plug(Y.Plugin.DDProxy, {
+                    moveOnEnd: false
+                });
+                fileNode.dd.on("*:end", function(e) {
+                    console.log(e);
+                });
+                cb.append(fileNode);
+                console.log(fileNode);
             }
             //this._uiDimensionsChange();
-            cb.delegate("mouseenter", function (e){
+            cb.delegate("mouseenter", function(e) {
                 this.menu.show();
                 this.menu.target = e.currentTarget;
                 this.menu.set("align", {
                     node: e.currentTarget,
-                    points:["tr", "tr"]
+                    points: ["tr", "tr"]
                 });
             }, ".file", this);
 
             menuCb.setHTML("<div class=\"icon-edit\"></div><div class=\"icon-delete\"></div>");
-            menuCb.one(".icon-edit").on("click", function () {
+            menuCb.one(".icon-edit").on("click", function() {
                 var picto = new Y.wedance.PictoPlumb();
                 picto.render(this.panel.get("contentBox"));
                 this.panel.show();
             }, this);
-            menuCb.one(".icon-delete").on("click", function () {
+            menuCb.one(".icon-delete").on("click", function() {
                 this.menu.target.remove(true);
                 this.menu.hide();
             }, this);
 
-            Y.after(function () {
+            Y.after(function() {
                 this.uploader = new Y.Uploader({
                     width: "70px",
                     selectButtonLabel: "Upload",
@@ -81,7 +90,7 @@ YUI.add('wedance-filelibrary', function (Y) {
                     withCredentials: false
                 });
 
-                this.uploader.after("fileselect", function (event) {
+                this.uploader.after("fileselect", function(event) {
                     //var fileList = event.fileList;
                     if (this.get("fileList").length > 0) {
                         this.uploadAll();
@@ -90,10 +99,16 @@ YUI.add('wedance-filelibrary', function (Y) {
 
                 this.uploader.render(this.getStdModNode("header"));
             }, this, 'syncUI');
+        },
+        bindUI: function() {
+            this.get("contentBox").one(".movelibrary").delegate("*:mousedown", function(e) {
+                e.halt(true);
+                console.log(e);
+            }, ".file");
         }
     }, {
         ATTRS: {
-            buttons:  {
+            buttons: {
                 value: [{
                     value:'New',
                     section: Y.WidgetStdMod.HEADER,
@@ -121,12 +136,12 @@ YUI.add('wedance-filelibrary', function (Y) {
                         });
                         panel.setStdModContent("body", webcam.get_html(400, 400));
                         panel.addButton({
-                            value  : 'Take picture',
+                            value: 'Take picture',
                             section: Y.WidgetStdMod.FOOTER,
-                            action : function (e) {
+                            action: function(e) {
                                 this.counter = 3;
                                 this.getStdModNode("body").append("<div class=\"counter\">" + this.counter + "</div>");
-                                this.timer = Y.later(1000, this, function () {
+                                this.timer = Y.later(1000, this, function() {
                                     this.counter--;
                                     if (this.counter === 0) {
                                         webcam.snap();
@@ -142,8 +157,8 @@ YUI.add('wedance-filelibrary', function (Y) {
                         });
                         panel.render();
 
-                        webcam.set_hook( 'onComplete', 'my_completion_handler');
-                        window.my_completion_handler = function (msg) {
+                        webcam.set_hook('onComplete', 'my_completion_handler');
+                        window.my_completion_handler = function(msg) {
                             // extract URL out of PHP output
                             if (msg.match(/(http\:\/\/\S+)/)) {
                                 var image_url = RegExp.$1;
@@ -156,13 +171,15 @@ YUI.add('wedance-filelibrary', function (Y) {
                                 // reset camera for another shot
                                 webcam.reset();
                             }
-                            else alert("PHP Error: " + msg);
+                            else
+                                alert("PHP Error: " + msg);
                         }
                     }
                 }]
             }
         }
     });
+
     Y.namespace("wedance").Overlay = Overlay;
     Y.namespace("wedance").FileLibrary = FileLibrary;
 });
