@@ -6,8 +6,11 @@
 */
 
 /* Override default browser styles */
-body {
+html {
     background: black;
+}
+
+body {
     color:white;
     overflow: hidden;
 }
@@ -160,4 +163,25 @@ input[type="submit"], input[type="reset"] {
 /* Track styles */
 .yui3-wedance-track > div {
     position: relative;
+}
+
+
+/* Controller styles */
+.yui3-wedance-controller {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -20px;
+    margin-left: -100px;
+}
+
+.yui3-wedance-controller button {
+    margin-top: 5px;
+    display: block;
+    width: 200px;
+}
+
+.yui3-wedance-controller .descr {
+    padding-bottom: 10px;
+    text-align:center;
 }

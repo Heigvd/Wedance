@@ -16,6 +16,7 @@
                     Y.once('domready', function() {                             // When dom is ready,
                         var app = new Y.wedance.App({
                             instanceId: #{gameController.instance.id},
+                            sessionId: "#{gameController.getSession()}",
                             widgetCfg: {
                                 type: Y.wedance.Controller
                             }

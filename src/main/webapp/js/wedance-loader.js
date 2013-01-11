@@ -16,9 +16,11 @@ YUI().use(function (Y) {
                 modules: {
                     'wedance-app': {
                         path: 'js/wedance-app-min.js',
-                        requires: ["base", "widget", "pusher", "google-font"]
+                        requires: ["base", "widget", "pusher", "google-font", "wedance-video"]
                     },
-
+                    'wedance-video': {
+                        path: 'js/wedance-video-min.js'
+                    },
                     'wedance-edit': {
                         path: 'js/wedance-edit-min.js',
                         requires: ["wedance-track", "wedance-filelibrary", "tabview", "scrollview", "resize-plugin", "panel",
@@ -49,7 +51,7 @@ YUI().use(function (Y) {
                     'wedance-controller': {
                         path: 'js/wedance-controller-min.js',
                         requires: ['wedance-app', "base", "widget", "ricekaraoke", "simplekaraokedisplay",
-                        "dom-screen", "io-base", "json"]
+                        "dom-screen", "io-base", "json", "button"]
                     }
                 }
             },
