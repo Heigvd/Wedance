@@ -45,7 +45,8 @@ input[type="submit"], input[type="reset"] {
 .karaoke-display {
     padding: 0 0 10px 0;
     font-size:200%;
-    text-align:center
+    text-align:center;
+    font-family: 'Luckiest Guy', cursive;
 }
 .karaoke-overlay {
     color: #FF0000;
@@ -91,7 +92,7 @@ input[type="submit"], input[type="reset"] {
     left: 10px;
     width: 200px;
 }
-.yui3-wedance-score-content {
+.yui3-wedance-score-content{
     border: 1px solid purple;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.4);
@@ -100,9 +101,18 @@ input[type="submit"], input[type="reset"] {
     width: 150px;
     color: white;
 }
+.track-moves .yui3-wedance-score-content {
+    background: rgba(255, 255, 255, 0.2) url(../images/wedance-icon-trackmoves.png) no-repeat 105px 0;
+    background-size: 34px;
+}
+.track-karaoke .yui3-wedance-score-content {
+    background: rgba(255, 255, 255, 0.2) url(../images/wedance-icon-trackkaraoke.png) no-repeat 105px 0;
+    background-size: 34px;
+}
 .yui3-wedance-score .score {
     float: right;
 }
+
 /* Scores styles: feedbacks */
 .yui3-wedance-score .fb {
     position: absolute;

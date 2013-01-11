@@ -192,10 +192,11 @@ YUI.add('wedance-edit', function (Y) {
             buttons:  {
                 value: [{
                     value:'New',
-                    disabled: true,
                     section: Y.WidgetStdMod.HEADER,
                     action:function (e) {
-                        console.log('test');
+                        var picto = new PictoPlumb();
+                        picto.render(this.panel.get("contentBox"));
+                        this.panel.show();
                     }
                 }, {
                     value:'Webcam',

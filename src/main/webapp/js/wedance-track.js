@@ -218,11 +218,13 @@ YUI.add('wedance-track', function (Y) {
         syncUI: function () {
             this.set("score", this.get("score"));
             this.set("name", this.get("name"));
+            this.get("boundingBox").addClass("track-" + this.get("track"));
         },
-
+        /**
+         * feedback animation (good, ok, bad, ...)
+         */
         doFeedback: function (type) {
-            console.log("dofeedback");
-            var types = ["bad", "ok", "good", "perfect"];
+            var types = ["bad", "ok", "good", "perfect"];                       // Random generate feedback (temporary)
             type = types[Math.round(Math.random()*3)];
 
             var fbNode = Y.Node.create("<div class=\"fb " + type + "\">" + type + "</div>");
@@ -268,7 +270,7 @@ YUI.add('wedance-track', function (Y) {
                 }
             },
             track: {
-                value: "move"
+                value: "moves"
             }
         }
     });
@@ -335,7 +337,7 @@ YUI.add('wedance-track', function (Y) {
                 }));
             }
             p.set("score", e.score);
-            console.log("player evt received ", e);
+            Y.log("player evt received "+ e);
         }
     });
     Y.namespace('wedance').Scores = Scores;
@@ -347,7 +349,7 @@ YUI.add('wedance-track', function (Y) {
             this.afterHostEvent("render", function () {});
 
             Y.on("mouseEnter", function () {
-                console.log("move");
+                //console.log("move");
             }, this);
         },
         doHide: function () {
