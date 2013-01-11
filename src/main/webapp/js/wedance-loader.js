@@ -21,9 +21,20 @@ YUI().use(function (Y) {
 
                     'wedance-edit': {
                         path: 'js/wedance-edit-min.js',
-                        requires: ["wedance-track", "tabview", "scrollview", "resize-plugin", "panel",
+                        requires: ["wedance-track", "wedance-filelibrary", "tabview", "scrollview", "resize-plugin", "panel",
                         "widget-position", "widget-stack", "widget-position-align",
-                        "jsplumb-yui-all", "jpegcam", "button", "uploader"]
+                        "jsplumb-yui-all"]
+                    },
+                    'wedance-filelibrary': {
+                        path: 'js/wedance-filelibrary-min.js',
+                        requires: ["scrollview", "panel",
+                        "widget-position", "widget-stack", "widget-position-align",
+                        "jsplumb-yui-all", "jpegcam", "button", "uploader", 'wedance-pictoplumb']
+                    },
+
+                    'wedance-pictoplumb': {
+                        path: 'js/wedance-pictoplumb-min.js',
+                        requires: ["jsplumb-yui-all"]
                     },
                     'wedance-movedisplay': {
                         path: 'js/wedance-movedisplay-min.js',
