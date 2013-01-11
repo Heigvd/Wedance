@@ -4,7 +4,7 @@
 /*
  * @author Francois-Xavier Aeberhard <fx@red-agent.com>
  */
-YUI.add('wedance-edit', function(Y) {
+YUI.add('wedance-edit', function (Y) {
     "use strict";
 
     var Overlay = Y.Base.create("overlay", Y.Widget, [Y.WidgetParent, Y.WidgetPosition, Y.WidgetPositionAlign, Y.WidgetStack], {}, {});
@@ -12,7 +12,7 @@ YUI.add('wedance-edit', function(Y) {
     var Tab = Y.Base.create("tab", Y.Tab, [], {}, {
         ATTRS: {
             content: {
-                setter: function() {
+                setter: function () {
                     console.log("caught");
                 }
             }
@@ -210,20 +210,21 @@ YUI.add('wedance-edit', function(Y) {
         ATTRS: {
             buttons: {
                 value: [{
-                        value: 'New',
-                        disabled: true,
-                        section: Y.WidgetStdMod.HEADER,
-                        action: function(e) {
-                            console.log('test');
-                        }
-                    }, {
-                        value: 'Webcam',
-                        section: Y.WidgetStdMod.HEADER,
-                        action: function(e) {
-                            webcam.set_api_url('test.php');
-                            webcam.set_quality(90); // JPEG quality (1 - 100)
-                            webcam.set_shutter_sound(true, Y.wedance.app.get("base") + "lib/jpegcam/htdocs/shutter.mp3"); // play shutter click sound
-                            webcam.set_swf_url(Y.wedance.app.get("base") + "lib/jpegcam/htdocs/webcam.swf");
+                    value:'New',
+                    section: Y.WidgetStdMod.HEADER,
+                    action:function (e) {
+                        var picto = new PictoPlumb();
+                        picto.render(this.panel.get("contentBox"));
+                        this.panel.show();
+                    }
+                }, {
+                    value:'Webcam',
+                    section: Y.WidgetStdMod.HEADER,
+                    action:function (e) {
+                        webcam.set_api_url( 'test.php' );
+                        webcam.set_quality( 90 ); // JPEG quality (1 - 100)
+                        webcam.set_shutter_sound(true,  Y.wedance.app.get("base") + "lib/jpegcam/htdocs/shutter.mp3"); // play shutter click sound
+                        webcam.set_swf_url(Y.wedance.app.get("base") + "lib/jpegcam/htdocs/webcam.swf");
 
                             var panel = new Y.Panel({
                                 width: 427,
