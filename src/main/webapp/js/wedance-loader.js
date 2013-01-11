@@ -23,7 +23,7 @@ YUI().use(function (Y) {
                         path: 'js/wedance-edit-min.js',
                         requires: ["wedance-track", "tabview", "scrollview", "resize-plugin", "panel",
                         "widget-position", "widget-stack", "widget-position-align",
-                        "jsplumb-yui-all", "jpegcam", "button", "uploader"]
+                        "jsplumb-yui-all", "jpegcam", "button", "uploader", "dd-plugin", "dd-proxy"]
                     },
                     'wedance-movedisplay': {
                         path: 'js/wedance-movedisplay-min.js',
