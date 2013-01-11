@@ -46,20 +46,25 @@
     margin: 0 20px;
 }
 
-.yui3-skin-sam .yui3-wedance-karaokeeditor .movelibrary {
+.yui3-skin-sam .yui3-wedance-filelibrary {
     color:black;
-    font-style: italic;
-    height:2000px;
-    font-size: 9px;
-    padding: 10px;
 }
 
-.yui3-skin-sam .yui3-wedance-karaokeeditor .movelibrary > div {
+.yui3-skin-sam .yui3-wedance-filelibrary .movelibrary {
+    font-style: italic;
+    font-size: 9px;
+    height:2000px;
+}
+.yui3-skin-sam .yui3-wedance-filelibrary .movelibrary > div {
     display:inline-block;
     margin:2px;
     padding:2px;
     border: 1px solid gray;
     text-align:center;
+}
+
+.yui3-skin-sam .yui3-wedance-filelibrary .yui3-uploader {
+    display:inline-block;
 }
 .yui3-wedance-moveseditor-content {
     vertical-align: top;
@@ -115,4 +120,17 @@
 }
 .part:hover {
     border: 2px solid red;
+}
+
+/* Jpegcam styles */
+.counter {
+    z-index: 10;
+    position: absolute;
+    top: 215px;
+    left: 200px;
+    color: black;
+    font-size: 53px;
+    font-weight: bolder;
+    font-family: 'Luckiest Guy', cursive;
+    text-shadow: 0px 1px 1px #fff, 0 -1px 1px #000;
 }

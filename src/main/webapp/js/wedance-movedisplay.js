@@ -84,6 +84,9 @@ YUI.add('wedance-movedisplay', function (Y) {
         this._currentCSSClass = null;
         this._setClass();
         this.clear();
+
+        this.moves = {};
+        this.lastLine = -1;
     }
 
     /**
@@ -139,6 +142,7 @@ YUI.add('wedance-movedisplay', function (Y) {
  */
     MovesDisplay.prototype.clear = function() {
         //this._element.html('&nbsp;');
+
         this._removeOverlay();
     };
 
@@ -213,25 +217,21 @@ YUI.add('wedance-movedisplay', function (Y) {
  * @param {Array} upcoming
  * @param fragmentPercent
  */
-    var moves = {};
     MovesDisplay.prototype.renderKaraoke = function (passed, current, upcoming,
-        fragmentPercent) {
+        fragmentPercent, lineIndex) {
 
-        // console.log(passed, current, upcoming, fragmentPercent);
+        //console.log("renderKaraoke() " + currentId, passed, upcoming, current, fragmentPercent, lineIndex);
 
-        var currentId = current.text + current.start,
-            cn = new Y.Node(this._element[0]),
-            w = Y.DOM.winWidth(),
-            node = Y.Node.create("<div class=\"move\" style=\"top:0px;left:"+w+"px;\"></div>");
+        if (Y.Lang.isUndefined(lineIndex) || lineIndex === this.lastLine) return;
+        this.lastLine = lineIndex;
 
-        if (moves[currentId]) {
-            return;
-        }
+        var cn = new Y.Node(this._element[0]),
+        w = Y.DOM.winWidth(),
+        node = Y.Node.create("<div class=\"move\" style=\"top:0px;left:"+w+"px;\"></div>");
 
-        //Y.one("body").append(node);
         cn.append(node);
-
-        moves[currentId] = new Y.Anim({
+        //console.log("create node", current, lineIndex);
+        node.plug(Y.Plugin.NodeFX, {
             node: node,
             duration: 3,
             //easing: Y.Easing.elasticOut,
@@ -244,80 +244,23 @@ YUI.add('wedance-movedisplay', function (Y) {
             //xy: [ w / 2, 0 ]
             }
         });
-        moves[currentId].once('end', function (e) {
-            this.set("duration", 0.5);
-            this.set("to", {
-                opacity: 0
-            });
-            this.once("end", function (e) {
+        node.fx.on('end', function (e) {
+            if (!this.secondT) {
+                Y.fire("scoreEvent", {
+                    track: "move"
+                });
                 e.currentTarget.get("node").hide();
                 e.currentTarget.get("node").remove(true);
-            });
-            this.run();
+            } else {
+                this.secondT = true;
+                this.set("duration", 0.3);
+                this.set("to", {
+                    opacity: 0
+                });
+                this.run();
+            }
         });
-        moves[currentId].run();
+        node.fx.run();
         return;
-
-    //        var passedText = '';
-    //        for (var i in passed) {
-    //            passedText += passed[i].text;
-    //        }
-    //
-    //        var upcomingText = '';
-    //        for (var i in upcoming) {
-    //            upcomingText += upcoming[i].text;
-    //        }
-    //
-    //        // Text underneath the highlighting
-    //        var content = passedText + current.text + upcomingText;
-    //
-    //        // If there is a space at the beginning of current.text, we need to remove
-    //        // it and move it to passedText, because the space is not part of the
-    //        // karaoke
-    //        var strippedCurrentText = current.text.replace(/^\s+/, '');
-    //        var m;
-    //        if (m = current.text.match(/^\s+/)) {
-    //            passedText += m[0];
-    //        }
-    //
-    //        this._setClass();
-    //
-    //        // Create a test element to find widths
-    //        var test = jQuery('<div style="display: inline; visibility: hidden; ' +
-    //            'margin: 0; padding: 0; border: 0"></div>');
-    //        this._element.parent().append(test); // Need to append it to have it inherit
-    //        // its parent styles, and so we can
-    //        // actually get some measurements
-    //        var totalTextWidth = test.text(content).width();
-    //        var passedTextWidth = test.text(passedText).width();
-    //        var currentTextWidth = test.text(strippedCurrentText).width();
-    //        test.remove(); // Goodbye!
-    //
-    //        // Create an inner element, so we can get the top/left of the text
-    //        this._element.empty();
-    //        var innerElement = jQuery(document.createElement('span'));
-    //        innerElement.text(content);
-    //        this._element.append(innerElement);
-    //
-    //        // Need this information to place the inner overlay
-    //        var pos = innerElement.position();
-    //        var innerElementLeft = pos.left;
-    //        var elementHeight = this._element.height();
-    //
-    //        // Now for the overlay
-    //        this._removeOverlay();
-    //        var overlay = jQuery(document.createElement('div'));
-    //        overlay.attr('class', 'karaoke-overlay');
-    //        overlay.text(passedText + current.text);
-    //        overlay.css('position', 'relative');
-    //        overlay.css('white-space', 'nowrap');
-    //        overlay.css('overflow', 'hidden');
-    //        overlay.width(passedTextWidth + (fragmentPercent / 100 * currentTextWidth));
-    //        overlay.css('margin-top', '-' + elementHeight + 'px');
-    //        overlay.css('visibility', 'hidden');
-    //        this._display.append(overlay);
-    //        overlay.css('left', innerElementLeft - overlay.position().left);
-    //        overlay.css('visibility', '');
-    //        this._overlay = overlay;
     };
 });

@@ -193,6 +193,9 @@ YUI.add('wedance-track', function (Y) {
     });
     Y.namespace('wedance').Karaoke = Karaoke;
 
+
+    var KaraokePlayer = Y.Base.create("wedance-karaokeplayer", Y.wedance.Karaoke, [], {});
+
     var Moves = Y.Base.create("wedance-moves", Karaoke, [], {}, {
         ATTRS: {
             numDisplayLines: {
@@ -218,6 +221,10 @@ YUI.add('wedance-track', function (Y) {
         },
 
         doFeedback: function (type) {
+            console.log("dofeedback");
+            var types = ["bad", "ok", "good", "perfect"];
+            type = types[Math.round(Math.random()*3)];
+
             var fbNode = Y.Node.create("<div class=\"fb " + type + "\">" + type + "</div>");
             this.get("boundingBox").append(fbNode);
 
@@ -283,13 +290,14 @@ YUI.add('wedance-track', function (Y) {
                 id: 123,
                 score: 1222
             });
+            Y.on("scoreEvent", this.onScore, this);
+
             Y.later(1000, this, function () {
                 this.onPlayerUpdate({
                     id: 123,
                     score: 1001,
                     move: "g"
                 });
-                this.score("move");
             });
         },
 
@@ -298,10 +306,10 @@ YUI.add('wedance-track', function (Y) {
                 Y.wedance.app.channel.bind('playerupdate', Y.bind(this.onPlayerUpdate, this));
             }
         },
-        score: function (track) {
+        onScore: function (e) {
             var i;
             for (i in this.players) {
-                if (this.players[i].get("track") === track) {
+                if (this.players[i].get("track") === e.track) {
                     this.players[i].doFeedback("ok");
                 }
             }
@@ -403,7 +411,7 @@ YUI.add('wedance-track', function (Y) {
             }));
             this.player.render(cb);
 
-            k = new Karaoke(Y.mix(Y.wedance.app.get("track.karaoke"), {         // Render karaoke lyrics
+            k = new KaraokePlayer(Y.mix(Y.wedance.app.get("track.karaoke"), {         // Render karaoke lyrics
                 player: this.player
             }));
             k.render(cb);

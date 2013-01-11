@@ -103,15 +103,28 @@ YUI.add('wedance-edit', function (Y) {
         }
     });
 
-    var FileLibrary = Y.Base.create("scrollview", Y.ScrollView, [], {
+    var FileLibrary = Y.Base.create("wedance-filelibrary", Y.Widget, [Y.WidgetStdMod, Y.WidgetButtons], {
+
+        CONTENT_TEMPLATE: "<div><div class=\"movelibrary\"></div></div>",
 
         renderUI: function () {
-            FileLibrary.superclass.renderUI.call(this);
+            //            this.addButton(new Y.Button({
+            //                label: "Test"
+            //            }));
+            this.scrollView = new Y.ScrollView({
+                srcNode: this.get("contentBox").one(".movelibrary"),
+                height: (Y.DOM.winHeight() / 2) - 39,
+                flick: {
+                    minDistance:10,
+                    minVelocity:0.3,
+                    axis: "y"
+                }
+            });
+            this.scrollView.render();
 
             this.menu = new Overlay({
                 visible: false,
-                zIndex: 1,
-                render: true
+                zIndex: 1
             });
             this.menu.render();
 
@@ -126,7 +139,7 @@ YUI.add('wedance-edit', function (Y) {
             this.panel.render();
 
             var i, moves = Y.wedance.app.get("track.moveLibrary"),
-            cb = this.get("contentBox"),
+            cb = this.scrollView.get("contentBox"),
             menuCb = this.menu.get("contentBox");
 
             for (i in moves) {
@@ -152,8 +165,127 @@ YUI.add('wedance-edit', function (Y) {
                 this.menu.target.remove(true);
                 this.menu.hide();
             }, this);
+
+            Y.after(function () {
+                this.uploader = new Y.Uploader({
+                    width: "70px",
+                    selectButtonLabel: "Upload",
+                    multipleFiles: true,
+                    swfURL: Y.wedance.app.get("base") + "lib/yui3/build/uploader/assets/flashuploader.swf?t=" + Math.random(),
+                    uploadURL: "http://www.yswfblog.com/upload/simpleupload.php",
+                    //simLimit: 2,
+                    withCredentials: false
+                });
+
+                this.uploader.after("fileselect", function (event) {
+                    //var fileList = event.fileList;
+                    if (this.get("fileList").length > 0) {
+                        this.uploadAll();
+                    }
+                });
+
+                this.uploader.render(this.getStdModNode("header"));
+            }, this, 'syncUI');
+        }
+    }, {
+        ATTRS: {
+            buttons:  {
+                value: [{
+                    value:'New',
+                    disabled: true,
+                    section: Y.WidgetStdMod.HEADER,
+                    action:function (e) {
+                        console.log('test');
+                    }
+                }, {
+                    value:'Webcam',
+                    section: Y.WidgetStdMod.HEADER,
+                    action:function (e) {
+                        webcam.set_api_url( 'test.php' );
+                        webcam.set_quality( 90 ); // JPEG quality (1 - 100)
+                        webcam.set_shutter_sound(true,  Y.wedance.app.get("base") + "lib/jpegcam/htdocs/shutter.mp3"); // play shutter click sound
+                        webcam.set_swf_url(Y.wedance.app.get("base") + "lib/jpegcam/htdocs/webcam.swf");
+
+                        var panel = new Y.Panel({
+                            width: 427,
+                            height: 510,
+                            visible: true,
+                            modal: true,
+                            centered: true,
+                            zIndex: 1
+                        });
+                        panel.setStdModContent("body", webcam.get_html(400, 400));
+                        panel.addButton({
+                            value  : 'Take picture',
+                            section: Y.WidgetStdMod.FOOTER,
+                            action : function (e) {
+                                this.counter = 3;
+                                this.getStdModNode("body").append("<div class=\"counter\">" + this.counter + "</div>");
+                                this.timer = Y.later(1000, this, function () {
+                                    this.counter--;
+                                    if (this.counter === 0) {
+                                        webcam.snap();
+                                    } else if (this.counter === -1) {
+                                        this.timer.cancel();
+                                        this.hide();
+                                    /*this.destroy();*/
+                                    } else {
+                                        this.getStdModNode("body").one(".counter").setHTML(this.counter);
+                                    }
+                                }, null, true);
+                            }
+                        });
+                        panel.render();
+
+                        webcam.set_hook( 'onComplete', 'my_completion_handler');
+                        window.my_completion_handler = function (msg) {
+                            // extract URL out of PHP output
+                            if (msg.match(/(http\:\/\/\S+)/)) {
+                                var image_url = RegExp.$1;
+                                // show JPEG image in page
+                                document.getElementById('upload_results').innerHTML =
+                                '<h1>Upload Successful!</h1>' +
+                                '<h3>JPEG URL: ' + image_url + '</h3>' +
+                                '<img src="' + image_url + '">';
+
+                                // reset camera for another shot
+                                webcam.reset();
+                            }
+                            else alert("PHP Error: " + msg);
+                        }
+                    }
+                }]
+            }
         }
     });
+
+
+    //      buttons: [  {
+    //        value:'TEST',
+    //        section: Y.WidgetStdMod.HEADER,
+    //        action:function (e) {
+    //          console.log('test');
+    //        }
+    //      } ]
+    //    BUTTONS: {
+    //        close: {
+    //            label  : 'Close',
+    //            action : 'hide',
+    //            section: 'header',
+    //
+    //            // Uses `type="button"` so the button's default action can still
+    //            // occur but it won't cause things like a form to submit.
+    //            template  : '<button type="button" />',
+    //            classNames: getClassName('button', 'close')
+    //        }
+    //    }
+    //}, {
+    //    ATTRS: {
+    //        // TODO: API Docs.
+    //        buttons: {
+    //            value: ['close']
+    //        }
+    //    }
 
     var SimpleWidget = Y.Base.create("wedance-simplewidget", Y.Widget, [], {
 
@@ -323,23 +455,17 @@ YUI.add('wedance-edit', function (Y) {
     var MovesEditor = Y.Base.create("wedance-moveseditor", Y.wedance.KaraokeEditor, [], {
 
 
-        CONTENT_TEMPLATE: "<div><div class=\"timeline\"></div><div class=\"movelibrary\"></div><div style=\"clear:both\"></div></div>",
+        CONTENT_TEMPLATE: "<div><div class=\"timeline\"></div></div>",
 
         renderUI: function () {
             this.SCROLLVIEWWIDTH = Y.DOM.winWidth() - 300+ "px";
             MovesEditor.superclass.renderUI.call(this);
 
             this.fileLibrary = new FileLibrary({
-                srcNode: this.get("contentBox").one(".movelibrary"),
                 width: "298px",
-                height: (Y.DOM.winHeight() / 2) - 29,
-                flick: {
-                    minDistance:10,
-                    minVelocity:0.3,
-                    axis: "y"
-                }
+                height: (Y.DOM.winHeight() / 2) - 29
             });
-            this.fileLibrary.render();
+            this.fileLibrary.render(this.get("contentBox"));
         },
 
         step: function () {
@@ -353,7 +479,7 @@ YUI.add('wedance-edit', function (Y) {
         renderUI: function () {
             Editor.superclass.renderUI.apply(this, arguments);
             this.player.set("height", Y.DOM.winHeight() / 2);
-            
+
             this.tabview = new Y.TabView({
                 height: Y.DOM.winHeight() / 2,
                 children: [{

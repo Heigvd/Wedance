@@ -23,7 +23,7 @@ YUI().use(function (Y) {
                         path: 'js/wedance-edit-min.js',
                         requires: ["wedance-track", "tabview", "scrollview", "resize-plugin", "panel",
                         "widget-position", "widget-stack", "widget-position-align",
-                        "jsplumb-yui-all"]
+                        "jsplumb-yui-all", "jpegcam", "button", "uploader"]
                     },
                     'wedance-movedisplay': {
                         path: 'js/wedance-movedisplay-min.js',
@@ -108,10 +108,10 @@ YUI().use(function (Y) {
             externallibraries: {
                 async: true,
                 modules: {
-                    youtubeapi: {
+                    "youtubeapi": {
                         fullpath: "http://www.youtube.com/iframe_api"
                     },
-                    pusher: {
+                    "pusher": {
                         fullpath: "http://js.pusher.com/1.11/pusher.min.js"
                     },
                     "google-font": {
@@ -127,6 +127,9 @@ YUI().use(function (Y) {
                 base: "./lib/",
                 root: "/lib/",
                 modules: {
+                    "jpegcam": {
+                        path: 'jpegcam/htdocs/webcam.js'
+                    },
                     'esprima': {
                         path: 'esprima/esprima-min.js'
                     },
