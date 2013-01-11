@@ -23,7 +23,7 @@ YUI().use(function (Y) {
                         path: 'js/wedance-edit-min.js',
                         requires: ["wedance-track", "wedance-filelibrary", "tabview", "scrollview", "resize-plugin", "panel",
                         "widget-position", "widget-stack", "widget-position-align",
-                        "jsplumb-yui-all"]
+                        "dd-plugin", "dd-proxy"]
                     },
                     'wedance-filelibrary': {
                         path: 'js/wedance-filelibrary-min.js',
