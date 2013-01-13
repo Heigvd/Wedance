@@ -14,6 +14,10 @@ YUI.add('wedance-app', function (Y) {
 
     App = Y.Base.create("wedance-app", Y.Base, [], {
 
+        destructor: function () {
+            this.pusher.disconnect();
+        },
+
         /**
          * @methodOf Y.Wedance.App#
          * @name render
@@ -26,10 +30,18 @@ YUI.add('wedance-app', function (Y) {
                 Pusher.log = Y.log;
                 //Pusher.channel_auth_endpoint = 'pusher_auth.php';
 
-                var pusher = new Pusher(pusherAuthKey);
+                this.pusher = new Pusher(pusherAuthKey);
+
+
+                this.pusher.connection.bind('error', function( err ) {
+                    console.log("Pusher error", err);
+                    if (err.data && err.data.code === 4004 ) {
+                        Y.log('>>> detected limit error');
+                    }
+                });
 
                 //this.channel = pusher.subscribe(pusherChannelPrefix + Y.wedance.app.get("instanceId"));
-                this.channel = pusher.subscribe("game-" + Y.wedance.app.get("instanceId"));
+                this.channel = this.pusher.subscribe("game-" + Y.wedance.app.get("instanceId"));
 
                 this.channel.bind('pusher:subscription_succeeded', Y.bind(function (status) {
                     Y.log("Connected to pusher channel.");
@@ -48,11 +60,17 @@ YUI.add('wedance-app', function (Y) {
 
         },
 
-        triggerPusherEvent: function (evt, data) {
+        triggerPusher: function (evt, data) {
             Y.log("triggerPusherEvent");
-            data.uid = "roooooger";
-            data.sid = Y.wedance.app.get("instanceId");
-            this.channel.trigger(evt, data);
+            //            data.uid = "roooooger";
+            //            data.sid = Y.wedance.app.get("instanceId");
+            //            this.channel.trigger(evt, data);
+
+
+            Y.io(Y.wedance.app.get("base") + "rest/Pusher/Trigger/" + Y.wedance.app.get("instanceId") + "/" + evt , {
+                method: "POST",
+                data: "data"
+            });
         },
 
         create: function (config) {
@@ -76,6 +94,7 @@ YUI.add('wedance-app', function (Y) {
                 value: "http://localhost:8080/Wedance/"
             },
             instanceId: {},
+            sessionId: {},
             widgetCfg: {},
             playerId: {
                 value: "Player 1"

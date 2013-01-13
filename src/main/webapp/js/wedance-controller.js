@@ -9,10 +9,30 @@ YUI.add('wedance-controller', function (Y) {
 
     var Controller = Y.Base.create("wedance-controller", Y.Widget, [], {
 
-        CONTENT_TEMPLATE: "<div><div>Name: <span class=\"player\">player</span></div><div>Score: <span class=\"score\">0</span></div></div>",
+        CONTENT_TEMPLATE: "<div></div>",
 
         renderUI: function () {
-            this.get("contentBox").one(".player").setHTML(Y.wedance.app.get("playerId"));
+            var cb = this.get("contentBox");
+            cb.append("<div class=\"descr\">What do you want to do?</div>")
+            this.micButton = new Y.Button({
+                label: "Sing",
+                disabled: true
+            });
+            this.micButton.render(cb);
+
+            this.danceButton = new Y.Button({
+                label: "Dance"
+            });
+            this.danceButton.on("click", function() {
+                Y.wedance.app.triggerPusher("playerConnect", {
+                    id: Y.wedance.app.get("sessionId"),
+                    track: "moves"
+                });
+            });
+            this.danceButton.render(cb);
+
+        //<div>Name: <span class=\"player\">player</span></div><div>Score: <span class=\"score\">0</span></div>
+
         },
 
         bindUI: function () {

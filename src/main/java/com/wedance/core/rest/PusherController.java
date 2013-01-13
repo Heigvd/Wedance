@@ -1,11 +1,7 @@
-
 package com.wedance.core.rest;
 
 import com.wedance.pusher.Pusher;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Scanner;
-import java.util.Set;
 import javax.ejb.Stateless;
 import javax.servlet.ServletContext;
 import javax.ws.rs.POST;
@@ -17,10 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
- * This servlet allows to retrieve several resources in a single request. Used
- * to combine .js and .css files.
- *
  * @author Francois-Xavier Aeberhard <fx@red-agent.com>
  */
 @Stateless
@@ -28,29 +20,18 @@ import org.slf4j.LoggerFactory;
 public class PusherController {
 
     private static final Logger logger = LoggerFactory.getLogger(PusherController.class);
-    /**
-     *
-     */
-    @Context
-    protected UriInfo uriInfo;
-    /**
-     *
-     */
-    @Context
-    private ServletContext servletContext;
 
     /**
      * Retrieve
      *
      * @return
      */
-//    @POST
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Object index(@PathParam Long instanceId, @Context Request req) throws IOException {
-//
-//        Pusher p = new Pusher();
-//        Pusher.trigger
-//        Pusher.triggerPush("game-", "game-", null);
-//        return null;
-//    }
+    @POST
+    @Path("Trigger/{instanceId : .*}/{event : .*}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Object index(@PathParam("instanceId") Long instanceId, @PathParam("event") String event, String data) throws IOException {
+        Pusher p = new Pusher();
+        Pusher.triggerPush("game-" + instanceId, event, data);
+        return null;
+    }
 }
