@@ -4,13 +4,13 @@
 /*
  * @author Francois-Xavier Aeberhard <fx@red-agent.com>
  */
-YUI.add('wedance-edit', function (Y) {
+YUI.add('wedance-edit', function(Y) {
     "use strict";
 
     var Tab = Y.Base.create("tab", Y.Tab, [], {}, {
         ATTRS: {
             content: {
-                setter: function () {
+                setter: function() {
                     console.log("caught");
                 }
             }
@@ -59,24 +59,27 @@ YUI.add('wedance-edit', function (Y) {
     });
 
     var KaraokeEditor = Y.Base.create("wedance-karaokeeditor", Y.wedance.Karaoke, [], {
-        CONTENT_TEMPLATE: "<div><div class=\"scroll\"></div></div>",
+        CONTENT_TEMPLATE: "<div><div class=\"timeline-container\"><div class=\"scroll\"></div></div>",
         SCROLLVIEWWIDTH: "100%",
+        initializer: function() {
+            this.dragDelegator = null;
+            this.publish("dropHit", {bubbles: true});
+        },
         renderUI: function() {
             var cb = this.get("contentBox");
-
             this.moves = [];
-
-            this.scrollView = new Y.ScrollView({
-                srcNode: cb.one(".timeline"),
-                width: this.SCROLLVIEWWIDTH,
-                height: (Y.DOM.winHeight() / 2) - 29,
-                flick: {
-                    minDistance: 10,
-                    minVelocity: 0.3,
-                    axis: "y"
-                }
-            });
-            this.scrollView.render();
+            this.set("width", this.SCROLLVIEWWIDTH);
+//            this.scrollView = new Y.ScrollView({
+//                srcNode: cb.one(".timeline"),
+//                width: this.SCROLLVIEWWIDTH,
+//                height: (Y.DOM.winHeight() / 2) - 29,
+//                flick: {
+//                    minDistance: 10,
+//                    minVelocity: 0.3,
+//                    axis: "y"
+//                }
+//            });
+            //this.scrollView.render();
 
             this.menu = new Y.wedance.Overlay({
                 visible: false,
@@ -98,15 +101,24 @@ YUI.add('wedance-edit', function (Y) {
                 });
             }, ".picto", this);
             //cb.one(".timeline").delegate("mouseleave", this.menu.hide, ".picto", this.menu);
-
-
+            this.dragDelegator = new Y.DD.Delegate({
+                container: cb,
+                nodes: ".yui3-wedance-simplewidget",
+                handles: [".yui3-wedance-simplewidget-content"]
+            });
+            this.dragDelegator.dd.plug(Y.Plugin.DDConstrained, {
+                constrain2node: ".timeline"
+            });
+            cb.one(".timeline").plug(Y.Plugin.Drop);
+            this.dragDelegator.dd.plug(Y.Plugin.DDNodeScroll, {node: cb.one(".timeline-container")});
+            this.dragDelegator.dd.plug(Y.Plugin.DDProxy, {moveOnEnd: false});
             Y.io(this.get("simpleKRLUri"), {
                 context: this,
                 on: {
                     success: function(tId, e) {
                         var i, t,
                                 timings = RiceKaraoke.simpleTimingToTiming(Y.JSON.parse(e.response)), // Simple KRL -> KRL
-                                cb = this.scrollView.get("contentBox"),
+                                cb = this.get("contentBox").one(".timeline"),
                                 w = new SimpleWidget({
                             data: {
                                 start: 0,
@@ -130,6 +142,7 @@ YUI.add('wedance-edit', function (Y) {
                             w = new SimpleWidget({
                                 content: "<div class=\"picto\" style=\"background:url(../images/087.png)\"></div>",
                                 data: t,
+                                width: "100%",
                                 plugins: [{
                                         fn: Y.Plugin.Resize,
                                         cfg: {
@@ -139,6 +152,8 @@ YUI.add('wedance-edit', function (Y) {
                             });
                             w.resize.on("resize:resize", this.onMoveResize, this);
                             w.render(cb);
+                            w.get("boundingBox").plug(Y.Plugin.Drop);
+                            w.get("boundingBox").drop.addTarget(this);
                             this.moves.push(w);
                         }
                         //this.scrollView._uiDimensionsChange();
@@ -150,6 +165,29 @@ YUI.add('wedance-edit', function (Y) {
                 }
             });
 
+        },
+        bindUI: function() {
+//            this.dragDelegator.on("drag:drag", function(e) {
+//                console.log(e);
+//            });
+            this.dragDelegator.on("drag:end", function(e) {
+                // console.log(e);
+            });
+
+            this.get("contentBox").one(".timeline").on("drop:over", function(e) {
+                //console.log(e);
+            });
+            this.on("drop:hit", function(e) {
+                var drag = e.drag.get('node'),
+                        drop = e.drop.get('node');
+                e.drop.get('node').get('parentNode').insertBefore(drag, drop);
+            });
+
+            this.get("contentBox").one(".timeline").drop.on("drop:hit", function(e) {
+                var drag = e.drag.get('node'),
+                        drop = e.drop.get('node');
+                e.drop.get('node').append(drag);
+            });
         },
         step: function() {
             this.get("currentTime");
@@ -178,9 +216,9 @@ YUI.add('wedance-edit', function (Y) {
     Y.namespace('wedance').KaraokeEditor = KaraokeEditor;
 
     var MovesEditor = Y.Base.create("wedance-moveseditor", Y.wedance.KaraokeEditor, [], {
-        CONTENT_TEMPLATE: "<div><div class=\"timeline\"></div></div>",
+        CONTENT_TEMPLATE: "<div><div class=\"timeline-container\"><div class=\"timeline\"></div><div></div>",
         renderUI: function() {
-            this.SCROLLVIEWWIDTH = Y.DOM.winWidth() - 300 + "px";
+            this.SCROLLVIEWWIDTH = Y.DOM.winWidth() - 320 + "px";
             MovesEditor.superclass.renderUI.call(this);
 
             this.fileLibrary = new Y.wedance.FileLibrary({
