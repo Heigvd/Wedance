@@ -1,4 +1,4 @@
-/*
+/**
  * We Dance
  */
 /*
@@ -24,9 +24,7 @@ YUI.add('wedance-track', function (Y) {
     });
 
     var Karaoke = Y.Base.create("wedance-karaoke", Y.Widget, [], {
-
-        //CONTENT_TEMPLATE: "<div><div id=\"karaoke-display\"></div></div>",
-
+        
         initializer: function () {
             this.i = 0;
         },
@@ -195,9 +193,9 @@ YUI.add('wedance-track', function (Y) {
             return this.players[id];
         },
 
-        onPlayerconnect: function (e) {
-            var p = this.getPlayer(e.id);
+        onPlayerConnect: function (e) {
             Y.log("Player connect evt received" + e);
+            var p = this.getPlayer(e.id);
             if (!p) {
                 p = this.addPlayer(Y.mix(e, {
                     type: Y.wedance.Score,

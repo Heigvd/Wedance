@@ -1,4 +1,4 @@
-/*
+/**
  * We Dance
  */
 /*
@@ -68,7 +68,7 @@ YUI.add('wedance-app', function (Y) {
 
             Y.io(Y.wedance.app.get("base") + "rest/Pusher/Trigger/" + Y.wedance.app.get("instanceId") + "/" + evt, {
                 method: "POST",
-                data: data
+                data: Y.JSON.stringify(data)
             });
         },
 
@@ -86,7 +86,19 @@ YUI.add('wedance-app', function (Y) {
             }
 
             return child;
+        },
+
+        findPicto: function (id) {
+            var i, ps = this.get("tune.pictoLibrary");
+
+            for (i = 0; i < ps.length; i += 1) {
+                if (ps[i].id === id) {
+                    return ps[i];
+                }
+            }
+            return null;
         }
+
     }, {
         ATTRS: {
             base: {

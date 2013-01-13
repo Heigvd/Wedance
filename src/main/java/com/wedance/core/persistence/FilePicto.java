@@ -1,4 +1,4 @@
-/*
+/**
  * Wedance
  */
 package com.wedance.core.persistence;
@@ -16,6 +16,7 @@ public class FilePicto extends Picto {
 
     @Override
     public void merge(AbstractEntity other) {
+        super.merge(other);
         FilePicto f = (FilePicto) other;
         this.setUrl(f.getUrl());
     }

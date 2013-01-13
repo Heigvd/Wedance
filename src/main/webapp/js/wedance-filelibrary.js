@@ -1,4 +1,4 @@
-/*
+/**
  * We Dance
  */
 /*
@@ -6,8 +6,8 @@
  */
 YUI.add('wedance-filelibrary', function (Y) {
 
-    var Overlay = Y.Base.create("overlay", Y.Widget, [Y.WidgetParent, Y.WidgetPosition, Y.WidgetPositionAlign, Y.WidgetStack]),
-    FileLibrary = Y.Base.create("wedance-filelibrary", Y.Widget, [Y.WidgetStdMod, Y.WidgetButtons], {
+    var Overlay = Y.Base.create("overlay", Y.Widget, [Y.WidgetParent, Y.WidgetPosition, Y.WidgetPositionAlign, Y.WidgetStack]);
+    var FileLibrary = Y.Base.create("wedance-filelibrary", Y.Widget, [Y.WidgetStdMod, Y.WidgetButtons], {
         CONTENT_TEMPLATE: "<div><div class=\"movelibrary\"></div></div>",
         renderUI: function() {
             //            this.addButton(new Y.Button({
@@ -30,24 +30,17 @@ YUI.add('wedance-filelibrary', function (Y) {
             });
             this.menu.render();
 
-            this.panel = new Y.Panel({
-                width: 700,
-                height: 500,
-                visible: false,
-                modal: true,
-                centered: true,
-                zIndex: 1
-            });
-            this.panel.render();
-
             var i, moves = Y.wedance.app.get("tune.pictoLibrary"),
             cb = this.scrollView.get("contentBox"),
             menuCb = this.menu.get("contentBox"),
-            fileNode;
+            fileNode, picto;
 
             for (i = 0; i < moves.length; i += 1) {
-                fileNode = Y.Node.create("<div class=\"file\"></div>");
-                fileNode.append("<img src=\"" + Y.wedance.app.get("base") + moves[i].url + "\" /><br />" + moves[i].url);
+
+                picto = new Y.wedance.Picto(moves[i]);
+                picto.render(cb);
+
+                fileNode = picto.get("boundingBox");
                 fileNode.plug(Y.Plugin.Drag);
                 fileNode.dd.plug(Y.Plugin.DDProxy, {
                     moveOnEnd: false
@@ -55,29 +48,26 @@ YUI.add('wedance-filelibrary', function (Y) {
                 fileNode.dd.on("*:end", function(e) {
                     console.log(e);
                 });
-                cb.append(fileNode);
                 console.log(fileNode);
             }
             //this._uiDimensionsChange();
             cb.delegate("mouseenter", function(e) {
                 this.menu.show();
-                this.menu.target = e.currentTarget;
+                this.menu.target = Y.Widget.getByNode(e.currentTarget);
                 this.menu.set("align", {
                     node: e.currentTarget,
                     points: ["tr", "tr"]
                 });
-            }, ".file", this);
+            }, ".yui3-wedance-picto", this);
 
             menuCb.setHTML("<div class=\"icon-edit\"></div><div class=\"icon-delete\"></div>");
             menuCb.one(".icon-edit").on("click", function() {
-                var picto = new Y.wedance.PictoPlumb();
-                picto.render(this.panel.get("contentBox"));
-                this.panel.show();
+                this.showEditPictoPanel(this.menu.target.toObject());
             }, this);
             menuCb.one(".icon-delete").on("click", function() {
-                this.menu.target.remove(true);
-                this.menu.hide();
-            }, this);
+                // this.menu.target.destroy();
+                // this.menu.hide();
+                }, this);
 
             Y.after(function() {
                 this.uploader = new Y.Uploader({
@@ -100,29 +90,70 @@ YUI.add('wedance-filelibrary', function (Y) {
                 this.uploader.render(this.getStdModNode("header"));
             }, this, 'syncUI');
         },
+
         bindUI: function() {
             this.get("contentBox").one(".movelibrary").delegate("*:mousedown", function(e) {
                 e.halt(true);
-                console.log(e);
-            }, ".file");
+            }, ".yui3-wedance-picto");
+        },
+
+        showEditPictoPanel: function (picto) {
+            var panel = new Y.Panel({
+                width: 400,
+                height: 460,
+                modal: true,
+                centered: true,
+                zIndex: 1
+            });
+            panel.setStdModContent("body", "");
+            panel.render();
+
+            panel.picto = new Y.wedance.PictoPlumb(picto);
+            panel.picto.render(panel.getStdModNode(Y.WidgetStdMod.BODY, true));
+
+            return panel;
+        },
+
+        createPicto: function (cfg) {
+            Y.io(Y.wedance.app.get("base") + "rest/Picto", {
+                method: "PUT",
+                data: Y.JSON.stringify(cfg),
+                context: this,
+                on: {
+                    success: this.onPictoAdded
+                }
+            });
+        },
+
+        onPictoAdded: function (e) {
+            console.log("onpictoadded", e);
+            var picto = new Y.wedance.Picto({});
+            picto.render(this.get("contentBox"));
         }
+
+
     }, {
         ATTRS: {
             buttons: {
                 value: [{
-                    value:'New',
+                    value: 'New',
                     section: Y.WidgetStdMod.HEADER,
-                    action:function (e) {
-                        var picto = new Y.wedance.PictoPlumb();
-                        picto.render(this.panel.get("contentBox"));
-                        this.panel.show();
+                    action: function (e) {
+                        var p = this.showEditPictoPanel();
+                        p.addButton({
+                            value: 'Save',
+                            section: Y.WidgetStdMod.FOOTER,
+                            action: Y.bind(function(panel) {
+                                this.createPicto(panel.picto.toObject());
+                            }, this, p)
+                        });
                     }
                 }, {
-                    value:'Webcam',
+                    value: 'Webcam',
                     section: Y.WidgetStdMod.HEADER,
-                    action:function (e) {
-                        webcam.set_api_url( 'test.php' );
-                        webcam.set_quality( 90 ); // JPEG quality (1 - 100)
+                    action: function (e) {
+                        webcam.set_api_url('test.php');
+                        webcam.set_quality(90);                                 // JPEG quality (1 - 100)
                         webcam.set_shutter_sound(true,  Y.wedance.app.get("base") + "lib/jpegcam/htdocs/shutter.mp3"); // play shutter click sound
                         webcam.set_swf_url(Y.wedance.app.get("base") + "lib/jpegcam/htdocs/webcam.swf");
 
@@ -157,23 +188,16 @@ YUI.add('wedance-filelibrary', function (Y) {
                         });
                         panel.render();
 
-                        webcam.set_hook('onComplete', 'my_completion_handler');
-                        window.my_completion_handler = function(msg) {
-                            // extract URL out of PHP output
-                            if (msg.match(/(http\:\/\/\S+)/)) {
+                        webcam.set_hook('onComplete', 'onWebcamUploadComplete');
+                        window.onWebcamUploadComplete = function(msg) {
+                            if (msg.match(/(http\:\/\/\S+)/)) {                 // extract URL out of PHP output
                                 var image_url = RegExp.$1;
-                                // show JPEG image in page
-                                document.getElementById('upload_results').innerHTML =
-                                '<h1>Upload Successful!</h1>' +
-                                '<h3>JPEG URL: ' + image_url + '</h3>' +
-                                '<img src="' + image_url + '">';
-
-                                // reset camera for another shot
-                                webcam.reset();
-                            }
-                            else
+                                console.log("upload complete " + image_url);
+                                webcam.reset();                                 // reset camera for another shot
+                            } else {
                                 alert("PHP Error: " + msg);
-                        }
+                            }
+                        };
                     }
                 }]
             }

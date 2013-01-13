@@ -3,6 +3,7 @@
  */
 package com.wedance.core.persistence;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,7 +19,7 @@ import org.codehaus.jackson.annotate.JsonSubTypes;
     @JsonSubTypes.Type(name = "FilePicto", value = FilePicto.class),
     @JsonSubTypes.Type(name = "VectorPicto", value = VectorPicto.class)
 })
-public class Picto extends AbstractEntity {
+public class Picto extends AbstractEntity implements Serializable {
 
     /**
      *
@@ -27,6 +28,10 @@ public class Picto extends AbstractEntity {
     @XmlID
     @GeneratedValue
     private Long id;
+    /**
+     *
+     */
+    private String name;
 
     /**
      *
@@ -40,6 +45,8 @@ public class Picto extends AbstractEntity {
      */
     @Override
     public void merge(AbstractEntity other) {
+        Picto p = (Picto) other;
+        this.setName(p.getName());
     }
 
     /**
@@ -55,5 +62,19 @@ public class Picto extends AbstractEntity {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 }

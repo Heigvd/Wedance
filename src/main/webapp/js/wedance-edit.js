@@ -1,4 +1,4 @@
-/*
+/**
  * We Dance
  */
 /*
@@ -11,7 +11,7 @@ YUI.add('wedance-edit', function (Y) {
         ATTRS: {
             content: {
                 setter: function () {
-                    //console.log("caught");
+                //console.log("caught");
                 }
             }
         }
@@ -22,8 +22,15 @@ YUI.add('wedance-edit', function (Y) {
         CONTENT_TEMPLATE: "<div><div class=\"startl\">0:00</div></div>",
 
         renderUI: function () {
-            this.get("contentBox").append(this.get("content"));
+            var cb = this.get("contentBox");
+
             this.set("height", (this.get("data.end") - this.get("data.start")) * 100);
+            if (this.get("data.line")) {
+                this.picto = new Y.wedance.Picto(Y.wedance.app.findPicto(+this.get("data.line")[0].text));
+                this.picto.render(cb);
+            } else {
+                cb.append(this.get("content"));
+            }
         },
         syncUI: function () {
             this.set("data.start", this.get("data.start"));
@@ -123,7 +130,7 @@ YUI.add('wedance-edit', function (Y) {
                     t.index = i;
 
                     w = new SimpleWidget({
-                        content: "<div class=\"picto\" style=\"background:url(../images/087.png)\"></div>",
+                        //content: "<div class=\"picto\" style=\"background:url(../images/087.png)\"></div>",
                         data: t,
                         plugins: [{
                             fn: Y.Plugin.Resize,

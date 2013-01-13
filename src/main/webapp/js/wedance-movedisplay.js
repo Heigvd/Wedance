@@ -185,54 +185,32 @@ YUI.add('wedance-movedisplay', function (Y) {
     //    this._element.html(content);
     //    this._removeOverlay();
     };
-
-    /**
- * Renders a karaoke line, including its highlight. This can be called multiple
- * times for the same input, although this does not happen in practice.
- *
- * "passed" is an array of words/fragments that have already been "passed." The
- * items in this array are the fragment hashes/objects from the original KRL
- * timing array. Each item, thus, has the keys of start, end (could be null or
- * NaN), text, and renderOptions. renderOptions is an object that can contain
- * anything.
- *
- * "current" has the current fragment that needs to be highlighted. It is a
- * fragment from the KRL timing data structure (see above).
- *
- * "upcoming" contains the words/fragments that are coming up. It is in the same
- * type and format as "passed".
- *
- * To know how much of the current fragment to highlight, fragmentPercent has
- * the percent that needs to be highlighted. fragmentPercent's range is 0-100.
- *
- * Be aware about spaces in the current fragment. It depends on who did the
- * timing and how s/he did it. The spaces may not actually count as part of
- * what to highlight. This method implement discards spaces from the beginning
- * (and puts it onto the "passed" part) but it leaves spaces at the end. This
- * means that each karaoke fragment starts right when the lyric fragment is
- * sung, but it may not end right when it ends.
- *
- * @param {Array} passed
- * @param {Object} current
- * @param {Array} upcoming
- * @param fragmentPercent
- */
-    MovesDisplay.prototype.renderKaraoke = function (passed, current, upcoming,
-        fragmentPercent, lineIndex) {
+    /*
+    * @param {Array} passed
+    * @param {Object} current
+    * @param {Array} upcoming
+    * @param fragmentPercent
+    */
+    MovesDisplay.prototype.renderKaraoke = function (passed, current, upcoming, fragmentPercent, lineIndex) {
 
         //console.log("renderKaraoke() " + currentId, passed, upcoming, current, fragmentPercent, lineIndex);
 
         if (Y.Lang.isUndefined(lineIndex) || lineIndex === this.lastLine) return;
         this.lastLine = lineIndex;
 
-        var cn = new Y.Node(this._element[0]),
+        var node, cn = new Y.Node(this._element[0]),
         w = Y.DOM.winWidth(),
-        node = Y.Node.create("<div class=\"move\" style=\"top:0px;left:"+w+"px;\"></div>");
+        pictoCfg = Y.wedance.app.findPicto(+current.text),
+        picto = new Y.wedance.Picto(pictoCfg);
 
-        cn.append(node);
-        //console.log("create node", current, lineIndex);
+        picto.render(cn);
+        node = picto.get("boundingBox");
+        node.setStyles({
+            top: 0,
+            left: w
+        });
+
         node.plug(Y.Plugin.NodeFX, {
-            node: node,
             duration: 3,
             //easing: Y.Easing.elasticOut,
             from: {

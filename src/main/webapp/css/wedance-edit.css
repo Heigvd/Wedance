@@ -1,4 +1,4 @@
-/*
+/**
  * We Dance
 */
 /*
@@ -41,8 +41,6 @@
     padding-left: 10px;
 }
 .yui3-skin-sam .yui3-wedance-karaokeeditor .picto {
-    width: 100px;
-    height: 100px;
     margin: 0 20px;
 }
 
@@ -101,6 +99,9 @@
 }
 .yui3-skin-sam .yui3-panel .yui3-widget-hd .yui3-button-close::before {
     content: url(../images/sprite_icons.png);
+}
+.yui3-skin-sam .yui3-panel .yui3-widget-bd {
+    padding: 0;
 }
 
 .part {

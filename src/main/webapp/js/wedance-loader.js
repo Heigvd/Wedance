@@ -16,14 +16,19 @@ YUI().use(function (Y) {
                 modules: {
                     'wedance-app': {
                         path: 'js/wedance-app-min.js',
-                        requires: ["base", "widget", "pusher", "google-font", "wedance-video"]
+                        requires: ["base", "widget", "pusher", "google-font", ]
                     },
 
                     'wedance-track': {
                         path: 'js/wedance-track-min.js',
                         requires: ['wedance-app', "base", "widget", "ricekaraoke", "simplekaraokedisplay",
                         "dom-screen", "io-base", "json", "wedance-movedisplay",
-                        "widget-parent", "widget-child", "plugin"]
+                        "widget-parent", "widget-child", "plugin",
+                        "wedance-video", "wedance-picto"]
+                    },
+                    'wedance-picto': {
+                        path: 'js/wedance-picto-min.js',
+                        requires: ["graphics"]
                     },
                     'wedance-movedisplay': {
                         path: 'js/wedance-movedisplay-min.js',
@@ -136,7 +141,7 @@ YUI().use(function (Y) {
                     },
                     "google-font": {
                         fullpath: "http://fonts.googleapis.com/css?family=Luckiest+Guy&effect=emboss",
-                       // fullpath: "http://fonts.googleapis.com/css?family=Rancho&effect=shadow-multiple",
+                        // fullpath: "http://fonts.googleapis.com/css?family=Rancho&effect=shadow-multiple",
                         type: "css"
                     }
                 }

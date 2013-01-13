@@ -1,4 +1,4 @@
-/*
+/**
  * We Dance
 */
 /*
@@ -56,7 +56,10 @@ input[type="submit"], input[type="reset"] {
     font-weight: normal;
     text-decoration: underline;
 }
-
+/* Pictos */
+ .yui3-wedance-picto {
+    position: relative;
+}
 /* Moves */
 .yui3-wedance-moves .moves-display {
     position:absolute;
@@ -65,12 +68,9 @@ input[type="submit"], input[type="reset"] {
     width:200%;
     height:100px;
 }
-.yui3-wedance-moves .move {
+.yui3-wedance-moves .yui3-wedance-picto {
     position: absolute;
-    width:100px;
-    height:100px;
     top:0;
-    background: url(../images/087.png);
 }
 
 /* Cursor */
