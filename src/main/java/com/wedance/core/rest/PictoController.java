@@ -33,7 +33,7 @@ public class PictoController extends AbstractRestController<PictoFacade, Picto> 
         return pictoFacade;
     }
 
-    @PUT
+    @POST
     @Path("{tuneId: [1-9][0-9]*}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

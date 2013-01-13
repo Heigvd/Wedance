@@ -11,11 +11,16 @@ YUI.add('wedance-picto', function (Y) {
         CONTENT_TEMPLATE: null,
 
         toObject: function () {
-            var i,ret = {}, filter = ["@class", "url", "content", "name"];
+            var i,ret = {}, filter = ["id", "@class", "url", "content", "name"];
             for (i = 0; i < filter.length; i += 1) {
                 ret[filter[i]] = this.get(filter[i]);
             }
             return ret;
+        },
+
+        reDraw: function () {
+            this.get("boundingBox").empty();
+            this.renderUI();
         },
 
         renderUI: function ()  {

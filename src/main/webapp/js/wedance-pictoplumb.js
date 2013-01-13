@@ -15,6 +15,19 @@ YUI.add('wedance-pictoplumb', function (Y) {
             window.jsPlumb.ready(Y.bind(this.onJsPlumbReady, this));
         },
 
+        toObject: function () {
+            var i, data = Y.JSON.parse(this.get("content")), ret = {},
+            bb = this.get("boundingBox"), n;
+            for (i in data) {
+                n = bb.one("." + i);
+                ret[i] = [+n.getStyle("top").replace("px", "") / this.resizeFactor,
+                    +n.getStyle("left").replace("px", "") / this.resizeFactor ];
+            }
+            this.set("content", Y.JSON.stringify(ret));
+
+            return PictoPlumb.superclass.toObject.call(this);
+        },
+
         onJsPlumbReady: function() {
             var i, o, n,
             data = Y.JSON.parse(this.get("content")),

@@ -62,12 +62,21 @@ YUI.add('wedance-filelibrary', function (Y) {
 
             menuCb.setHTML("<div class=\"icon-edit\"></div><div class=\"icon-delete\"></div>");
             menuCb.one(".icon-edit").on("click", function() {
-                this.showEditPictoPanel(this.menu.target.toObject());
+                var p = this.showEditPictoPanel(this.menu.target.toObject());
+                p.addButton({
+                    value: 'Save',
+                    section: Y.WidgetStdMod.FOOTER,
+                    action: Y.bind(function(panel, picto) {
+                        this.updatePicto(panel.picto.toObject(), picto);
+                        p.destroy();
+                    }, this, p, this.menu.target)
+                });
             }, this);
             menuCb.one(".icon-delete").on("click", function() {
-                // this.menu.target.destroy();
-                // this.menu.hide();
-                }, this);
+                this.deletePicto(this.menu.target.toObject());
+                this.menu.target.destroy();
+                this.menu.hide();
+            }, this);
 
             Y.after(function() {
                 this.uploader = new Y.Uploader({
@@ -114,9 +123,14 @@ YUI.add('wedance-filelibrary', function (Y) {
             return panel;
         },
 
+
         createPicto: function (cfg) {
-            Y.io(Y.wedance.app.get("base") + "rest/Picto", {
-                method: "PUT",
+            delete cfg.id;
+            Y.io(Y.wedance.app.get("base") + "rest/Picto/" + Y.wedance.app.get("tune.id"), {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json;charset=ISO-8859-1'
+                },
                 data: Y.JSON.stringify(cfg),
                 context: this,
                 on: {
@@ -125,12 +139,35 @@ YUI.add('wedance-filelibrary', function (Y) {
             });
         },
 
-        onPictoAdded: function (e) {
-            console.log("onpictoadded", e);
-            var picto = new Y.wedance.Picto({});
-            picto.render(this.get("contentBox"));
-        }
+        deletePicto: function (cfg) {
+            Y.io(Y.wedance.app.get("base") + "rest/Picto/" + cfg.id, {
+                method: "DELETE"
+            });
+        },
 
+        updatePicto: function (cfg, srcWidget) {
+            Y.io(Y.wedance.app.get("base") + "rest/Picto/" + cfg.id, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json;charset=ISO-8859-1'
+                },
+                data: Y.JSON.stringify(cfg),
+                context: this,
+                on: {
+                    success: Y.bind(this.onPictoUpdated, this, srcWidget)
+                }
+            });
+        },
+
+        onPictoUpdated: function (srcWidget, tId, e) {
+            srcWidget.setAttrs(Y.JSON.parse(e.response));
+            srcWidget.reDraw();
+        },
+
+        onPictoAdded: function (tId, e) {
+            var picto = new Y.wedance.Picto(Y.JSON.parse(e.response));
+            picto.render(this.scrollView.get("contentBox"));
+        }
 
     }, {
         ATTRS: {
@@ -145,6 +182,7 @@ YUI.add('wedance-filelibrary', function (Y) {
                             section: Y.WidgetStdMod.FOOTER,
                             action: Y.bind(function(panel) {
                                 this.createPicto(panel.picto.toObject());
+                                p.destroy();
                             }, this, p)
                         });
                     }

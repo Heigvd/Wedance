@@ -3,18 +3,20 @@
  */
 package com.wedance.core.persistence;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlID;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
  *
  * @author Francois-Xavier Aeberhard <fx@red-agent.com>
  */
 @Entity
-public class Tune extends AbstractEntity {
+public class Tune extends AbstractEntity implements Serializable {
 
     /**
      *
@@ -31,8 +33,9 @@ public class Tune extends AbstractEntity {
     /**
      *
      */
-    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)
-    private List<Picto> pictoLibrary = new ArrayList<>();
+    @OneToMany(mappedBy="tune", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @JsonManagedReference
+    public List<Picto> pictoLibrary = new ArrayList<>();
 
     /**
      *
@@ -88,6 +91,7 @@ public class Tune extends AbstractEntity {
     /**
      * @return the pictoLibrary
      */
+    @JsonManagedReference
     public List<Picto> getPictoLibrary() {
         return pictoLibrary;
     }
@@ -95,6 +99,7 @@ public class Tune extends AbstractEntity {
     /**
      * @param pictoLibrary the pictoLibrary to set
      */
+    @JsonManagedReference
     public void setPictoLibrary(List<Picto> pictoLibrary) {
         this.pictoLibrary = pictoLibrary;
     }

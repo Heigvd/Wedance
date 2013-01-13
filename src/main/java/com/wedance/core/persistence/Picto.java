@@ -4,10 +4,12 @@
 package com.wedance.core.persistence;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 
 /**
@@ -28,6 +30,13 @@ public class Picto extends AbstractEntity implements Serializable {
     @XmlID
     @GeneratedValue
     private Long id;
+    /**
+     *
+     */
+    @ManyToOne
+    @XmlTransient
+    @JsonBackReference
+    public Tune tune;
     /**
      *
      */
@@ -76,5 +85,21 @@ public class Picto extends AbstractEntity implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @return the tune
+     */
+    @JsonBackReference
+    public Tune getTune() {
+        return tune;
+    }
+
+    /**
+     * @param tune the tune to set
+     */
+    @JsonBackReference
+    public void setTune(Tune tune) {
+        this.tune = tune;
     }
 }

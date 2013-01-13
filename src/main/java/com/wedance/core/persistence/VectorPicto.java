@@ -20,7 +20,7 @@ public class VectorPicto extends Picto {
     public void merge(AbstractEntity other) {
         super.merge(other);
         VectorPicto v = (VectorPicto) other;
-        v.setContent(v.getContent());
+        this.setContent(v.getContent());
     }
 
     /**
