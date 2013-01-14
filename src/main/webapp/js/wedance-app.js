@@ -90,10 +90,19 @@ YUI.add('wedance-app', function (Y) {
 
         findPicto: function (id) {
             var i, ps = this.get("tune.pictoLibrary");
-
             for (i = 0; i < ps.length; i += 1) {
                 if (ps[i].id === id) {
                     return ps[i];
+                }
+            }
+            return null;
+        },
+
+        findTrack: function (name) {
+            var i, data = this.get("tune.tracks");
+            for (i = 0; i < data.length; i += 1) {
+                if (data[i].name === name) {
+                    return data[i];
                 }
             }
             return null;
@@ -119,16 +128,18 @@ YUI.add('wedance-app', function (Y) {
                         "@class": "FilePicto",
                         "url": "images/087.png"
                     }],
-                    "moves": {
+                    "tracks": [{
                         "@class": "KaraokeTrack",
+                        "name": "moves",
                         "delay": 3,
                         "content": "[[1.35,3.07,[[0,\"1\"]]],[3.35,4.07,[[0,\"12\"]]],[5.35,7.07,[[0,\"13\"]]],[7.35,10.07,[[0,\"14\"]]],[11.35,13.07,[[0,\"15\"]]],[12.07,245.26,[[0,\"16\"]]]]"
-                    },
-                    "karaoke": {
+                    }, {
                         "@class": "KaraokeTrack",
+                        "name": "karaoke",
                         "delay": 3,
                         "content": "[[1.35,3.07,[[0,\"What \"],[0.07,\"is \"],[0.28,\"love\"]]],[3.07,5.26,[[0,\"Baby, \"],[0.18,\"don't \"],[0.4,\"hurt \"],[0.79,\"me\"]]],[5.26,6.94,[[0,\"Don't \"],[0.16,\"hurt \"],[0.65,\"me\"]]],[7.14,8.35,[[0,\"no \"],[0.22,\"more\"]]],[10.53,12.99,[[0,\"Baby, \"],[0.46,\"don't \"],[0.74,\"hurt \"],[1.22,\"me\"]]],[12.99,14.83,[[0,\"Don't \"],[0.2,\"hurt \"],[0.71,\"me\"]]],[14.83,16.11,[[0,\"no \"],[0.3,\"more\"]]],[24.34,26.19,[[0,\"What \"],[0.21,\"is \"],[0.45,\"love\"]]],[32.63,33.59,[[0,\"Ye\"],[0.18,\"-eah\"]]],[41.53,43.28,[[0,\"I \"],[0.24,\"don't \"],[0.72,\"know\"]]]]"
-                    }
+                    }]
+
                 }
             }
         }

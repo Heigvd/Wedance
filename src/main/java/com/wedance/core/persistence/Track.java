@@ -30,6 +30,10 @@ public class Track extends AbstractEntity {
     /**
      *
      */
+    private String name;
+    /**
+     *
+     */
     private Long delay;
 
     /**
@@ -74,5 +78,19 @@ public class Track extends AbstractEntity {
      */
     public void setDelay(Long delay) {
         this.delay = delay;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 }

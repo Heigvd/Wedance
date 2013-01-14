@@ -5,54 +5,30 @@
  * @author Francois-Xavier Aeberhard <fx@red-agent.com>
 */
 
-.yui3-skin-sam .yui3-wedance-edit .yui3-tabview {
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-}
-
-.yui3-skin-sam .yui3-wedance-edit .yui3-tabview-content {
-    position: relative;
-}
-.yui3-skin-sam .yui3-wedance-edit .yui3-tabview-panel {
-    border: 1px solid gray;
-    border-top-color: #243356;
+.yui3-skin-sam  .yui3-wedance-edit .timelines {
+    overflow-y: hidden;
+    overflow-x: scroll;
     background: white;
-    padding: 0;
-    /*position: absolute;
-    top: 28px;
-    bottom: 0;
-    left: 0;
-    right: 0;*/
-}
-.yui3-skin-sam .yui3-wedance-karaokeeditor-content{
-}
-.yui3-skin-sam .yui3-wedance-karaokeeditor .timeline-container {
-    position: absolute;
-    top: 34px;
-    bottom: 0;
-    overflow-y: scroll;
-    overflow-x:hidden;
-}
-.yui3-skin-sam .yui3-wedance-karaokeeditor .timeline {
-    height:2000px;
-    background: url(../images/ruler.png) repeat-y;
+    color: black;
 }
 
-.yui3-skin-sam .yui3-wedance-karaokeeditor .yui3-wedance-simplewidget {
+.yui3-skin-sam .yui3-wedance-edit .timelines .yui3-wedance-timeline {
     border-bottom: 1px solid gray;
     position:relative;
+    height: 100px;
+}
+.yui3-skin-sam .yui3-wedance-edit .yui3-wedance-simplewidget {
+    border-left: 1px solid gray;
+    position:absolute;
+    top: 0;
+    left:0;
     overflow: hidden;
-}
-.yui3-skin-sam .yui3-wedance-karaokeeditor .startl {
-    font-size: 9px;
-    color: black;
-    padding-left: 10px;
-}
-.yui3-skin-sam .yui3-wedance-karaokeeditor .picto {
-    margin: 0 20px;
+    min-width: 50px;
+    height:100px;
 }
 
+
+/* File explorer style */
 .yui3-skin-sam .yui3-wedance-filelibrary {
     color:black;
     float: right;
@@ -74,6 +50,8 @@
 .yui3-skin-sam .yui3-wedance-filelibrary .yui3-uploader {
     display:inline-block;
 }
+
+/*
 .yui3-wedance-moveseditor-content {
     vertical-align: top;
 }
@@ -81,7 +59,7 @@
     float:left;
     width: 60%;
     background:white;
-}
+}*/
 
 /* File explorer style */
 .yui3-overlay {

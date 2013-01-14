@@ -45,8 +45,9 @@ public class Tune extends AbstractEntity implements Serializable {
     /**
      *
      */
-    @OneToOne(cascade={CascadeType.ALL}, orphanRemoval=true)
-    private KaraokeTrack karaoke;
+    @OneToMany(cascade={CascadeType.ALL}, orphanRemoval=true)
+    //@JsonManagedReference
+    private List<Track> tracks;
     /**
      *
      */
@@ -119,20 +120,6 @@ public class Tune extends AbstractEntity implements Serializable {
     }
 
     /**
-     * @return the karaoke
-     */
-    public KaraokeTrack getKaraoke() {
-        return karaoke;
-    }
-
-    /**
-     * @param karaoke the karaoke to set
-     */
-    public void setKaraoke(KaraokeTrack karaoke) {
-        this.karaoke = karaoke;
-    }
-
-    /**
      * @return the moves
      */
     public KaraokeTrack getMoves() {
@@ -144,5 +131,19 @@ public class Tune extends AbstractEntity implements Serializable {
      */
     public void setMoves(KaraokeTrack moves) {
         this.moves = moves;
+    }
+
+    /**
+     * @return the tracks
+     */
+    public List<Track> getTracks() {
+        return tracks;
+    }
+
+    /**
+     * @param tracks the tracks to set
+     */
+    public void setTracks(List<Track> tracks) {
+        this.tracks = tracks;
     }
 }

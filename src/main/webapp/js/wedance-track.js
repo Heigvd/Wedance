@@ -24,7 +24,7 @@ YUI.add('wedance-track', function (Y) {
     });
 
     var Karaoke = Y.Base.create("wedance-karaoke", Y.Widget, [], {
-        
+
         initializer: function () {
             this.i = 0;
         },
@@ -278,12 +278,12 @@ YUI.add('wedance-track', function (Y) {
             }));
             this.player.render(cb);
 
-            k = new KaraokePlayer(Y.mix(Y.wedance.app.get("tune.karaoke"), {    // Render karaoke lyrics
+            k = new KaraokePlayer(Y.mix(Y.wedance.app.findTrack("karaoke"), {   // Render karaoke lyrics
                 player: this.player
             }));
             k.render(cb);
 
-            m = new Moves(Y.mix(Y.wedance.app.get("tune.moves"), {              // Render moves display
+            m = new Moves(Y.mix(Y.wedance.app.findTrack("moves"), {             // Render moves display
                 player: this.player
             }));
             m.render(cb);
