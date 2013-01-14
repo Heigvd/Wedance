@@ -11,23 +11,27 @@ YUI.add('wedance-edit', function (Y) {
         ATTRS: {
             content: {
                 setter: function () {
-                //console.log("caught");
+                    //console.log("caught");
                 }
             }
         }
     });
 
     var SimpleWidget = Y.Base.create("wedance-simplewidget", Y.Widget, [], {
-
         CONTENT_TEMPLATE: "<div><div class=\"startl\">0:00</div></div>",
-
         renderUI: function () {
-            var cb = this.get("contentBox");
+            var acc = [], i, cb = this.get("contentBox"),
+            line = this.get("data.line");
 
             this.set("height", (this.get("data.end") - this.get("data.start")) * 100);
+
             if (this.get("data.line")) {
-                this.picto = new Y.wedance.Picto(Y.wedance.app.findPicto(+this.get("data.line")[0].text));
-                this.picto.render(cb);
+                if (Y.Lang.isNumber(line[0].text)) {                            // 1st case: line is a picto
+                    this.picto = new Y.wedance.Picto(Y.wedance.app.findPicto(+line[0].text));
+                    this.picto.render(cb);
+                } else {                                                        // 2nd case: line is a text
+//                    for ()
+                }
             } else {
                 cb.append(this.get("content"));
             }
@@ -68,8 +72,10 @@ YUI.add('wedance-edit', function (Y) {
     });
 
     var KaraokeEditor = Y.Base.create("wedance-karaokeeditor", Y.wedance.Karaoke, [], {
-        CONTENT_TEMPLATE: "<div><div class=\"scroll\"></div></div>",
+
+        CONTENT_TEMPLATE: "<div><div class=\"timeline\"></div></div>",
         SCROLLVIEWWIDTH: "100%",
+
         renderUI: function () {
             var cb = this.get("contentBox");
 
@@ -94,7 +100,9 @@ YUI.add('wedance-edit', function (Y) {
             });
             this.menu.render();
             this.menu.get("contentBox").setHTML("<div class=\"icon-delete\"></div>");
-            this.menu.get("contentBox").one(".icon-delete").on("click", function() {}, this);
+            this.menu.get("contentBox").one(".icon-delete").on("click", function() {
+                // TODO
+            }, this);
 
             cb.one(".timeline").delegate("mouseenter", function(e) {
                 this.menu.show();
@@ -116,11 +124,11 @@ YUI.add('wedance-edit', function (Y) {
                         index: -1
                     },
                     plugins: [{
-                        fn: Y.Plugin.Resize,
-                        cfg: {
-                            handles: "b"
-                        }
-                    }]
+                            fn: Y.Plugin.Resize,
+                            cfg: {
+                                handles: "b"
+                            }
+                        }]
                 });
                 w.resize.on("resize:resize", this.onMoveResize, this);
                 w.render(cb);
@@ -133,11 +141,11 @@ YUI.add('wedance-edit', function (Y) {
                         //content: "<div class=\"picto\" style=\"background:url(../images/087.png)\"></div>",
                         data: t,
                         plugins: [{
-                            fn: Y.Plugin.Resize,
-                            cfg: {
-                                handles: "b"
-                            }
-                        }]
+                                fn: Y.Plugin.Resize,
+                                cfg: {
+                                    handles: "b"
+                                }
+                            }]
                     });
                     w.resize.on("resize:resize", this.onMoveResize, this);
                     w.render(cb);
@@ -176,7 +184,7 @@ YUI.add('wedance-edit', function (Y) {
     Y.namespace('wedance').KaraokeEditor = KaraokeEditor;
 
     var MovesEditor = Y.Base.create("wedance-moveseditor", Y.wedance.KaraokeEditor, [], {
-        CONTENT_TEMPLATE: "<div><div class=\"timeline\"></div></div>",
+
         renderUI: function() {
             this.SCROLLVIEWWIDTH = Y.DOM.winWidth() - 300 + "px";
             MovesEditor.superclass.renderUI.call(this);
@@ -201,15 +209,15 @@ YUI.add('wedance-edit', function (Y) {
             this.tabview = new Y.TabView({
                 height: Y.DOM.winHeight() / 2,
                 children: [{
-                    label: 'Moves',
-                    type: Tab
-                }, {
-                    label: 'Karaoke',
-                    type: Tab
-                }, {
-                    label: 'Move designer',
-                    type: Tab
-                }]
+                        label: 'Moves',
+                        type: Tab
+                    }, {
+                        label: 'Karaoke',
+                        type: Tab
+                    }, {
+                        label: 'Move designer',
+                        type: Tab
+                    }]
             });
 
             this.tabview.after("render", function(e) {
@@ -217,24 +225,20 @@ YUI.add('wedance-edit', function (Y) {
                 var t = this.tabview.item(0);
                 this.renderTab(t.get("label"), t);
 
+                this.tabview.after("selectionChange", function(e) {
+                    var t = e.newVal || e.details[0].newVal;
+                    if (t && !t.rendered) {
+                        this.renderTab(t.get("label"), t);
+                    }
+                }, this);
+
             }, this);
 
             this.tabview.render(this.get("boundingBox"));
-            return;
-
-            this.tabview.after("render", function(e) {
-                this.tabview.after("selectionChange", function(e) {
-                    return;
-
-                    var t = e.newVal || e.details[0].newVal;
-                    if (t && t.get("content") === "") {
-                        this.renderTab(t.get("label", t));
-                    }
-                });
-            });
-
         },
+
         renderTab: function(type, tab) {
+            tab.rendered = true;
             switch (type) {
                 case "Moves":
                     this.movesEditor = new MovesEditor(Y.wedance.app.get("tune.moves"));

@@ -31,18 +31,15 @@ YUI.add('wedance-lobby', function (Y) {
                         cb = this.get("contentBox").one(".join-game");
                         cb.removeClass("loading");
                         for (i = 0; i < ret.length; i += 1) {
-                            cb.append("<a href=\"" + Y.wedance.app.get("base") + "view/play.xhtml?tuneId=" + ret[i].id +"\">"
-                            + ret[i].name + "</a><br />");
+                            cb.append("<a href=\"" + Y.wedance.app.get("base") + "view/play.xhtml?tuneId=" + ret[i].id + "\">"
+                                + ret[i].name + "</a><br />");
                         }
-//                        for (r)
-//                        cb.append()
-                        console.log(e);
                     },
                     failure: function () {
-                        alert("Error retrieving tunes list")
+                        alert("Error retrieving tunes list");
                     }
                 }
-            })
+            });
         }
     });
 

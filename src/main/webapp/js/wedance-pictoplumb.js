@@ -16,8 +16,8 @@ YUI.add('wedance-pictoplumb', function (Y) {
         },
 
         toObject: function () {
-            var i, data = Y.JSON.parse(this.get("content")), ret = {},
-            bb = this.get("boundingBox"), n;
+            var i, n, data = Y.JSON.parse(this.get("content")), ret = {},
+            bb = this.get("boundingBox");
             for (i in data) {
                 n = bb.one("." + i);
                 ret[i] = [+n.getStyle("top").replace("px", "") / this.resizeFactor,

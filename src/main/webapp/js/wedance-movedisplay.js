@@ -1,25 +1,8 @@
-// $Id$
-/*
- * RiceKaraoke JavaScript karaoke engine
- * <http://code.google.com/p/ricekaraoke/>
- * Licensed under the GNU General Public License version 3
- * Copyright (c) 2005-2009 sk89q <http://sk89q.therisenrealm.com>
- */
-
 /**
- * Creates an instance of the MovesDisplayEngine. This is a simple
- * karaoke display renderer for RiceKaraoke that supports granular per-syllable
- * highlighting. However, this renderer does not handle wrapping of the lines
- * at all. To render highlighting, this render places an overlay element over
- * the text and changes its width so that only the highlighted content shows.
- *
- * To use this renderer, just create a new instance of this class with the ID
- * of the element that you want the karaoke lines in. You do not need to
- * populate this element with any children. You will need to add some CSS
- * styling to make the highlighting show.
- *
- * @param {String} containerID
- * @param {Number} numLines
+ * We Dance
+ */
+/*
+ * @author Francois-Xavier Aeberhard <fx@red-agent.com>
  */
 YUI.add('wedance-movedisplay', function (Y) {
 
@@ -192,9 +175,6 @@ YUI.add('wedance-movedisplay', function (Y) {
     * @param fragmentPercent
     */
     MovesDisplay.prototype.renderKaraoke = function (passed, current, upcoming, fragmentPercent, lineIndex) {
-
-        //console.log("renderKaraoke() " + currentId, passed, upcoming, current, fragmentPercent, lineIndex);
-
         if (Y.Lang.isUndefined(lineIndex) || lineIndex === this.lastLine) return;
         this.lastLine = lineIndex;
 

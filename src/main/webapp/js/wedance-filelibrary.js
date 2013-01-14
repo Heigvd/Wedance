@@ -5,14 +5,15 @@
  * @author Francois-Xavier Aeberhard <fx@red-agent.com>
  */
 YUI.add('wedance-filelibrary', function (Y) {
+    "use strict";
 
     var Overlay = Y.Base.create("overlay", Y.Widget, [Y.WidgetParent, Y.WidgetPosition, Y.WidgetPositionAlign, Y.WidgetStack]);
+
     var FileLibrary = Y.Base.create("wedance-filelibrary", Y.Widget, [Y.WidgetStdMod, Y.WidgetButtons], {
+
         CONTENT_TEMPLATE: "<div><div class=\"movelibrary\"></div></div>",
+
         renderUI: function() {
-            //            this.addButton(new Y.Button({
-            //                label: "Test"
-            //            }));
             this.scrollView = new Y.ScrollView({
                 srcNode: this.get("contentBox").one(".movelibrary"),
                 height: (Y.DOM.winHeight() / 2) - 39,
@@ -72,6 +73,7 @@ YUI.add('wedance-filelibrary', function (Y) {
                     }, this, p, this.menu.target)
                 });
             }, this);
+
             menuCb.one(".icon-delete").on("click", function() {
                 this.deletePicto(this.menu.target.toObject());
                 this.menu.target.destroy();
@@ -139,12 +141,6 @@ YUI.add('wedance-filelibrary', function (Y) {
             });
         },
 
-        deletePicto: function (cfg) {
-            Y.io(Y.wedance.app.get("base") + "rest/Picto/" + cfg.id, {
-                method: "DELETE"
-            });
-        },
-
         updatePicto: function (cfg, srcWidget) {
             Y.io(Y.wedance.app.get("base") + "rest/Picto/" + cfg.id, {
                 method: "PUT",
@@ -156,6 +152,12 @@ YUI.add('wedance-filelibrary', function (Y) {
                 on: {
                     success: Y.bind(this.onPictoUpdated, this, srcWidget)
                 }
+            });
+        },
+
+        deletePicto: function (cfg) {
+            Y.io(Y.wedance.app.get("base") + "rest/Picto/" + cfg.id, {
+                method: "DELETE"
             });
         },
 
@@ -230,7 +232,7 @@ YUI.add('wedance-filelibrary', function (Y) {
                         window.onWebcamUploadComplete = function(msg) {
                             if (msg.match(/(http\:\/\/\S+)/)) {                 // extract URL out of PHP output
                                 var image_url = RegExp.$1;
-                                console.log("upload complete " + image_url);
+                                Y.log("upload complete " + image_url);
                                 webcam.reset();                                 // reset camera for another shot
                             } else {
                                 alert("PHP Error: " + msg);
