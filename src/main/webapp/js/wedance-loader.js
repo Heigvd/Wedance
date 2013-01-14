@@ -51,13 +51,13 @@ YUI().use(function (Y) {
 
                     'wedance-edit': {
                         path: 'js/wedance-edit-min.js',
-                        requires: ["wedance-track", "wedance-filelibrary", "tabview", "scrollview", "resize-plugin", "panel",
+                        requires: ["wedance-track", "wedance-filelibrary", "resize-plugin", "panel",
                         "widget-position", "widget-stack", "widget-position-align",
                         "dd-plugin", "dd-proxy", "dd-delegate", "dd-drop-plugin", "dd-constrain", "dd-scroll", "dd-drop"]
                     },
                     'wedance-filelibrary': {
                         path: 'js/wedance-filelibrary-min.js',
-                        requires: ["scrollview", "panel",
+                        requires: ["scrollview", "panel", "scrollview",
                         "widget-position", "widget-stack", "widget-position-align",
                         "jsplumb-yui-all", "jpegcam", "button", "uploader", 'wedance-pictoplumb']
                     },
