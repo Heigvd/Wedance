@@ -237,11 +237,6 @@ YUI.add('wedance-edit', function(Y) {
             Editor.superclass.renderUI.apply(this, arguments);
             this.player.set("height", Y.DOM.winHeight() - 260);
 
-            this.fileLibrary = new Y.wedance.FileLibrary({
-                width: "298px",
-                height: "300px"
-            });
-            this.fileLibrary.render(bb);
 
             this.timeLines = [];
 
@@ -254,6 +249,12 @@ YUI.add('wedance-edit', function(Y) {
                 this.renderTrack(tracks[i]);
             }
 
+            this.fileLibrary = new Y.wedance.FileLibrary({
+                width: "300pxpx",
+                height: "300px"
+            });
+            this.fileLibrary.render(bb.one(".timelines"));
+
             Y.later(50, this, this.step, null, true);
         },
 
@@ -262,7 +263,7 @@ YUI.add('wedance-edit', function(Y) {
             bb = this.get("boundingBox");
 
             bb.one(".cursor").setStyle("width", t * 100);
-            bb.one(".timelines-content").getDOMNode().scrollLeft = t * 100 - Y.DOM.winWidth() / 2;
+            bb.one(".timelines-content").getDOMNode().scrollLeft = t * 100 - Y.DOM.winWidth() / 2 - 200;
         },
 
         renderTrack: function(trackCfg) {
