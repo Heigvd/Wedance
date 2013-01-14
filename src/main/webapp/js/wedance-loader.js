@@ -53,7 +53,7 @@ YUI().use(function (Y) {
                         path: 'js/wedance-edit-min.js',
                         requires: ["wedance-track", "wedance-filelibrary", "tabview", "scrollview", "resize-plugin", "panel",
                         "widget-position", "widget-stack", "widget-position-align",
-                        "dd-plugin", "dd-proxy"]
+                        "dd-plugin", "dd-proxy", "dd-delegate", "dd-drop-plugin", "dd-constrain", "dd-scroll", "dd-drop"]
                     },
                     'wedance-filelibrary': {
                         path: 'js/wedance-filelibrary-min.js',
