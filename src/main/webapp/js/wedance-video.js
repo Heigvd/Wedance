@@ -104,7 +104,11 @@ YUI.add('wedance-video', function (Y) {
             this.player.seekTo(seconds, allowSeekAhead || true);
         },
         getCurrentTime: function () {
-            return this.player.getCurrentTime();
+            if (this.player && this.player.getCurrentTime) {
+                return this.player.getCurrentTime();
+            }else {
+                return 0;
+            }
         }
     }, {
         ATTRS: {

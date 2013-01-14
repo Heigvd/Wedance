@@ -58,7 +58,6 @@ YUI.add('wedance-track', function (Y) {
             engine: {
                 value: SimpleKaraokeDisplayEngine
             },
-
             currentTime:  {
                 getter: function () {
                     var p = this.get("player"),

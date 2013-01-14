@@ -6,12 +6,43 @@
 */
 
 .yui3-skin-sam  .yui3-wedance-edit .timelines {
-    overflow-y: hidden;
-    overflow-x: scroll;
     background: white;
     color: black;
+    padding-left: 100px;
 }
 
+.yui3-skin-sam  .yui3-wedance-edit .timelines-labels {
+    width: 99px;
+    margin-left: -100px;
+    display:inline-block;
+    height:100%;
+}
+.yui3-skin-sam  .yui3-wedance-edit .timelines-labels > div {
+    height: 80px;
+    padding: 10px;
+    border-bottom: 1px solid gray;
+    text-transform: capitalize;
+}
+.yui3-skin-sam  .yui3-wedance-edit .timelines-content {
+    overflow-y: hidden;
+    overflow-x: hidden;
+    background: white;
+    display:inline-block;
+    color: black;
+    position:relative;
+    width: 100%;
+}
+
+.yui3-skin-sam .yui3-wedance-edit .timelines .cursor {
+    position: absolute;
+    height: 100%;
+    background: pink;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    border-right: 1px solid black;
+    border-left: 1px solid gray;
+}
 .yui3-skin-sam .yui3-wedance-edit .timelines .yui3-wedance-timeline {
     border-bottom: 1px solid gray;
     position:relative;
@@ -31,7 +62,10 @@
 /* File explorer style */
 .yui3-skin-sam .yui3-wedance-filelibrary {
     color:black;
-    float: right;
+
+    position:absolute;
+    right:0;
+    background: white;
 }
 
 .yui3-skin-sam .yui3-wedance-filelibrary .movelibrary {

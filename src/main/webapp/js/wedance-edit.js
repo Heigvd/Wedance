@@ -70,9 +70,10 @@ YUI.add('wedance-edit', function(Y) {
         }
     });
 
-    var Timeline = Y.Base.create("wedance-timeline", Y.wedance.Karaoke, [], {
-        //        CONTENT_TEMPLATE: "<div><div class=\"timeline-container\"><div class=\"timeline\"></div></div>",
+    var Timeline = Y.Base.create("wedance-timeline", Y.Widget, [], {
+
         SCROLLVIEWWIDTH: "100%",
+
         initializer: function() {
             this.dragDelegator = null;
             this.publish("dropHit", {
@@ -154,10 +155,7 @@ YUI.add('wedance-edit', function(Y) {
                 this.moves.push(w);
             }
 
-            //this.scrollView._uiDimensionsChange();
-            Y.later(this.get("rate") * 1000, this, this.step, null, true);
-
-
+        //this.scrollView._uiDimensionsChange();
         },
         bindUI: function() {
             this.dragDelegator.on("drag:drag", function(e) {
@@ -182,20 +180,17 @@ YUI.add('wedance-edit', function(Y) {
         //                e.drop.get('node').append(drag);
         //            });
         },
-        step: function() {
-            this.get("currentTime");
-        },
         onMoveResize: function(e) {
             var i, m, w = e.currentTarget.get("widget"),
             offset = -w.get("data.end") + w.get("data.start") + this.height2Time(w.get("height"));
             //   console.log(offset);
 
-//            w.set("data.end", w.get("data.start") + this.height2Time(w.get("height")));
+            //            w.set("data.end", w.get("data.start") + this.height2Time(w.get("height")));
 
             for (i = w.get("data.index") + 1; i < this.moves.length; i += 1) {
                 m = this.moves[i];
-//                m.set("data.start", m.get("data.start") + offset);
-//                m.set("data.end", m.get("data.end") + offset);
+            //                m.set("data.start", m.get("data.start") + offset);
+            //                m.set("data.end", m.get("data.end") + offset);
             }
 
         },
@@ -204,6 +199,20 @@ YUI.add('wedance-edit', function(Y) {
         },
         time2Height: function(time) {
             return time * 100;
+        }
+    }, {
+        ATTRS: {
+            content: {},
+            currentTime: {
+                getter: function () {
+                    var p = this.get("player"),
+                    t  = (p.player && p.player.getCurrentTime) ?
+                    this.get("player").getCurrentTime() : this.i * this.get("rate");
+
+                    this.i = this.i + 1;
+                    return t - this.get("delay");
+                }
+            }
         }
     });
     Y.namespace('wedance').Timeline = Timeline;
@@ -226,7 +235,7 @@ YUI.add('wedance-edit', function(Y) {
             i, tracks = Y.wedance.app.get("tune.tracks");
 
             Editor.superclass.renderUI.apply(this, arguments);
-            this.player.set("height", Y.DOM.winHeight() / 2);
+            this.player.set("height", Y.DOM.winHeight() - 260);
 
             this.fileLibrary = new Y.wedance.FileLibrary({
                 width: "298px",
@@ -236,28 +245,55 @@ YUI.add('wedance-edit', function(Y) {
 
             this.timeLines = [];
 
-            bb.append("<div class=\"timelines\"><div class=\"timelines-content\"></div></div>");
-            bb.one(".timelines").setStyles({
+            bb.append("<div class=\"timelines yui3-g\"><div class=\"timelines-labels yui3-u\"></div><div class=\"timelines-content yui3-u\"><div class=\"cursor\"></div></div></div>");
+            bb.one(".timelines-content").setStyles({
                 height: 260
-//                height: tracks.length * 100 + 20
+            //                height: tracks.length * 100 + 20
             });
             for (i = 0; i < tracks.length; i += 1) {
                 this.renderTrack(tracks[i]);
             }
+
+            Y.later(50, this, this.step, null, true);
         },
 
-        renderTrack: function(track) {
-            var w;
-            switch (track.name) {
+        step: function() {
+            var t  = this.player.getCurrentTime(),
+            bb = this.get("boundingBox");
+
+            bb.one(".cursor").setStyle("width", t * 100);
+            bb.one(".timelines-content").getDOMNode().scrollLeft = t * 100 - Y.DOM.winWidth() / 2;
+        },
+
+        renderTrack: function(trackCfg) {
+            var w,
+            bb = this.get("boundingBox");
+
+            trackCfg.player = this.player;
+
+//var d = Y.JSON.parse(trackCfg.content),
+//dod = function (x) {
+//    return Math.round((x+3.1)*100)/100;
+//};
+//for (var i=0;i<d.length;i+=1) {
+//    d[i][0] = dod(d[i][0]);
+//    d[i][1] = dod(d[i][1]);
+//}
+//console.log(trackCfg.content);
+//trackCfg.content = Y.JSON.stringify(d);
+//console.log(Y.JSON.stringify(d).replace(/\"/g, "\\\""));
+
+            switch (trackCfg.name) {
                 case "moves":
-                    w = new MovesTimeline(track);
+                    w = new MovesTimeline(trackCfg);
                     break;
 
                 case "karaoke":
-                    w = new Timeline(track);
+                    w = new Timeline(trackCfg);
                     break;
             }
-            w.render(this.get("boundingBox").one(".timelines-content"));
+            w.render(bb.one(".timelines-content"));
+            bb.one(".timelines-labels").append("<div>" + trackCfg.name + "</div>");
         }
     });
     Y.namespace('wedance').Editor = Editor;

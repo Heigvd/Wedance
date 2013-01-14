@@ -32,6 +32,7 @@ input[type="submit"], input[type="reset"] {
 
 /* Karaoke */
 .yui3-wedance-karaokeplayer {
+    pointer-events: none;
     position: absolute;
     bottom: 30px;
     width: 100%;
@@ -57,7 +58,7 @@ input[type="submit"], input[type="reset"] {
     text-decoration: underline;
 }
 /* Pictos */
- .yui3-wedance-picto {
+.yui3-wedance-picto {
     position: relative;
 }
 /* Moves */
