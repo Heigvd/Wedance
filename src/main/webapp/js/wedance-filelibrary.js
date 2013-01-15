@@ -16,7 +16,8 @@ YUI.add('wedance-filelibrary', function (Y) {
         renderUI: function() {
             this.scrollView = new Y.ScrollView({
                 srcNode: this.get("contentBox").one(".movelibrary"),
-                height: (Y.DOM.winHeight() / 2) - 39,
+                height: "230px",
+                width: "299px",
                 flick: {
                     minDistance: 10,
                     minVelocity: 0.3

@@ -7,7 +7,7 @@
 
 /* Override default browser styles */
 html {
-    background: black;
+    background: white;
 }
 
 body {
@@ -58,9 +58,7 @@ input[type="submit"], input[type="reset"] {
     text-decoration: underline;
 }
 /* Pictos */
-.yui3-wedance-picto {
-    position: relative;
-}
+
 /* Moves */
 .yui3-wedance-moves .moves-display {
     position:absolute;
@@ -189,35 +187,93 @@ input[type="submit"], input[type="reset"] {
 
 /* Lobby styles */
 .yui3-wedance-lobby {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -200px;
-    margin-left: -200px;
-    text-align: center;
-    width: 400px;
+    padding-left: 305px;
+    height: 100%;
 }
-.yui3-wedance-lobby h1 {
+.yui3-wedance-lobby .left {
+    margin-left: -305px;
+    width: 305px;
+    height: 100%;
+    min-height: 1290px;
+    background: url(../images/aside-bg.png) repeat-y -30px 0;
+}
+.yui3-wedance-lobby .left li {
+    line-height: 80px;
     font-weight: bolder;
     font-size: 20px;
+    text-align: center;
+    cursor:pointer;
+    position: absolute;
+}
+.yui3-wedance-lobby .left .start-game {
+    width: 368px;
+    height: 86px;
+    background: url(../images/nav1.png);
+    left: 222px;
+    top: 128px;
 }
 
-.yui3-wedance-lobby .join-game {
-    border: 1px solid white;
-    margin: 10px 0;
-    padding: 5px;
-    height: 200px;
-    overflow: auto;
+.yui3-wedance-lobby .left .join-game {
+    width: 367px;
+    height: 72px;
+    background: url(../images/nav2.png);
+    left: 282px;
+    top: 217px;
 }
-
-.yui3-wedance-lobby .join-game.loading {
-    background: url(../images/loading.gif) center no-repeat;
+.yui3-wedance-lobby .left .create-game {
+    width: 367px;
+    height: 82px;
+    background: url(../images/nav3.png);
+    position: absolute;
+    left: 239px;
+    top: 296px;
 }
-
-.yui3-wedance-lobby .join-game a {
+.yui3-wedance-lobby .left .watch {
+    width: 326px;
+    height: 70px;
+    background: url(../images/nav4.png);
+    left: 296px;
+    top: 385px;
+}
+.yui3-wedance-lobby-content {
+    /*    position: absolute;
+        left: 670px;
+   top: 128px;
+    width: 692px;*/
+    min-height: 724px;
+    font: 13px/22px Arial, Helvetica, sans-serif;
+    color: #929292;
+    text-transform: uppercase;
     display: inline-block;
+    width: 100%;
+    /*    padding-left: 300px;*/
 }
-.yui3-wedance-lobby .join-game a:hover {
-    background: white;
-    color: black;
+
+.yui3-wedance-lobby-content .win {
+    margin: 128px 60px 0 370px;
+    padding: 50px;
+    background: url(../images/content-bg.png);
+    position: relative;
+    width: 592px;
+}
+.yui3-wedance-lobby-content .win.hidden {
+    display:none;
+}
+
+.yui3-wedance-lobby .win.loading {
+    background: url(../images/content-bg.png),
+        url(../images/loading.gif) center no-repeat;
+}
+
+.yui3-wedance-lobby .win .close {
+    background: #00AEF0;
+    width: 56px;
+    text-align: center;
+    font: bold 30px Arial, Helvetica, sans-serif;
+    color: white;
+    text-transform: uppercase;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 6px 0;
 }
