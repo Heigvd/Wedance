@@ -72,8 +72,9 @@ YUI.add('wedance-edit', function(Y) {
 
     var Timeline = Y.Base.create("wedance-timeline", Y.Widget, [], {
         SCROLLVIEWWIDTH: "100%",
-        initializer: function() {
+        initializer: function(cfg) {
             this.dragDelegator = null;
+            this.player = cfg.player;
             this.publish("dropHit", {
                 bubbles: true
             });
@@ -123,13 +124,15 @@ YUI.add('wedance-edit', function(Y) {
             this.dragDelegator.dd.plug(Y.Plugin.DDConstrained, {
                 constrain2node: cb
             });
-            //            cb.plug(Y.Plugin.Drop);
-            //            this.dragDelegator.dd.plug(Y.Plugin.DDNodeScroll, {
-            //                node: cb
-            //            });
-            //            this.dragDelegator.dd.plug(Y.Plugin.DDProxy, {
-            //                moveOnEnd: false
-            //            });
+            this.get("boundingBox").plug(Y.Plugin.Drop, {
+                groups: ["picto"]
+            });
+            this.dragDelegator.dd.plug(Y.Plugin.DDNodeScroll, {
+                node: this.get("boundingBox").get("parentNode")
+            });
+            this.dragDelegator.dd.plug(Y.Plugin.DDProxy, {
+                moveOnEnd: true
+            });
 
             var i, t, w, timings = RiceKaraoke.simpleTimingToTiming(Y.JSON.parse(this.get("content"))); // Simple KRL -> KRL
 
@@ -157,26 +160,53 @@ YUI.add('wedance-edit', function(Y) {
         },
         bindUI: function() {
             this.dragDelegator.on("drag:drag", function(e) {
-                console.log(e);
-            });
-            this.dragDelegator.on("drag:end", function(e) {
-                // console.log(e);
-            });
-
-            this.get("contentBox").on("drop:over", function(e) {
                 //console.log(e);
             });
-            this.on("drop:hit", function(e) {
-                var drag = e.drag.get('node'),
-                        drop = e.drop.get('node');
-                e.drop.get('node').get('parentNode').insertBefore(drag, drop);
-            });
+            this.dragDelegator.on("drag:end", function(e) {
+                var widget = Y.Widget.getByNode(e.target.get("node")),
+                        data = widget.get("data"),
+                        duration = data.end - data.start;
+                data.start = (e.pageX - this.get("boundingBox").getX()) / 100;
+                widget.set("data.start", data.start);
+                widget.set("data.end", data.start + duration);
+            }, this);
+
+            this.get("boundingBox").drop.on("drop:hit", function(e) {
+                var data,
+                        picto_id = e.drag.get("node").get("id"),
+                        start = this.height2Time(e.drag.lastXY[0] - e.drop.region[0]),
+                        end = start + 1;
+
+                data = {
+                    start: start,
+                    end: end,
+                    line: [{text: picto_id}]
+                };
+                new SimpleWidget({
+                    render: this.get("contentBox"),
+                    data: data,
+                    plugins: [{
+                            fn: Y.Plugin.Resize,
+                            cfg: {
+                                handles: "r"
+                            }
+                        }]
+                });
+//                var drag = e.drag.get('node'),
+//                        drop = e.drop.get('node');
+//                e.drop.get('node').get('parentNode').insertBefore(drag, drop);
+            }, this);
             //
             //            this.get("contentBox").drop.on("drop:hit", function(e) {
             //                var drag = e.drag.get('node'),
             //                drop = e.drop.get('node');
             //                e.drop.get('node').append(drag);
             //            });
+            this.player.on("playerStateChange", function(e) {
+                if (e.state !== "UNSTARTED" && this.get("width") === "") {
+                    this.set("width", this.player.getDuration() * 100);
+                }
+            }, this);
         },
         onMoveResize: function(e) {
             var i, m, w = e.currentTarget.get("widget"),
@@ -253,7 +283,7 @@ YUI.add('wedance-edit', function(Y) {
             });
             this.fileLibrary.render(bb.one(".timelines"));
 
-            this.syncView = Y.later(50, this, this.step, null, true);
+            Y.later(50, this, this.step, null, true);
         },
         bindUI: function() {
 

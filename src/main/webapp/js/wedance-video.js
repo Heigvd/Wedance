@@ -76,7 +76,8 @@ YUI.add('wedance-video', function(Y) {
             this.fire("ready");
         },
         onStateChange: function(e) {
-            Y.log("statechange" + e.data);
+            Y.log("statechange: " + YoutubeVideo.PLAYER_STATE[e.data]);
+            this.fire("playerStateChange", {state: YoutubeVideo.PLAYER_STATE[e.data]})
             switch (e.data) {
                 case YT.PlayerState.PLAYING:
                     this.fire("play");
@@ -111,6 +112,13 @@ YUI.add('wedance-video', function(Y) {
         setCurrentTime: function(time) {
             if (this.player && this.player.seekTo) {
                 this.player.seekTo(time, true);
+            }
+        },
+        getDuration: function() {
+            if (this.player && this.player.getDuration) {
+                return this.player.getDuration();
+            } else {
+                return -1;
             }
         },
         getStatus: function() {
