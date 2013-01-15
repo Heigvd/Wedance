@@ -75,9 +75,6 @@ YUI.add('wedance-edit', function(Y) {
         initializer: function(cfg) {
             this.dragDelegator = null;
             this.player = cfg.player;
-            this.publish("dropHit", {
-                bubbles: true
-            });
         },
         renderUI: function() {
             var cb = this.get("contentBox");
