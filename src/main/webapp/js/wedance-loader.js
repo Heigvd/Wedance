@@ -40,7 +40,8 @@ YUI().use(function (Y) {
 
                     'wedance-lobby': {
                         path: 'js/wedance-lobby-min.js',
-                        requires: ["wedance-app", "button", "io", "json"]
+                        requires: ["wedance-app", "button", "io", "json",
+                            'autocomplete', 'autocomplete-highlighters', 'datasource-get', "inputex-autocomplete"]
                     },
 
                     'wedance-controller': {

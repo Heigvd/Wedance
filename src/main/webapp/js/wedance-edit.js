@@ -79,7 +79,7 @@ YUI.add('wedance-edit', function(Y) {
         }
     });
 
-    var Timeline = Y.Base.create("wedance-timeline", Y.Widget, [], {
+    var Timeline = Y.Base.create("wedance-timeline", Y.wedance.Karaoke, [], {
 
         initializer: function(cfg) {
             this.dragDelegator = null;
@@ -140,7 +140,7 @@ YUI.add('wedance-edit', function(Y) {
                 moveOnEnd: true
             });
 
-            var i, t, w, timings = RiceKaraoke.simpleTimingToTiming(Y.JSON.parse(this.get("content"))); // Simple KRL -> KRL
+            var i, t, w, timings = this.get("timings"); // Simple KRL -> KRL
 
             for (i = 0; i < timings.length; i += 1) {
                 t = timings[i];
@@ -236,7 +236,6 @@ YUI.add('wedance-edit', function(Y) {
         }
     }, {
         ATTRS: {
-            content: {},
             currentTime: {
                 getter: function() {
                     var p = this.get("player"),

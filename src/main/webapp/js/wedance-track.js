@@ -31,8 +31,7 @@ YUI.add('wedance-track', function (Y) {
 
         renderUI: function () {
             var numDisplayLines = this.get("numDisplayLines"),
-            timings = RiceKaraoke.simpleTimingToTiming(Y.JSON.parse(this.get("content"))), // Simple KRL -> KRL
-            karaoke = new RiceKaraoke(timings),
+            karaoke = new RiceKaraoke(this.get("timings")),
             renderer = new (this.get("engine"))(this.get("contentBox").generateID(), numDisplayLines);
 
             this.show = karaoke.createShow(renderer, numDisplayLines);
@@ -46,6 +45,15 @@ YUI.add('wedance-track', function (Y) {
         ATTRS: {
             player: {},
             content: {},
+            timings: {
+                getter: function () {
+                    if (this.get("content") === "") {
+                        return [];
+                    } else {
+                        return RiceKaraoke.simpleTimingToTiming(Y.JSON.parse(this.get("content")));// Simple KRL -> KRL
+                    }
+                }
+            },
             numDisplayLines: {
                 value: 2
             },
