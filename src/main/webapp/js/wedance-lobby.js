@@ -65,8 +65,25 @@ YUI.add('wedance-lobby', function (Y) {
         },
 
         showJoinGame: function () {
-            this.get("contentBox").one(".win").empty().removeClass("hidden").addClass("loading").append("<div class=\"close\" style=\"background:#00AEF0\">X</div>"
-                + "Not yet implemented");
+            this.get("contentBox").one(".win").empty().removeClass("hidden").addClass("loading");
+            Y.io(Y.wedance.app.get("base") + "rest/Tune/Ongoing", {
+                context: this,
+                on: {
+                    success: function (tId, e) {
+                        var i, ret = Y.JSON.parse(e.responseText),
+                        cb = this.get("contentBox").one(".win");
+                        cb.removeClass("loading");
+                        cb.append("<div class=\"close\" style=\"background:#ED008C\">X</div>");
+                        for (i = 0; i < ret.length; i += 1) {
+                            cb.append("<a href=\"" + Y.wedance.app.get("base") + "view/play.xhtml?tuneId=" + ret[i].id + "\">"
+                                + ret[i].name + "</a><br />");
+                        }
+                    },
+                    failure: function () {
+                        alert("Error retrieving tune list.");
+                    }
+                }
+            });
         },
 
         showCreateGame: function () {
