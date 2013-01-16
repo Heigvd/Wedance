@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlID;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
@@ -36,6 +37,13 @@ public class Tune extends AbstractEntity implements Serializable {
     @OneToMany(mappedBy="tune", cascade = {CascadeType.ALL}, orphanRemoval = true)
     @JsonManagedReference
     public List<Picto> pictoLibrary = new ArrayList<>();
+    /**
+     *
+     */
+    @OneToMany(mappedBy="tune", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @JsonManagedReference
+    @JsonIgnore
+    public List<Instance> instances = new ArrayList<>();
 
     /**
      *

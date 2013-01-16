@@ -111,7 +111,7 @@ YUI.add('wedance-app', function (Y) {
     }, {
         ATTRS: {
             base: {
-                value: "http://localhost:8080/Wedance/"
+                value: "/"
             },
             instanceId: {},
             sessionId: {},

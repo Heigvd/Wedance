@@ -66,17 +66,21 @@ YUI.add('wedance-lobby', function (Y) {
 
         showJoinGame: function () {
             this.get("contentBox").one(".win").empty().removeClass("hidden").addClass("loading");
-            Y.io(Y.wedance.app.get("base") + "rest/Tune/Ongoing", {
+            Y.io(Y.wedance.app.get("base") + "rest/Instance", {
                 context: this,
                 on: {
                     success: function (tId, e) {
                         var i, ret = Y.JSON.parse(e.responseText),
                         cb = this.get("contentBox").one(".win");
                         cb.removeClass("loading");
-                        cb.append("<div class=\"close\" style=\"background:#ED008C\">X</div>");
+                        cb.append("<div class=\"close\" style=\"background:#ED008C\">X</div><div>You can join other player to dance and share your webcam with them");
                         for (i = 0; i < ret.length; i += 1) {
-                            cb.append("<a href=\"" + Y.wedance.app.get("base") + "view/play.xhtml?tuneId=" + ret[i].id + "\">"
-                                + ret[i].name + "</a><br />");
+                            cb.append("<a href=\"" + Y.wedance.app.get("base") + "view/play.xhtml?instanceId=" + ret[i].id + "\">Guest is playing "
+                                + ret[i].tune.name + " <i>started at "
+                                + Y.Date.format(Y.Date.parse(ret[i].mupdate), {
+                                    format: "%H:%M"
+                                })
+                                + "</i></a><br />");
                         }
                     },
                     failure: function () {

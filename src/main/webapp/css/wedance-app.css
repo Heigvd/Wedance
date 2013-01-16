@@ -66,7 +66,6 @@ input[type="submit"], input[type="reset"] {
     background-repeat: no-repeat;
     background-color: rgba(0, 0, 0, 0.4);
     border: 3px solid #ED008C;
-    border-radius: 28px;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80ffffff', endColorstr='#00ffffff', GradientType=0);
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255,255,255, 0.30)), color-stop(40%, rgba(255,255,255, 0.15)), to(transparent));
     background-image: -webkit-linear-gradient(rgba(255,255,255, 0.30), rgba(255,255,255, 0.15) 40%, transparent);
@@ -312,7 +311,10 @@ input[type="submit"], input[type="reset"] {
     padding: 6px 0;
     cursor: pointer;
 }
-
+.yui3-wedance-lobby .search-result {
+    max-height: 288px;
+    overflow: auto;
+}
 
 .yui3-wedance-lobby .inputEx-fieldWrapper {
     display: inline-block;

@@ -16,7 +16,7 @@ YUI().use(function (Y) {
                 modules: {
                     'wedance-app': {
                         path: 'js/wedance-app-min.js',
-                        requires: ["base", "widget", "pusher", "google-font", ]
+                        requires: ["base", "widget", "pusher", "google-font","datatype-date" ]
                     },
 
                     'wedance-track': {

@@ -6,6 +6,7 @@ package com.wedance.core.ejb;
 import com.wedance.core.persistence.AbstractEntity;
 import java.io.IOException;
 import java.util.List;
+import javax.persistence.EntityManager;
 
 /**
  *
@@ -82,4 +83,5 @@ public interface AbstractFacade<T extends AbstractEntity> {
      *
      */
     public void flush();
+
 }

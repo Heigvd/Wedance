@@ -27,13 +27,13 @@
         </ui:fragment>
         <ui:fragment rendered="#{wedanceProperties.assets_local}">
             <!-- Self hosted -->
-            <link rel="stylesheet" type="text/css" href="/Wedance/rest/combo?/lib/yui3/build/cssfonts/fonts-min.css&amp;/lib/yui3/build/cssreset/reset-min.css&amp;/lib/yui3/build/cssgrids/grids-min.css&amp;/lib/yui3/build/widget-base/assets/skins/sam/widget-base.css" />
+            <link rel="stylesheet" type="text/css" href="#{ExternalContext.getRealPath()}/rest/combo?/lib/yui3/build/cssfonts/fonts-min.css&amp;/lib/yui3/build/cssreset/reset-min.css&amp;/lib/yui3/build/cssgrids/grids-min.css&amp;/lib/yui3/build/widget-base/assets/skins/sam/widget-base.css" />
         </ui:fragment>
 
         <!-- Those styles are placed here, since they should be above any other in the CSS cascading
             (even dependencies added on the fly). -->
         <meta id="customstyles" />
-        <link rel="stylesheet" type="text/css" href="/Wedance/css/wedance-app.css" />
+        <link rel="stylesheet" type="text/css" href="#{ExternalContext.getRealPath()}/css/wedance-app.css" />
         <ui:insert name="head"/>
 
     </h:head>

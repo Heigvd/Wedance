@@ -62,17 +62,20 @@ public class GameController implements Serializable {
     @PostConstruct
     public void init() throws IOException {
 
-        if (this.getTuneId() != null) {
-            this.tune = tuneFacade.find(this.getTuneId());
-        }
-        if (this.getInstanceId() == null) {
-            this.instance = new Instance();
-            instanceFacade.create(this.instance);
-        } else {
+        System.out.println("init");
+        if (this.getInstanceId() != null) {
             this.instance = instanceFacade.find(this.getInstanceId());
+            this.tune = this.instance.getTune();
+
+        } else if (this.getTuneId() != null) {
+            Instance i = new Instance();
+            i.setTune(tuneFacade.find(this.getTuneId()));
+            instanceFacade.create(i);
+            final ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+
+            externalContext.redirect(externalContext.getRequestServletPath() + "?instanceId=" + i.getId());
         }
-        //final ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        // externalContext.dispatch("/view/error/gameerror.xhtml");
+
     }
 
     public Locale calculateLocale(FacesContext context) {
