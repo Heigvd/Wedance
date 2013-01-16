@@ -64,8 +64,8 @@ input[type="submit"], input[type="reset"] {
 .yui3-wedance-picto {
     background-size: 100px 100px;
     background-repeat: no-repeat;
-    background-color: rgba(0, 0, 0, 0.4);
     border: 3px solid #ED008C;
+    background-color: rgba(0, 0, 0, 0.4);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80ffffff', endColorstr='#00ffffff', GradientType=0);
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255,255,255, 0.30)), color-stop(40%, rgba(255,255,255, 0.15)), to(transparent));
     background-image: -webkit-linear-gradient(rgba(255,255,255, 0.30), rgba(255,255,255, 0.15) 40%, transparent);
@@ -109,6 +109,24 @@ input[type="submit"], input[type="reset"] {
     background: url(../images/wedance-cursor.png);
 }
 
+.yui3-wedance-score-content,
+.yui3-wedance-joinwidget {
+    border: 2px solid #ED008C;
+    background-color: rgba(0, 0, 0, 0.4);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80ffffff', endColorstr='#00ffffff', GradientType=0);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255,255,255, 0.30)), color-stop(40%, rgba(255,255,255, 0.15)), to(transparent));
+    background-image: -webkit-linear-gradient(rgba(255,255,255, 0.30), rgba(255,255,255, 0.15) 40%, transparent);
+    background-image: -moz-linear-gradient(top, rgba(255,255,255, 0.30), rgba(255,255,255, 0.15) 40%, transparent);
+    background-image: -ms-linear-gradient(rgba(255,255,255, 0.30), rgba(255,255,255, 0.15) 40%, transparent);
+    background-image: -o-linear-gradient(rgba(255,255,255, 0.30), rgba(255,255,255, 0.15) 40%, transparent);
+    background-image: linear-gradient(rgba(255,255,255, 0.30), rgba(255,255,255, 0.15) 40%, transparent);
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 0 0 1px rgba(0,0,0, 0.25) inset, 0 2px 0 rgba(255,255,255, 0.30) inset, 0 1px 2px rgba(0,0,0, 0.15);
+    -moz-box-shadow: 0 0 0 1px rgba(0,0,0, 0.25) inset, 0 2px 0 rgba(255,255,255, 0.30) inset, 0 1px 2px rgba(0,0,0, 0.15);
+    box-shadow: 0 0 0 1px rgba(0,0,0, 0.25) inset, 0 2px 0 rgba(255,255,255, 0.30) inset, 0 1px 2px rgba(0,0,0, 0.15);
+}
 /* Scores styles */
 .yui3-wedance-scores {
     position: absolute;
@@ -116,21 +134,17 @@ input[type="submit"], input[type="reset"] {
     left: 10px;
     width: 200px;
 }
-.yui3-wedance-score-content{
-    border: 1px solid #ED008C;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.4);
+.yui3-wedance-score-content {
     padding:10px;
     margin-bottom: 10px;
     width: 150px;
-    color: white;
 }
 .track-moves .yui3-wedance-score-content {
-    background: rgba(255, 255, 255, 0.2) url(../images/wedance-icon-trackmoves.png) no-repeat 105px 0;
+    background: rgba(0, 0, 0, 0.4) url(../images/wedance-icon-trackmoves.png) no-repeat 105px 0;
     background-size: 34px;
 }
 .track-karaoke .yui3-wedance-score-content {
-    background: rgba(255, 255, 255, 0.2) url(../images/wedance-icon-trackkaraoke.png) no-repeat 105px 0;
+    background: rgba(0, 0, 0, 0.4) url(../images/wedance-icon-trackkaraoke.png) no-repeat 105px 0;
     background-size: 34px;
 }
 .yui3-wedance-score .score {
@@ -170,11 +184,7 @@ input[type="submit"], input[type="reset"] {
     position: absolute;
     top:10px;
     right:10px;
-    border: 1px solid #ED008C;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.4);
     padding:10px;
-    color: white;
     text-align:center;
 }
 .yui3-wedance-joinwidget-hidden {
@@ -232,12 +242,20 @@ input[type="submit"], input[type="reset"] {
     color: black;
     text-shadow: 0px 1px 1px #fff, 0 -1px 1px #000;
 }
+.yui3-wedance-lobby .left .logo {
+    width: 400px;
+    height: 217px;
+    background: url(../images/logo.png) 0px 0px;
+    left: 222px;
+    top: 44px;
+    background-repeat: no-repeat;
+}
 .yui3-wedance-lobby .left .start-game {
     width: 368px;
     height: 86px;
     background: url(../images/nav1.png);
     left: 221px;
-    top: 128px;
+    top: 268px;
 }
 
 .yui3-wedance-lobby .left .join-game {
@@ -245,7 +263,7 @@ input[type="submit"], input[type="reset"] {
     height: 72px;
     background: url(../images/nav2.png);
     left: 281px;
-    top: 217px;
+    top: 357px;
 }
 .yui3-wedance-lobby .left .create-game {
     width: 367px;
@@ -253,14 +271,14 @@ input[type="submit"], input[type="reset"] {
     background: url(../images/nav3.png);
     position: absolute;
     left: 238px;
-    top: 296px;
+    top: 436px;
 }
 .yui3-wedance-lobby .left .watch {
     width: 326px;
     height: 70px;
     background: url(../images/nav4.png);
     left: 295px;
-    top: 385px;
+    top: 525px;
 }
 .yui3-wedance-lobby-content {
     min-height: 724px;
@@ -324,4 +342,18 @@ input[type="submit"], input[type="reset"] {
 
 .yui3-wedance-lobby .yui3-button {
     display:inline-block;
+}
+.yui3-wedance-lobby a {
+    vertical-align: top;
+    margin : 2px 0;
+    padding: 2px;
+    display:block;
+}
+.yui3-wedance-lobby a:hover {
+    box-shadow: 1px 1px 2px #ED008C, -1px -1px 2px #ED008C;
+    background-color: rgba(0,0,0,0.6);
+}
+.yui3-wedance-lobby a img {
+    vertical-align: top;
+    padding-right: 5px;
 }

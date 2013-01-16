@@ -172,7 +172,8 @@ YUI.add('wedance-track', function (Y) {
                 type: Y.wedance.Score,
                 name: "Player 1",
                 score: 1000,
-                id: 123
+                id: 123,
+                track: "karaoke"
             });
         },
 
@@ -245,7 +246,7 @@ YUI.add('wedance-track', function (Y) {
 
             this.anim = new Y.Anim({
                 node: this.get("contentBox"),
-                duration: 0.5,
+                duration: 0.25,
                 direction: 'alternate',
                 iterations: 100000000000000000,                                 // Lot of times
                 //easing: Y.Easing.easeIn,
