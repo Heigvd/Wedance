@@ -4,15 +4,13 @@
 /*
  * @author Francois-Xavier Aeberhard <fx@red-agent.com>
  */
-YUI.add('wedance-filelibrary', function (Y) {
+YUI.add('wedance-filelibrary', function(Y) {
     "use strict";
 
     var Overlay = Y.Base.create("overlay", Y.Widget, [Y.WidgetParent, Y.WidgetPosition, Y.WidgetPositionAlign, Y.WidgetStack]);
 
     var FileLibrary = Y.Base.create("wedance-filelibrary", Y.Widget, [Y.WidgetStdMod, Y.WidgetButtons], {
-
         CONTENT_TEMPLATE: "<div><div class=\"movelibrary\"></div></div>",
-
         renderUI: function() {
             this.scrollView = new Y.ScrollView({
                 srcNode: this.get("contentBox").one(".movelibrary"),
@@ -33,9 +31,9 @@ YUI.add('wedance-filelibrary', function (Y) {
             this.menu.render();
 
             var i, moves = Y.wedance.app.get("tune.pictoLibrary"),
-            cb = this.scrollView.get("contentBox"),
-            menuCb = this.menu.get("contentBox"),
-            fileNode, picto;
+                    cb = this.scrollView.get("contentBox"),
+                    menuCb = this.menu.get("contentBox"),
+                    fileNode, picto;
 
             for (i = 0; i < moves.length; i += 1) {
 
@@ -43,13 +41,11 @@ YUI.add('wedance-filelibrary', function (Y) {
                 picto.render(cb);
 
                 fileNode = picto.get("boundingBox");
-                fileNode.plug(Y.Plugin.Drag);
+                fileNode.plug(Y.Plugin.Drag, {groups: ["picto"]});
                 fileNode.dd.plug(Y.Plugin.DDProxy, {
                     moveOnEnd: false
                 });
-                fileNode.dd.on("*:end", function(e) {
-                    console.log(e);
-                });
+
                 console.log(fileNode);
             }
             //this._uiDimensionsChange();
@@ -102,14 +98,12 @@ YUI.add('wedance-filelibrary', function (Y) {
                 this.uploader.render(this.getStdModNode("header"));
             }, this, 'syncUI');
         },
-
         bindUI: function() {
             this.get("contentBox").one(".movelibrary").delegate("*:mousedown", function(e) {
                 e.halt(true);
             }, ".yui3-wedance-picto");
         },
-
-        showEditPictoPanel: function (picto) {
+        showEditPictoPanel: function(picto) {
             var panel = new Y.Panel({
                 width: 400,
                 height: 460,
@@ -125,9 +119,7 @@ YUI.add('wedance-filelibrary', function (Y) {
 
             return panel;
         },
-
-
-        createPicto: function (cfg) {
+        createPicto: function(cfg) {
             delete cfg.id;
             Y.io(Y.wedance.app.get("base") + "rest/Picto/" + Y.wedance.app.get("tune.id"), {
                 method: "POST",
@@ -141,8 +133,7 @@ YUI.add('wedance-filelibrary', function (Y) {
                 }
             });
         },
-
-        updatePicto: function (cfg, srcWidget) {
+        updatePicto: function(cfg, srcWidget) {
             Y.io(Y.wedance.app.get("base") + "rest/Picto/" + cfg.id, {
                 method: "PUT",
                 headers: {
@@ -155,19 +146,16 @@ YUI.add('wedance-filelibrary', function (Y) {
                 }
             });
         },
-
-        deletePicto: function (cfg) {
+        deletePicto: function(cfg) {
             Y.io(Y.wedance.app.get("base") + "rest/Picto/" + cfg.id, {
                 method: "DELETE"
             });
         },
-
-        onPictoUpdated: function (srcWidget, tId, e) {
+        onPictoUpdated: function(srcWidget, tId, e) {
             srcWidget.setAttrs(Y.JSON.parse(e.response));
             srcWidget.reDraw();
         },
-
-        onPictoAdded: function (tId, e) {
+        onPictoAdded: function(tId, e) {
             var picto = new Y.wedance.Picto(Y.JSON.parse(e.response));
             picto.render(this.scrollView.get("contentBox"));
         }
@@ -176,71 +164,71 @@ YUI.add('wedance-filelibrary', function (Y) {
         ATTRS: {
             buttons: {
                 value: [{
-                    value: 'New',
-                    section: Y.WidgetStdMod.HEADER,
-                    action: function (e) {
-                        var p = this.showEditPictoPanel();
-                        p.addButton({
-                            value: 'Save',
-                            section: Y.WidgetStdMod.FOOTER,
-                            action: Y.bind(function(panel) {
-                                this.createPicto(panel.picto.toObject());
-                                p.destroy();
-                            }, this, p)
-                        });
-                    }
-                }, {
-                    value: 'Webcam',
-                    section: Y.WidgetStdMod.HEADER,
-                    action: function (e) {
-                        webcam.set_api_url('test.php');
-                        webcam.set_quality(90);                                 // JPEG quality (1 - 100)
-                        webcam.set_shutter_sound(true,  Y.wedance.app.get("base") + "lib/jpegcam/htdocs/shutter.mp3"); // play shutter click sound
-                        webcam.set_swf_url(Y.wedance.app.get("base") + "lib/jpegcam/htdocs/webcam.swf");
+                        value: 'New',
+                        section: Y.WidgetStdMod.HEADER,
+                        action: function(e) {
+                            var p = this.showEditPictoPanel();
+                            p.addButton({
+                                value: 'Save',
+                                section: Y.WidgetStdMod.FOOTER,
+                                action: Y.bind(function(panel) {
+                                    this.createPicto(panel.picto.toObject());
+                                    p.destroy();
+                                }, this, p)
+                            });
+                        }
+                    }, {
+                        value: 'Webcam',
+                        section: Y.WidgetStdMod.HEADER,
+                        action: function(e) {
+                            webcam.set_api_url('test.php');
+                            webcam.set_quality(90);                                 // JPEG quality (1 - 100)
+                            webcam.set_shutter_sound(true, Y.wedance.app.get("base") + "lib/jpegcam/htdocs/shutter.mp3"); // play shutter click sound
+                            webcam.set_swf_url(Y.wedance.app.get("base") + "lib/jpegcam/htdocs/webcam.swf");
 
-                        var panel = new Y.Panel({
-                            width: 427,
-                            height: 510,
-                            visible: true,
-                            modal: true,
-                            centered: true,
-                            zIndex: 1
-                        });
-                        panel.setStdModContent("body", webcam.get_html(400, 400));
-                        panel.addButton({
-                            value: 'Take picture',
-                            section: Y.WidgetStdMod.FOOTER,
-                            action: function(e) {
-                                this.counter = 3;
-                                this.getStdModNode("body").append("<div class=\"counter\">" + this.counter + "</div>");
-                                this.timer = Y.later(1000, this, function() {
-                                    this.counter--;
-                                    if (this.counter === 0) {
-                                        webcam.snap();
-                                    } else if (this.counter === -1) {
-                                        this.timer.cancel();
-                                        this.hide();
-                                    /*this.destroy();*/
-                                    } else {
-                                        this.getStdModNode("body").one(".counter").setHTML(this.counter);
-                                    }
-                                }, null, true);
-                            }
-                        });
-                        panel.render();
+                            var panel = new Y.Panel({
+                                width: 427,
+                                height: 510,
+                                visible: true,
+                                modal: true,
+                                centered: true,
+                                zIndex: 1
+                            });
+                            panel.setStdModContent("body", webcam.get_html(400, 400));
+                            panel.addButton({
+                                value: 'Take picture',
+                                section: Y.WidgetStdMod.FOOTER,
+                                action: function(e) {
+                                    this.counter = 3;
+                                    this.getStdModNode("body").append("<div class=\"counter\">" + this.counter + "</div>");
+                                    this.timer = Y.later(1000, this, function() {
+                                        this.counter--;
+                                        if (this.counter === 0) {
+                                            webcam.snap();
+                                        } else if (this.counter === -1) {
+                                            this.timer.cancel();
+                                            this.hide();
+                                            /*this.destroy();*/
+                                        } else {
+                                            this.getStdModNode("body").one(".counter").setHTML(this.counter);
+                                        }
+                                    }, null, true);
+                                }
+                            });
+                            panel.render();
 
-                        webcam.set_hook('onComplete', 'onWebcamUploadComplete');
-                        window.onWebcamUploadComplete = function(msg) {
-                            if (msg.match(/(http\:\/\/\S+)/)) {                 // extract URL out of PHP output
-                                var image_url = RegExp.$1;
-                                Y.log("upload complete " + image_url);
-                                webcam.reset();                                 // reset camera for another shot
-                            } else {
-                                alert("PHP Error: " + msg);
-                            }
-                        };
-                    }
-                }]
+                            webcam.set_hook('onComplete', 'onWebcamUploadComplete');
+                            window.onWebcamUploadComplete = function(msg) {
+                                if (msg.match(/(http\:\/\/\S+)/)) {                 // extract URL out of PHP output
+                                    var image_url = RegExp.$1;
+                                    Y.log("upload complete " + image_url);
+                                    webcam.reset();                                 // reset camera for another shot
+                                } else {
+                                    alert("PHP Error: " + msg);
+                                }
+                            };
+                        }
+                    }]
             }
         }
     });

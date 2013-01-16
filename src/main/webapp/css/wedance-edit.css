@@ -11,6 +11,10 @@
     padding-left: 100px;
     padding-right: 300px;
 }
+.yui3-skin-sam  .yui3-wedance-edit .timelines-content > div > div{
+    width:100%;
+    height: 100%;
+}
 
 .yui3-skin-sam  .yui3-wedance-edit .timelines-labels {
     width: 99px;
@@ -30,7 +34,7 @@
 }
 .yui3-skin-sam  .yui3-wedance-edit .timelines-content {
     overflow-y: hidden;
-    overflow-x: hidden;
+    overflow-x: auto;
     background: white;
     display:inline-block;
     color: black;

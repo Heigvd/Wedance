@@ -4,50 +4,49 @@
 /*
  * @author Francois-Xavier Aeberhard <fx@red-agent.com>
  */
-YUI.add('wedance-video', function (Y) {
+YUI.add('wedance-video', function(Y) {
     "use strict";
 
     var VideoWidget = Y.Base.create("wedance-video", Y.Widget, []);
 
     var Mp3 = Y.Base.create("wedance-mp3", VideoWidget, [], {
-        renderUI: function () {
+        renderUI: function() {
             this.fire("ready");
         },
-        play: function () {
+        play: function() {
         },
-        pause: function () {
+        pause: function() {
         },
-        seekTo: function (seconds, allowSeekAhead) {
+        seekTo: function(seconds, allowSeekAhead) {
         },
-        getCurrentTime: function () {
+        getCurrentTime: function() {
         }
     });
     Y.namespace("wedance").Mp3 = Mp3;
 
     var YoutubeVideo = Y.Base.create("wedance-youtubevideo", VideoWidget, [], {
-
-        renderUI: function () {
+        renderUI: function() {
 
             this.ready = false;
             Y.use("youtubeapi");
 
-            Y.wedance.app.once("youtubeplayerready", function () {
+            Y.wedance.app.once("youtubeplayerready", function() {
                 this.player = new YT.Player(this.get("contentBox").generateID(), {// ref: https://developers.google.com/youtube/youtube_player_demo
                     height: this.get("height"),
                     width: this.get("width"),
                     videoId: this.get("videoId"),
                     suggestedQuality: 'large',
                     playerVars: {
-                        controls: 1,                                            //
-                        ref: 0,                                                 //
-                        showsearch: 0,                                          //
-                        showinfo: 0,                                            //
-                        modestbranding: 1,                                      //
-                        disablekb: 1,                                           // Disable keyboard (AS3, AS2)
-                        fs: 0,                                                  //
+                        controls: 1, //
+                        ref: 0, //
+                        showsearch: 0, //
+                        showinfo: 0, //
+                        modestbranding: 1, //
+                        disablekb: 1, // Disable keyboard (AS3, AS2)
+                        fs: 0, //
                         iv_load_policy: 3                                       // 1: captions, 3: no captions
-                    //hd: 0,                                                //
-                    //autoplay: 1,                                          //
+                                //hd: 0,                                                //
+                                //autoplay: 1,                                          //
                     },
                     events: {
                         'onReady': Y.bind(this.onPlayerReady, this),
@@ -56,29 +55,29 @@ YUI.add('wedance-video', function (Y) {
                 });
             }, this);
 
-        // JS Youtube Api (same as above)
-        //swfobject.embedSWF("http://www.youtube.com/v/KlicJVPIHsE?enablejsapi=1&playerapiid=ytplayer&version=3",
-        //    this.get("contentBox").generateID(), "425", "356", "8", null, null, {
-        //        allowScriptAccess: "always"
-        //    }, {
-        //        id: "myytplayer"
-        //    });
-        //Y.wedance.app.on("youtubeplayerready", function () {
-        //    this.ytplayer = Y.one("#myytplayer").getDOMNode();
-        //    this.ytplayer.addEventListener("onStateChange", Y.bind(this.onStateChange, this));
-        //}, this);
+            // JS Youtube Api (same as above)
+            //swfobject.embedSWF("http://www.youtube.com/v/KlicJVPIHsE?enablejsapi=1&playerapiid=ytplayer&version=3",
+            //    this.get("contentBox").generateID(), "425", "356", "8", null, null, {
+            //        allowScriptAccess: "always"
+            //    }, {
+            //        id: "myytplayer"
+            //    });
+            //Y.wedance.app.on("youtubeplayerready", function () {
+            //    this.ytplayer = Y.one("#myytplayer").getDOMNode();
+            //    this.ytplayer.addEventListener("onStateChange", Y.bind(this.onStateChange, this));
+            //}, this);
         },
-
-        ready: function () {
+        ready: function() {
             return this.ready;
         },
-        onPlayerReady: function () {
+        onPlayerReady: function() {
             Y.log("ready");
             this.ready = true;
             this.fire("ready");
         },
-        onStateChange: function (e) {
-            Y.log("statechange" + e.data);
+        onStateChange: function(e) {
+            Y.log("statechange: " + YoutubeVideo.PLAYER_STATE[e.data]);
+            this.fire("playerStateChange", {state: YoutubeVideo.PLAYER_STATE[e.data]})
             switch (e.data) {
                 case YT.PlayerState.PLAYING:
                     this.fire("play");
@@ -94,20 +93,39 @@ YUI.add('wedance-video', function (Y) {
                     break;
             }
         },
-        play: function () {
+        play: function() {
             this.player.playVideo();
         },
-        pause: function () {
+        pause: function() {
             this.player.pauseVideo();
         },
-        seekTo: function (seconds, allowSeekAhead) {
+        seekTo: function(seconds, allowSeekAhead) {
             this.player.seekTo(seconds, allowSeekAhead || true);
         },
-        getCurrentTime: function () {
+        getCurrentTime: function() {
             if (this.player && this.player.getCurrentTime) {
                 return this.player.getCurrentTime();
-            }else {
+            } else {
                 return 0;
+            }
+        },
+        setCurrentTime: function(time) {
+            if (this.player && this.player.seekTo) {
+                this.player.seekTo(time, true);
+            }
+        },
+        getDuration: function() {
+            if (this.player && this.player.getDuration) {
+                return this.player.getDuration();
+            } else {
+                return -1;
+            }
+        },
+        getStatus: function() {
+            if (this.player && this.player.getPlayerState) {
+                return YoutubeVideo.PLAYER_STATE["" + this.player.getPlayerState()];
+            } else {
+                return "NOT_FOUND";
             }
         }
     }, {
@@ -115,6 +133,14 @@ YUI.add('wedance-video', function (Y) {
             videoId: {
                 value: "xhrBDcQq2DM"
             }
+        },
+        PLAYER_STATE: {
+            "-1": "UNSTARTED",
+            "0": "ENDED",
+            "1": "PLAYING",
+            "2": "PAUSED",
+            "3": "BUFFERING",
+            "4": "VIDEO_CUED"
         }
     });
     Y.namespace("wedance").YoutubeVideo = YoutubeVideo;
