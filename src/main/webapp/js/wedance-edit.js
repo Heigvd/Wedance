@@ -277,7 +277,6 @@ YUI.add('wedance-edit', function(Y) {
             }
 
             this.fileLibrary = new Y.wedance.FileLibrary({
-                width: "300pxpx",
                 height: "300px"
             });
             this.fileLibrary.render(bb.one(".timelines"));

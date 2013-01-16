@@ -24,6 +24,7 @@ YUI.add('wedance-picto', function (Y) {
         },
 
         renderUI: function ()  {
+            var color = "#ED008C";
             switch (this.get("@class")) {
             case "UrlPicto":
                 this.get("boundingBox").setStyles({
@@ -44,11 +45,12 @@ YUI.add('wedance-picto', function (Y) {
                 l = g.addShape({
                     type: "path",
                     stroke: {
-                        weight: 2,
-                        color: "#000"
+                        weight: 3,
+                        linecap: "round",
+                        color: color
                     },
                     fill: {
-                        color: "#f00"
+                        color: color
                     }
                 }),
                 lineTo = function(src, target) {
@@ -63,7 +65,10 @@ YUI.add('wedance-picto', function (Y) {
                     y: data.head[0] - 10,
                     radius: 10,
                     fill: {
-                        color: "#000000"
+                        color: color
+                    },
+                    stroke: {
+                        weight:0
                     }
                 });
                 lineTo(data.head, data.neck);

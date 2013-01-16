@@ -13,10 +13,11 @@ YUI.add('wedance-filelibrary', function(Y) {
     var FileLibrary = Y.Base.create("wedance-filelibrary", Y.Widget, [Y.WidgetStdMod, Y.WidgetButtons], {
         CONTENT_TEMPLATE: "<div><div class=\"movelibrary\"></div></div>",
         renderUI: function() {
+            this.pictos = [];
             this.scrollView = new Y.ScrollView({
                 srcNode: this.get("contentBox").one(".movelibrary"),
                 height: "230px",
-                width: "299px",
+                width: "320px",
                 flick: {
                     minDistance: 10,
                     minVelocity: 0.3
@@ -30,9 +31,7 @@ YUI.add('wedance-filelibrary', function(Y) {
             fileNode, picto;
 
             for (i = 0; i < moves.length; i += 1) {
-
-                picto = new Y.wedance.Picto(moves[i]);
-                picto.render(cb);
+                picto = this.addPictoWidget(moves[i]);
 
                 fileNode = picto.get("boundingBox");
                 fileNode.plug(Y.Plugin.Drag, {
@@ -106,6 +105,7 @@ YUI.add('wedance-filelibrary', function(Y) {
 
                 this.uploader.after("uploadcomplete", function (e) {
                     this.addPictoWidget(Y.JSON.parse(e.data));
+                    this.scrollToBottom();
                 }, this);
 
                 this.uploader.render(this.getStdModNode("header"));
@@ -144,9 +144,13 @@ YUI.add('wedance-filelibrary', function(Y) {
                 on: {
                     success: function(tId, e) {
                         this.addPictoWidget(Y.JSON.parse(e.response));
+                        this.scrollToBottom();
                     }
                 }
             });
+        },
+        scrollToBottom: function () {
+            this.scrollView.scrollTo(null, (Math.round(this.pictos.length/2) -1)* 104);
         },
         updatePicto: function(cfg, srcWidget) {
             Y.io(Y.wedance.app.get("base") + "rest/Picto/" + cfg.id, {
@@ -173,6 +177,8 @@ YUI.add('wedance-filelibrary', function(Y) {
         addPictoWidget: function (cfg) {
             var picto = new Y.wedance.Picto(cfg);
             picto.render(this.scrollView.get("contentBox"));
+            this.pictos.push(picto);
+            return picto;
         }
 
     }, {
@@ -204,6 +210,7 @@ YUI.add('wedance-filelibrary', function(Y) {
                             webcam.set_hook('onComplete', 'onWebcamUploadComplete');
                             window.onWebcamUploadComplete = Y.bind(function(msg) {
                                 this.addPictoWidget(Y.JSON.parse(msg));
+                                this.scrollToBottom();
                             }, this);
 
                             var panel = new Y.Panel({
@@ -236,6 +243,7 @@ YUI.add('wedance-filelibrary', function(Y) {
                                     value  : 'Cancel',
                                     section: 'footer',
                                     action : function (e) {
+                                        webcam.freeze();
                                         e.preventDefault();
                                         this.hide();
                                     }
