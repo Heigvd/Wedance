@@ -10,8 +10,8 @@ YUI.add('wedance-lobby', function (Y) {
     var Lobby = Y.Base.create("wedance-lobby", Y.Widget, [], {
 
         BOUNDING_TEMPLATE: "<div class=\"yui3-g\"><div class=\"yui3-u left\"><ul>"
-        + "<li class=\"start-game\">START A GAME</li>"
-        + "<li class=\"join-game\">JOIN A GAME</li>"
+        + "<li class=\"start-game\">START GAME</li>"
+        + "<li class=\"join-game\">JOIN GAME</li>"
         + "<li class=\"create-game\">CREATE GAME</li>"
         + "<li class=\"watch\">WATCH OTHERS</li>"
         + "</ul></div></div>",
@@ -38,7 +38,7 @@ YUI.add('wedance-lobby', function (Y) {
             bb.one(".watch").on("click", this.showWatch, this);
 
             bb.delegate("click", function () {
-                cb = this.get("contentBox").one(".win").hide();
+                cb = this.get("contentBox").one(".win").addClass("hidden");
             }, ".close", this);
         },
 

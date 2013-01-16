@@ -55,9 +55,6 @@ YUI.add('wedance-edit', function(Y) {
         formatTime: function(val) {
             var min = Math.round(val/60),
             sec = Math.round(val % 60),
-        rightPad: function(val, targetLength) {
-            var i, p = Math.pow(10, targetLength),
-                    output = (Math.round(val * p) / p) + '', left;
             milis = val - sec;
 
             if (sec < 10) {
@@ -65,25 +62,25 @@ YUI.add('wedance-edit', function(Y) {
             }
             return min + ":" + sec;
 
-        //            var i, p = Math.pow(10, targetLength),
-        //            output = (Math.round(val * p) / p) + '', left;
-        //
-        //            if (output.split(".").length === 1) {
-        //                output += ".";
-        //                left = targetLength;
-        //            } else {
-        //                left = targetLength - output.split(".")[1].length;
-        //            }
-        //
-        //            for (i = 0; i < left; i += 1) {
-        //                output += '0';
-        //            }
-        //            return output;
+            //var i, p = Math.pow(10, targetLength),
+            //output = (Math.round(val * p) / p) + '', left;
+            //
+            //if (output.split(".").length === 1) {
+            //    output += ".";
+            //    left = targetLength;
+            //} else {
+            //    left = targetLength - output.split(".")[1].length;
+            //}
+            //
+            //for (i = 0; i < left; i += 1) {
+            //    output += '0';
+            //}
+            //return output;
         }
     });
 
     var Timeline = Y.Base.create("wedance-timeline", Y.Widget, [], {
-        SCROLLVIEWWIDTH: "100%",
+
         initializer: function(cfg) {
             this.dragDelegator = null;
             this.player = cfg.player;
@@ -91,17 +88,17 @@ YUI.add('wedance-edit', function(Y) {
         renderUI: function() {
             var cb = this.get("contentBox");
             this.moves = [];
-            //            this.set("width", this.SCROLLVIEWWIDTH);
-            //            this.scrollView = new Y.ScrollView({
-            //                srcNode: cb.one(".timeline"),
-            //                width: this.SCROLLVIEWWIDTH,
-            //                height: (Y.DOM.winHeight() / 2) - 29,
-            //                flick: {
-            //                    minDistance: 10,
-            //                    minVelocity: 0.3,
-            //                    axis: "y"
-            //                }
-            //            });
+            //this.set("width", this.SCROLLVIEWWIDTH);
+            //this.scrollView = new Y.ScrollView({
+            //    srcNode: cb.one(".timeline"),
+            //    width: this.SCROLLVIEWWIDTH,
+            //    height: (Y.DOM.winHeight() / 2) - 29,
+            //    flick: {
+            //        minDistance: 10,
+            //        minVelocity: 0.3,
+            //        axis: "y"
+            //    }
+            //});
             //this.scrollView.render();
 
             this.menu = new Y.wedance.Overlay({

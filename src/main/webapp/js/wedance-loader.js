@@ -142,8 +142,16 @@ YUI().use(function (Y) {
                     "google-font": {
                         fullpath: "http://fonts.googleapis.com/css?family=Luckiest+Guy&effect=emboss",
                         // fullpath: "http://fonts.googleapis.com/css?family=Rancho&effect=shadow-multiple",
+                        type: "css",
+                        requires: ["google-font-keania"]
+                    },
+                    "google-font-keania": {
+                        //fullpath: "http://fonts.googleapis.com/css?family=Wallpoet",
+                        fullpath: "http://fonts.googleapis.com/css?family=Keania+One",
+                        // fullpath: "http://fonts.googleapis.com/css?family=Rancho&effect=shadow-multiple",
                         type: "css"
                     }
+
                 }
             },
             libraries: {

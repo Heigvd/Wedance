@@ -7,7 +7,7 @@
 
 /* Override default browser styles */
 html {
-    background: white;
+    background: black;
 }
 
 body {
@@ -58,6 +58,10 @@ input[type="submit"], input[type="reset"] {
     text-decoration: underline;
 }
 /* Pictos */
+.yui3-wedance-picto {
+    background-size: 100px 100px;
+    background-repeat: no-repeat;
+}
 
 /* Moves */
 .yui3-wedance-moves .moves-display {
@@ -198,18 +202,21 @@ input[type="submit"], input[type="reset"] {
     background: url(../images/aside-bg.png) repeat-y -30px 0;
 }
 .yui3-wedance-lobby .left li {
-    line-height: 80px;
+    line-height: 66px;
     font-weight: bolder;
-    font-size: 20px;
+    font-size: 39px;
     text-align: center;
-    cursor:pointer;
+    cursor: pointer;
     position: absolute;
+    font-family: 'Keania One', cursive;
+    letter-spacing: -2px;
+    word-spacing: 6px;
 }
 .yui3-wedance-lobby .left .start-game {
     width: 368px;
     height: 86px;
     background: url(../images/nav1.png);
-    left: 222px;
+    left: 221px;
     top: 128px;
 }
 
@@ -217,7 +224,7 @@ input[type="submit"], input[type="reset"] {
     width: 367px;
     height: 72px;
     background: url(../images/nav2.png);
-    left: 282px;
+    left: 281px;
     top: 217px;
 }
 .yui3-wedance-lobby .left .create-game {
@@ -225,28 +232,25 @@ input[type="submit"], input[type="reset"] {
     height: 82px;
     background: url(../images/nav3.png);
     position: absolute;
-    left: 239px;
+    left: 238px;
     top: 296px;
 }
 .yui3-wedance-lobby .left .watch {
     width: 326px;
     height: 70px;
     background: url(../images/nav4.png);
-    left: 296px;
+    left: 295px;
     top: 385px;
 }
 .yui3-wedance-lobby-content {
-    /*    position: absolute;
-        left: 670px;
-   top: 128px;
-    width: 692px;*/
     min-height: 724px;
     font: 13px/22px Arial, Helvetica, sans-serif;
     color: #929292;
     text-transform: uppercase;
     display: inline-block;
     width: 100%;
-    /*    padding-left: 300px;*/
+    background-image: url(../images/bg3.jpg);
+    background-size: 100%;
 }
 
 .yui3-wedance-lobby-content .win {
@@ -276,4 +280,5 @@ input[type="submit"], input[type="reset"] {
     right: 0;
     top: 0;
     padding: 6px 0;
+    cursor: pointer;
 }
