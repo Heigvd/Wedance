@@ -19,12 +19,16 @@
 .yui3-skin-sam  .yui3-wedance-edit .timelines-labels {
     width: 99px;
     margin-left: -100px;
+    margin-top: 12px;
     display:inline-block;
     height:100%;
 }
+.yui3-skin-sam  .yui3-wedance-edit .timelines-labels > div:first-child {
+    border-top: 1px solid gray;
+}
 .yui3-skin-sam  .yui3-wedance-edit .timelines-labels > div {
-    height: 80px;
-    padding: 10px;
+    height: 65px;
+    padding: 35px 10px 0;
     border-bottom: 1px solid gray;
     text-transform: capitalize;
 }
@@ -36,22 +40,37 @@
     color: black;
     position:relative;
     width: 100%;
+    padding-top: 13px;
+    border-left: 1px solid gray;
 }
 
 .yui3-skin-sam .yui3-wedance-edit .timelines .cursor {
     position: absolute;
+    top: 0px;
     height: 100%;
     background: pink;
     z-index: 1;
     background: rgba(0, 0, 0, 0.2);
     pointer-events: none;
     border-right: 1px solid black;
-    border-left: 1px solid gray;
 }
+.yui3-skin-sam .yui3-wedance-edit .timelines .bg {
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    background: url(../images/ruler-horizontal.png) repeat-x;
+    width: 1000000px;
+    font-size: 9px;
+}
+
+.yui3-skin-sam .yui3-wedance-edit .timelines .bg div {
+    display: inline-block;
+    width: 100px;
+}
+
 .yui3-skin-sam .yui3-wedance-edit .timelines .yui3-wedance-timeline {
     position:relative;
     height: 100px;
-    border-bottom: 1px solid gray;
 }
 .yui3-skin-sam .yui3-wedance-edit .yui3-wedance-simplewidget {
     position:absolute;
@@ -61,12 +80,27 @@
     min-width: 50px;
     height:100px;
     border-left: 1px solid gray;
+    cursor: move;
+}
+.yui3-skin-sam .yui3-wedance-edit .yui3-wedance-simplewidget-content {
+    height: 100%;
 }
 
-.yui3-skin-sam .yui3-wedance-edit .yui3-wedance-simplewidget-content{
-    height:100%;
+.yui3-skin-sam .yui3-wedance-edit .yui3-wedance-simplewidget .startl {
+    padding: 1px 2px;
+    width: auto;
+    background: white;
+    font-size: 10px;
+    border: 1px solid gray;
+    border-left: none;
+    position: absolute;
 }
 
+/* Moves timeline styles */
+.yui3-skin-sam .yui3-wedance-karaoketimeline .yui3-wedance-simplewidget span {
+    margin: 17px 2px 0;
+    display: inline-block;
+}
 
 /* File explorer style */
 .yui3-skin-sam .yui3-wedance-filelibrary {
@@ -74,10 +108,14 @@
     right:0;
     background: white;
     margin-right: -300px;
-    width: 300px;
+    width: -299px;
     display:inline-block;
+    border-left:1px solid gray;
 }
 
+.yui3-skin-sam .yui3-wedance-filelibrary .yui3-wedance-picto {
+    position: relative;
+}
 .yui3-skin-sam .yui3-wedance-filelibrary .movelibrary {
     font-style: italic;
     font-size: 9px;
@@ -160,11 +198,12 @@
 .counter {
     z-index: 10;
     position: absolute;
-    top: 215px;
-    left: 200px;
+    top: 172px;
     color: black;
-    font-size: 53px;
+    font-size: 77px;
     font-weight: bolder;
     font-family: 'Luckiest Guy', cursive;
-    text-shadow: 0px 1px 1px #fff, 0 -1px 1px #000;
+    text-shadow: 0px 1px 1px white, 0 -1px 1px black;
+    text-align: center;
+    width: 100%;
 }

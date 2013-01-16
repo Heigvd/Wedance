@@ -4,6 +4,9 @@
 package com.wedance.core.persistence;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -12,26 +15,43 @@ import javax.persistence.Entity;
 @Entity
 public class FilePicto extends Picto {
 
-    private String url;
+    private String mimeType;
+    @Lob
+    @JsonIgnore
+    @XmlTransient
+    private byte[] mdata;
 
     @Override
     public void merge(AbstractEntity other) {
         super.merge(other);
         FilePicto f = (FilePicto) other;
-        this.setUrl(f.getUrl());
     }
 
     /**
-     * @return the url
+     * @return the content
      */
-    public String getUrl() {
-        return url;
+    public byte[] getData() {
+        return mdata;
     }
 
     /**
-     * @param url the url to set
+     * @param content the content to set
      */
-    public void setUrl(String url) {
-        this.url = url;
+    public void setData(byte[] data) {
+        this.mdata = data;
+    }
+
+    /**
+     * @return the mimeType
+     */
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    /**
+     * @param mimeType the mimeType to set
+     */
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
     }
 }

@@ -19,7 +19,8 @@ import org.codehaus.jackson.annotate.JsonSubTypes;
 @Entity
 @JsonSubTypes(value = {
     @JsonSubTypes.Type(name = "FilePicto", value = FilePicto.class),
-    @JsonSubTypes.Type(name = "VectorPicto", value = VectorPicto.class)
+    @JsonSubTypes.Type(name = "VectorPicto", value = VectorPicto.class),
+    @JsonSubTypes.Type(name = "UrlPicto", value = UrlPicto.class)
 })
 public class Picto extends AbstractEntity implements Serializable {
 

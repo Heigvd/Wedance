@@ -39,12 +39,15 @@ public class PictoFacade extends AbstractFacadeImpl<Picto> {
     }
 
     @Override
-    protected EntityManager getEntityManager() {
+    public EntityManager getEntityManager() {
         return this.em;
     }
 
     public void createPicto(@PathParam("tuneId") Long tuneId, Picto p) {
         Tune t = tuneFacade.find(tuneId);
         t.getPictoLibrary().add(p);
+        p.setTune(t);
+        em.flush();
+        em.refresh(p);
     }
 }

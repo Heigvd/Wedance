@@ -24,12 +24,21 @@ YUI.add('wedance-picto', function (Y) {
         },
 
         renderUI: function ()  {
-            if (this.get("url")) {
+            switch (this.get("@class")) {
+            case "UrlPicto":
                 this.get("boundingBox").setStyles({
-                    background: "url(" + Y.wedance.app.get("base") + this.get("url") + ")"
+                    backgroundImage: "url(" + Y.wedance.app.get("base") + this.get("url") + ")"
                 });
-            } else {
-                var l, g = new Y.Graphic({
+                break;
+
+            case "FilePicto":
+                this.get("boundingBox").setStyles({
+                    backgroundImage: "url(" + Y.wedance.app.get("base") + "rest/Picto/Read/" + this.get("id") + ")"
+                });
+                break;
+
+            case "VectorPicto":
+                var g = new Y.Graphic({
                     render: this.get("boundingBox")
                 }),
                 l = g.addShape({
@@ -68,6 +77,8 @@ YUI.add('wedance-picto', function (Y) {
                 lineTo(data.rknee, data.rfoot);
                 lineTo(data.lknee, data.lfoot);
                 l.end();
+                break;
+
             }
         }
     }, {
