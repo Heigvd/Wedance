@@ -112,16 +112,8 @@ YUI.add('wedance-lobby', function (Y) {
                 parentEl: cb,
                 label: 'Search',
                 size: 50,
-
-                // Format the hidden value (value returned by the form)
                 returnValue: function(oResultItem) {
-
-
-                    //                    if (oResultItem.match(/youtube.com/)) {
-                    //                        return oResultItem.match(/www.youtube.com\/watch?v=/);
-                    //                    }
-                    return oResultItem.id.$t.match(/video:(.*)/)[1];
-                    //return oResultItem;
+                    return oResultItem.id.$t.match(/video:(.*)/)[1];            // Format the hidden value (value returned by the form)
                 },
                 autoComp: {// options of the YUI3 autocompleter (see http://developer.yahoo.com/yui/3/autocomplete/#config)
                     //                minQueryLength: 2,

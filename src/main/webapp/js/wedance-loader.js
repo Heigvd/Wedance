@@ -47,7 +47,7 @@ YUI().use(function (Y) {
                     'wedance-controller': {
                         path: 'js/wedance-controller-min.js',
                         requires: ['wedance-app', "base", "widget", "ricekaraoke", "simplekaraokedisplay",
-                        "dom-screen", "io-base", "json", "button"]
+                        "dom-screen", "io-base", "json", "button", "inputex-string"]
                     },
 
                     'wedance-edit': {

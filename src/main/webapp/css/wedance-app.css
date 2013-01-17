@@ -110,7 +110,8 @@ input[type="submit"], input[type="reset"] {
 }
 
 .yui3-wedance-score-content,
-.yui3-wedance-joinwidget {
+.yui3-wedance-joinwidget,
+.wedance-track-title span {
     border: 2px solid #ED008C;
     background-color: rgba(0, 0, 0, 0.4);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80ffffff', endColorstr='#00ffffff', GradientType=0);
@@ -186,14 +187,34 @@ input[type="submit"], input[type="reset"] {
     right:10px;
     padding:10px;
     text-align:center;
+    width: 200px;
 }
 .yui3-wedance-joinwidget-hidden {
     display:none;
+}
+.yui3-wedance-joinwidget .code {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 25px;
+    padding-top: 5px;
+    text-align: center;
 }
 
 /* Track styles */
 .yui3-wedance-track > div {
     position: relative;
+}
+.wedance-track-title {
+    text-align: center;
+}
+.wedance-track-title span {
+    display: inline-block;
+    border-top: 0;
+    padding: 12px 37px 7px;
+    font-size: 24px;
+    font-weight: bolder;
+    margin-top: -7px;
+    font-family: 'Keania One', cursive;
+    letter-spacing: -2px;
 }
 
 
@@ -202,19 +223,29 @@ input[type="submit"], input[type="reset"] {
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-top: -20px;
-    margin-left: -100px;
+    margin-top: -150px;
+    margin-left: -200px;
+    width: 400px;
+    text-align: center;
 }
-
 .yui3-wedance-controller button {
     margin-top: 5px;
     display: block;
-    width: 200px;
+    width:400px;
 }
-
+.yui3-wedance-controller .inputEx-fieldWrapper input {
+    width: 380px;
+    margin-left: 8px;
+}
 .yui3-wedance-controller .descr {
     padding-bottom: 10px;
     text-align:center;
+}
+.yui3-wedance-controller .logo {
+    width: 400px;
+    height: 217px;
+    background: url(../images/logo.png) 0px 0px;
+    background-repeat: no-repeat;
 }
 
 /* Lobby styles */

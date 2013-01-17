@@ -15,7 +15,8 @@
                 YUI().use('wedance-controller', function(Y) {
                     Y.once('domready', function() {                             // When dom is ready,
                         var app = new Y.wedance.App({
-                            instanceId: #{gameController.instance.id},
+                            instanceId: #{(gameController.instance != null)?gameController.instance.id:-1},
+                            tune: #{(gameController.tune != null)?gameController.tune.toJson():"{}"},
                             sessionId: "#{gameController.getSession()}",
                             widgetCfg: {
                                 type: Y.wedance.Controller

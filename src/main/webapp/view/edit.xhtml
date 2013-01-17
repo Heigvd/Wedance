@@ -20,6 +20,7 @@
                             widgetCfg: {
                                 type: Y.wedance.Editor
                             },
+                            sessionId: "#{gameController.getSession()}",
                             tune: #{gameController.getTune().toJson()}
                         });                                                     // launch the app
                         app.render();

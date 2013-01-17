@@ -18,6 +18,7 @@
                             widgetCfg: {
                                 type: Y.wedance.Track
                             },
+                            sessionId: "#{gameController.getSession()}",
                             tune: #{gameController.getTune().toJson()}
                         });                                             // launch the app
                         app.render();

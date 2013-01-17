@@ -12,7 +12,8 @@ YUI.add('wedance-track', function (Y) {
             var url = this.get("url");
 
             this.get("contentBox").setHTML('<img src="' + this.get("qrUrl") + encodeURIComponent(url) + '" />'
-                + '<br />scan this QR or go to<br /><a target="_blank" href="' + url + '">' + url + "</a>");
+                //+ '<br />scan this QR or go to <br /><a target="_blank" href="' + url + '">' + url + "</a>");
+                + '<br />Scan this or go to<br /><a href=\"http://www.onstage-game.com\">onstage-game.com</a> with your mobile and enter the following game code: <div class="code">' + Y.wedance.app.get("instanceId") + "</div>");
         }
     }, {
         ATTRS: {
@@ -171,8 +172,8 @@ YUI.add('wedance-track', function (Y) {
             this.addPlayer({
                 type: Y.wedance.Score,
                 name: "Player 1",
-                score: 1000,
-                id: 123,
+                score: 0,
+                id: Y.wedance.app.get("sessionId"),
                 track: "karaoke"
             });
         },
@@ -269,6 +270,8 @@ YUI.add('wedance-track', function (Y) {
 
     var Track = Y.Base.create("wedance-track", Y.Widget, [], {
 
+        CONTENT_TEMPLATE: "<div><div class=\"wedance-track-title\"><span></span></div></div>",
+
         renderUI: function () {
             var k, m, c, s, cb = this.get("contentBox");
 
@@ -303,6 +306,8 @@ YUI.add('wedance-track', function (Y) {
 
             s = new Scores();                                                   // Render scores display (contains on Y.Wedance.Score per player)
             s.render(cb);
+
+            cb.one(".wedance-track-title span").append(Y.wedance.app.get("tune.name"));
         },
 
         bindUI: function () {

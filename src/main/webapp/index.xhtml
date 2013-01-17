@@ -9,16 +9,20 @@
 
         <ui:define name="body">
             <script type="text/javascript">
-                var Y = YUI().use('wedance-lobby', function(Y) {
-                    Y.once('domready', function() {                             // When dom is ready,
-                        var app = new Y.wedance.App({
-                            widgetCfg: {
-                                type: Y.wedance.Lobby
-                            }
-                        });                                                     // launch the app
-                        app.render();
+                if (YUI().UA.mobile) {
+                    window.location = "#{ExternalContext.getRealPath()}/view/controller.html"
+                } else {
+                    YUI().use('wedance-lobby', function(Y) {
+                        Y.once('domready', function() {                             // When dom is ready,
+                            var app = new Y.wedance.App({
+                                widgetCfg: {
+                                    type: Y.wedance.Lobby
+                                }
+                            });                                                     // launch the app
+                            app.render();
+                        });
                     });
-                });
+                }
             </script>
         </ui:define>
     </ui:composition>
