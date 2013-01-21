@@ -1,20 +1,17 @@
-/*
+/**
  * Wedance
  */
 package com.wedance.core.persistence;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlID;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
  *
@@ -35,9 +32,22 @@ public class Instance extends AbstractEntity {
      *
      */
     @ManyToOne
+    @JsonIgnore
     private Tune tune;
+    /*
+     *
+     */
+    @OneToMany(mappedBy = "instance", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @JsonManagedReference
+    private List<WSession> sessions = new ArrayList<>();
+    /**
+     *
+     */
     @Temporal(TemporalType.TIMESTAMP)
     private Date creation;
+    /**
+     *
+     */
     @Temporal(TemporalType.TIMESTAMP)
     private Date mupdate;
 
@@ -112,5 +122,19 @@ public class Instance extends AbstractEntity {
      */
     public void setMupdate(Date mupdate) {
         this.mupdate = mupdate;
+    }
+
+    /**
+     * @return the sessions
+     */
+    public List<WSession> getSessions() {
+        return sessions;
+    }
+
+    /**
+     * @param sessions the sessions to set
+     */
+    public void setSessions(List<WSession> sessions) {
+        this.sessions = sessions;
     }
 }

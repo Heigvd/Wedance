@@ -8,3 +8,4 @@ target/**
 *.ear
 *Thumbs.db
 /src/main/webapp/fla/cirrus_app_article_assets_update5/.settings/
+/src/main/webapp/fla/.settings/

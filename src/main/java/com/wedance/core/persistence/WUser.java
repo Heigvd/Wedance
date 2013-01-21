@@ -6,23 +6,14 @@ package com.wedance.core.persistence;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlID;
-import javax.xml.bind.annotation.XmlTransient;
-import org.codehaus.jackson.annotate.JsonBackReference;
-import org.codehaus.jackson.annotate.JsonSubTypes;
 
 /**
  *
  * @author Francois-Xavier Aeberhard <fx@red-agent.com>
  */
 @Entity
-@JsonSubTypes(value = {
-    @JsonSubTypes.Type(name = "FilePicto", value = FilePicto.class),
-    @JsonSubTypes.Type(name = "VectorPicto", value = VectorPicto.class),
-    @JsonSubTypes.Type(name = "UrlPicto", value = UrlPicto.class)
-})
-public class Picto extends AbstractEntity {
+public class WUser extends AbstractEntity {
 
     /**
      *
@@ -34,19 +25,12 @@ public class Picto extends AbstractEntity {
     /**
      *
      */
-    @ManyToOne
-    @XmlTransient
-    @JsonBackReference
-    public Tune tune;
-    /**
-     *
-     */
     private String name;
 
     /**
      *
      */
-    public Picto() {
+    public WUser() {
     }
 
     /**
@@ -55,7 +39,7 @@ public class Picto extends AbstractEntity {
      */
     @Override
     public void merge(AbstractEntity other) {
-        Picto p = (Picto) other;
+        WUser p = (WUser) other;
         this.setName(p.getName());
     }
 
@@ -88,19 +72,4 @@ public class Picto extends AbstractEntity {
         this.name = name;
     }
 
-    /**
-     * @return the tune
-     */
-    @JsonBackReference
-    public Tune getTune() {
-        return tune;
-    }
-
-    /**
-     * @param tune the tune to set
-     */
-    @JsonBackReference
-    public void setTune(Tune tune) {
-        this.tune = tune;
-    }
 }

@@ -259,6 +259,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                     <excludes>
                         <exclude>lib/ace/**</exclude>
                         <exclude>lib/crafty/**</exclude>

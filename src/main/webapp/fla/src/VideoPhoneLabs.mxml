@@ -1,17 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-
-	ADOBE SYSTEMS INCORPORATED
-	Copyright 2008-2011 Adobe Systems Incorporated
-	All Rights Reserved.
-
-	NOTICE: Adobe permits you to use, modify, and distribute this file
-	in accordance with the terms of the license agreement accompanying it.
-	
-	Author: Jozsef Vass
--->
-	
-<!-- Adobe labs limit width to 520 pixels. -->
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="init()" backgroundColor="0xffffff" width="520" height="630">
@@ -22,15 +9,13 @@
 			import mx.charts.chartClasses.StackedSeries;
 			import mx.collections.ArrayList;
 			import mx.formatters.DateFormatter;
+			import mx.core.FlexGlobals;
 			
-			// rtmfp server address (Adobe Cirrus or FMS)
-			[Bindable] private var connectUrl:String = "rtmfp://p2p.rtmfp.net";
-
-			// developer key, please insert your developer key here
-			private const DeveloperKey:String = "70de68cdd7ac5908088a13fe-8781407d3e62";
 			
-			// please insert your web service URL here for exchanging peer ID
-			private const WebServiceUrl:String = "http://localhost:8080/Wedance/rest/connect";
+			[Bindable] private var connectUrl:String = "rtmfp://p2p.rtmfp.net";						// rtmfp server address (Adobe Cirrus or FMS)
+			private const DeveloperKey:String = "70de68cdd7ac5908088a13fe-8781407d3e62";			// developer key
+			
+			private var  WebServiceUrl:String = "http://localhost:8080/rest/Instance/";
 	
 			// this is the connection to rtmfp server
 			private var netConnection:NetConnection;	
@@ -118,7 +103,10 @@
 			// called when application is loaded            		
 			private function init():void
 			{		
-				status("Player: " + Capabilities.version + "\n");
+				WebServiceUrl += FlexGlobals.topLevelApplication.parameters["instanceId"] + "/RegisterCirrus";
+					
+					status("Player: " + Capabilities.version + "\n");
+				
 				
 				currentState = LoginNotConnected;
 				

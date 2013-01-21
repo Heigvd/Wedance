@@ -14,12 +14,13 @@
                 YUI().use('wedance-track', function(Y) {
                     Y.once('domready', function() {                             // When dom is ready,
                         app = new Y.wedance.App({
-                            instanceId: #{gameController.instance.id},
                             widgetCfg: {
                                 type: Y.wedance.Track
                             },
-                            sessionId: "#{gameController.getSession()}",
-                            tune: #{gameController.getTune().toJson()}
+                            instanceId: #{gameController.instance.id},
+                            instance: #{gameController.instance.toJson()},
+                            sessionId: "#{gameController.session}",
+                            tune: #{gameController.tune.toJson()}
                         });                                             // launch the app
                         app.render();
                     });

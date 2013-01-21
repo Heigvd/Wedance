@@ -8,7 +8,7 @@
         <ui:define name="title">Edit</ui:define>
 
         <ui:define name="head">
-            <link rel="stylesheet" type="text/css" href="#{ExternalContext.getRealPath()}/css/wedance-edit.css" />
+            <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/wedance-edit.css" />
         </ui:define>¨
 
         <ui:define name="body">
@@ -16,12 +16,13 @@
                 var Y = YUI().use('wedance-edit', function(Y) {
                     Y.once('domready', function() {                             // When dom is ready,
                         var app = new Y.wedance.App({
-                            instanceId: #{gameController.instance.id},
                             widgetCfg: {
                                 type: Y.wedance.Editor
                             },
-                            sessionId: "#{gameController.getSession()}",
-                            tune: #{gameController.getTune().toJson()}
+                            instanceId: #{gameController.instance.id},
+                            instance: #{gameController.instance.toJson()},
+                            sessionId: "#{gameController.session}",
+                            tune: #{gameController.tune.toJson()}
                         });                                                     // launch the app
                         app.render();
                     });

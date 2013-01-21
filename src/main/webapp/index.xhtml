@@ -10,7 +10,7 @@
         <ui:define name="body">
             <script type="text/javascript">
                 if (YUI().UA.mobile) {
-                    window.location = "#{ExternalContext.getRealPath()}/view/controller.html"
+                    window.location = "#{request.contextPath}/view/controller.html"
                 } else {
                     YUI().use('wedance-lobby', function(Y) {
                         Y.once('domready', function() {                             // When dom is ready,

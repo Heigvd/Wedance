@@ -19,12 +19,13 @@ YUI().use(function (Y) {
                         requires: ["base", "widget", "pusher", "google-font","datatype-date" ]
                     },
 
+                    /* Player UI */
                     'wedance-track': {
                         path: 'js/wedance-track-min.js',
                         requires: ['wedance-app', "base", "widget", "ricekaraoke", "simplekaraokedisplay",
                         "dom-screen", "io-base", "json", "wedance-movedisplay",
                         "widget-parent", "widget-child", "plugin",
-                        "wedance-video", "wedance-picto"]
+                        "wedance-video", "wedance-picto", 'wedance-score']
                     },
                     'wedance-picto': {
                         path: 'js/wedance-picto-min.js',
@@ -37,19 +38,26 @@ YUI().use(function (Y) {
                     'wedance-video': {
                         path: 'js/wedance-video-min.js'
                     },
+                    'wedance-score': {
+                        path: 'js/wedance-score-min.js',
+                        requires: ['swf']
+                    },
 
+                    /* Lobby */
                     'wedance-lobby': {
                         path: 'js/wedance-lobby-min.js',
                         requires: ["wedance-app", "button", "io", "json",
                             'autocomplete', 'autocomplete-highlighters', 'datasource-get', "inputex-autocomplete"]
                     },
 
+                    /* Controller UI */
                     'wedance-controller': {
                         path: 'js/wedance-controller-min.js',
                         requires: ['wedance-app', "base", "widget", "ricekaraoke", "simplekaraokedisplay",
                         "dom-screen", "io-base", "json", "button", "inputex-string"]
                     },
 
+                    /* Editor UI */
                     'wedance-edit': {
                         path: 'js/wedance-edit-min.js',
                         requires: ["wedance-track", "wedance-filelibrary", "resize-plugin", "panel",
