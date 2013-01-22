@@ -11,7 +11,7 @@ YUI.add('wedance-edit', function(Y) {
         CONTENT_TEMPLATE: "<div><div class=\"startl\">0:00</div></div>",
         renderUI: function() {
             var acc = [], i, cb = this.get("contentBox"),
-                    line = this.get("data.line");
+            line = this.get("data.line");
 
             this.set("width", (this.get("data.end") - this.get("data.start")) * 100);
 
@@ -62,20 +62,20 @@ YUI.add('wedance-edit', function(Y) {
             }
             return min + ":" + sec;
 
-            //var i, p = Math.pow(10, targetLength),
-            //output = (Math.round(val * p) / p) + '', left;
-            //
-            //if (output.split(".").length === 1) {
-            //    output += ".";
-            //    left = targetLength;
-            //} else {
-            //    left = targetLength - output.split(".")[1].length;
-            //}
-            //
-            //for (i = 0; i < left; i += 1) {
-            //    output += '0';
-            //}
-            //return output;
+        //var i, p = Math.pow(10, targetLength),
+        //output = (Math.round(val * p) / p) + '', left;
+        //
+        //if (output.split(".").length === 1) {
+        //    output += ".";
+        //    left = targetLength;
+        //} else {
+        //    left = targetLength - output.split(".")[1].length;
+        //}
+        //
+        //for (i = 0; i < left; i += 1) {
+        //    output += '0';
+        //}
+        //return output;
         }
     });
 
@@ -110,7 +110,7 @@ YUI.add('wedance-edit', function(Y) {
             this.menu.get("contentBox").setHTML("<div class=\"icon-delete\"></div>");
             this.menu.get("contentBox").one(".icon-delete").on("click", function() {
                 // TODO
-            }, this);
+                }, this);
 
             cb.delegate("mouseenter", function(e) {
                 this.menu.show();
@@ -145,33 +145,24 @@ YUI.add('wedance-edit', function(Y) {
             for (i = 0; i < timings.length; i += 1) {
                 t = timings[i];
                 t.index = i;
-
-                w = new SimpleWidget({
-                    data: t,
-                    plugins: [{
-                            fn: Y.Plugin.Resize,
-                            cfg: {
-                                handles: "r"
-                            }
-                        }]
+                w = this.addTimelineItem({
+                    data: t
                 });
-                w.resize.on("resize:resize", this.onMoveResize, this);
-                w.render(cb);
-                //                w.get("boundingBox").plug(Y.Plugin.Drop);
-                //                w.get("boundingBox").drop.addTarget(this);
+                //w.get("boundingBox").plug(Y.Plugin.Drop);
+                //w.get("boundingBox").drop.addTarget(this);
                 this.moves.push(w);
             }
 
-            //this.scrollView._uiDimensionsChange();
+        //this.scrollView._uiDimensionsChange();
         },
         bindUI: function() {
             this.dragDelegator.on("drag:drag", function(e) {
                 //console.log(e);
-            });
+                });
             this.dragDelegator.on("drag:end", function(e) {
                 var widget = Y.Widget.getByNode(e.target.get("node")),
-                        data = widget.get("data"),
-                        duration = data.end - data.start;
+                data = widget.get("data"),
+                duration = data.end - data.start;
                 data.start = (e.pageX - this.get("boundingBox").getX()) / 100;
                 widget.set("data.start", data.start);
                 widget.set("data.end", data.start + duration);
@@ -179,28 +170,20 @@ YUI.add('wedance-edit', function(Y) {
 
             this.get("boundingBox").drop.on("drop:hit", function(e) {
                 var data,
-                        picto_id = e.drag.get("node").get("id"),
-                        start = this.height2Time(e.drag.lastXY[0] - e.drop.region[0]),
-                        end = start + 1;
+                picto_id = e.drag.get("node").get("id"),
+                start = this.height2Time(e.drag.lastXY[0] - e.drop.region[0]),
+                end = start + 1;
 
-                data = {
+                this.addTimelineItem({
                     start: start,
                     end: end,
-                    line: [{text: picto_id}]
-                };
-                new SimpleWidget({
-                    render: this.get("contentBox"),
-                    data: data,
-                    plugins: [{
-                            fn: Y.Plugin.Resize,
-                            cfg: {
-                                handles: "r"
-                            }
-                        }]
+                    line: [{
+                        text: picto_id
+                    }]
                 });
-//                var drag = e.drag.get('node'),
-//                        drop = e.drop.get('node');
-//                e.drop.get('node').get('parentNode').insertBefore(drag, drop);
+            //                var drag = e.drag.get('node'),
+            //                        drop = e.drop.get('node');
+            //                e.drop.get('node').get('parentNode').insertBefore(drag, drop);
             }, this);
             //
             //            this.get("contentBox").drop.on("drop:hit", function(e) {
@@ -216,17 +199,24 @@ YUI.add('wedance-edit', function(Y) {
         },
         onMoveResize: function(e) {
             var i, m, w = e.currentTarget.get("widget"),
-                    offset = -w.get("data.end") + w.get("data.start") + this.height2Time(w.get("height"));
+            offset = -w.get("data.end") + w.get("data.start") + this.height2Time(w.get("height"));
             //   console.log(offset);
 
             //            w.set("data.end", w.get("data.start") + this.height2Time(w.get("height")));
 
             for (i = w.get("data.index") + 1; i < this.moves.length; i += 1) {
                 m = this.moves[i];
-                //                m.set("data.start", m.get("data.start") + offset);
-                //                m.set("data.end", m.get("data.end") + offset);
+            //                m.set("data.start", m.get("data.start") + offset);
+            //                m.set("data.end", m.get("data.end") + offset);
             }
 
+        },
+        addTimelineItem: function (data) {
+            var w = new SimpleWidget({
+                data: data
+            });
+            w.render(this.get("contentBox"));
+            return w;
         },
         height2Time: function(height) {
             return height / 100;
@@ -239,8 +229,8 @@ YUI.add('wedance-edit', function(Y) {
             currentTime: {
                 getter: function() {
                     var p = this.get("player"),
-                            t = (p.player && p.player.getCurrentTime) ?
-                            this.get("player").getCurrentTime() : this.i * this.get("rate");
+                    t = (p.player && p.player.getCurrentTime) ?
+                    this.get("player").getCurrentTime() : this.i * this.get("rate");
 
                     this.i = this.i + 1;
                     return t - this.get("delay");
@@ -253,13 +243,22 @@ YUI.add('wedance-edit', function(Y) {
     var MovesTimeline = Y.Base.create("wedance-movestimeline", Y.wedance.Timeline, [], {});
     Y.namespace('wedance').MovesTimeline = MovesTimeline;
 
-    var KaraokeTimeline = Y.Base.create("wedance-karaoketimeline", Y.wedance.Timeline, [], {});
+    var KaraokeTimeline = Y.Base.create("wedance-karaoketimeline", Y.wedance.Timeline, [], {
+
+        addTimelineItem: function(data) {
+            var w = KaraokeTimeline.superclass.addTimelineItem.apply(this, arguments);
+            w.plug(Y.Plugin.Resize, {
+                handles: "r"
+            });
+            return w;
+        }
+    });
     Y.namespace('wedance').KaraokeTimeline = KaraokeTimeline;
 
     var Editor = Y.Base.create("wedance-edit", Y.wedance.Track, [], {
         renderUI: function() {
             var bb = this.get("boundingBox"),
-                    i, tracks = Y.wedance.app.get("tune.tracks");
+            i, tracks = Y.wedance.app.get("tune.tracks");
 
             Editor.superclass.renderUI.apply(this, arguments);
             this.player.set("height", Y.DOM.winHeight() - 260);
@@ -270,7 +269,7 @@ YUI.add('wedance-edit', function(Y) {
             bb.append("<div class=\"timelines yui3-g\"><div class=\"timelines-labels yui3-u\"></div><div class=\"timelines-content yui3-u\"><div class=\"cursor\"></div><div class=\"bg yui3-g\"></div></div></div>");
             bb.one(".timelines-content").setStyles({
                 height: 260
-                        //                height: tracks.length * 100 + 20
+            //                height: tracks.length * 100 + 20
             });
             for (i = 0; i < tracks.length; i += 1) {
                 this.renderTrack(tracks[i]);
@@ -310,8 +309,8 @@ YUI.add('wedance-edit', function(Y) {
         },
         step: function() {
             var t = this.player.getCurrentTime(),
-                    playerState = this.player.getStatus(),
-                    bb = this.get("boundingBox");
+            playerState = this.player.getStatus(),
+            bb = this.get("boundingBox");
             if (playerState !== "PLAYING") {
                 return;
             }
@@ -320,7 +319,7 @@ YUI.add('wedance-edit', function(Y) {
         },
         renderTrack: function(trackCfg) {
             var w,
-                    bb = this.get("boundingBox");
+            bb = this.get("boundingBox");
 
             trackCfg.player = this.player;
 

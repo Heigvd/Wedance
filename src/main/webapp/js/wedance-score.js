@@ -13,7 +13,7 @@ YUI.add('wedance-score', function (Y) {
 
         renderUI: function () {
 
-            this.swf = new Y.SWF(this.get("contentBox").one(".video-player"), Y.wedance.app.get("base") + "fla/bin-debug/VideoPhoneLabs.swf", {
+            this.swf = new Y.SWF(this.get("contentBox").one(".video-player"), Y.wedance.app.get("base") + "fla/bin-debug/Webcam.swf", {
                 version: "10.2.0",
                 fixedAttributes: {
                     allowScriptAccess:"always",                                 // always, sameDomain
