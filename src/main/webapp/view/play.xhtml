@@ -10,10 +10,10 @@
 
         <ui:define name="body">
             <script type="text/javascript">
-                var app;
+
                 YUI().use('wedance-tune', function(Y) {
                     Y.once('domready', function() {                             // When dom is ready,
-                        app = new Y.wedance.App({
+                        var app = new Y.wedance.App({
                             widgetCfg: {
                                 type: Y.wedance.Tune
                             },
@@ -25,14 +25,6 @@
                         app.render();
                     });
                 });
-
-                function onYouTubeIframeAPIReady() {                            // Youtube Iframe api callback
-                    app.fire("youtubeplayerready");
-                }
-
-                //function onYouTubePlayerReady(id) {                           // Youtube Js Api callback
-                //    app.fire("youtubeplayerready");
-                //}
             </script>
         </ui:define>
     </ui:composition>

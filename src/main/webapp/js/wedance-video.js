@@ -7,9 +7,7 @@
 YUI.add('wedance-video', function(Y) {
     "use strict";
 
-    var VideoWidget = Y.Base.create("wedance-video", Y.Widget, []);
-
-    var Mp3 = Y.Base.create("wedance-mp3", VideoWidget, [], {
+    var VideoWidget = Y.Base.create("wedance-video", Y.Widget, [], {
         renderUI: function() {
             this.fire("ready");
         },
@@ -22,61 +20,68 @@ YUI.add('wedance-video', function(Y) {
         getCurrentTime: function() {
         }
     });
+
+    var Mp3 = Y.Base.create("wedance-mp3", VideoWidget, [], {});
+
     Y.namespace("wedance").Mp3 = Mp3;
 
     var YoutubeVideo = Y.Base.create("wedance-youtubevideo", VideoWidget, [], {
         renderUI: function() {
-            this.ready = false;
-            Y.use("youtubeapi");
+            if (window.YT) {
+                Y.on("domready", this.initPlayer, this);
+            } else {
+                Y.log("Youtube api not available", "error", "Y.wedance.YoutubeVideo");
+                window.onYouTubeIframeAPIReady = Y.bind(this.initPlayer, this); // Youtube Iframe Api
+                // window.onYouTubePlayerReady = Y.bind(this.initPlayer, this);    // Youtube Js Api
+            }
+        },
 
-            Y.wedance.app.once("youtubeplayerready", function() {
-                this.player = new YT.Player(this.get("contentBox").generateID(), {// ref: https://developers.google.com/youtube/youtube_player_demo
-                    height: this.get("height"),
-                    width: this.get("width"),
-                    videoId: this.get("videoId"),
-                    suggestedQuality: 'large',
-                    playerVars: {
-                        controls: 1, //
-                        ref: 0, //
-                        showsearch: 0, //
-                        showinfo: 0, //
-                        modestbranding: 1, //
-                        disablekb: 1, // Disable keyboard (AS3, AS2)
-                        fs: 0, //
-                        iv_load_policy: 3                                       // 1: captions, 3: no captions
-                                //hd: 0,                                                //
-                                //autoplay: 1,                                          //
-                    },
-                    events: {
-                        'onReady': Y.bind(this.onPlayerReady, this),
-                        'onStateChange': Y.bind(this.onStateChange, this)
-                    }
-                });
-            }, this);
+        initPlayer: function () {
+            // Iframe Youtube Api
+            // ref: https://developers.google.com/youtube/youtube_player_demo
+            this.player = new YT.Player(this.get("contentBox").generateID(), {
+                height: this.get("height"),
+                width: this.get("width"),
+                videoId: this.get("videoId"),
+                suggestedQuality: 'large',
+                playerVars: {
+                    controls: 1, //
+                    ref: 0, //
+                    showsearch: 0, //
+                    showinfo: 0, //
+                    modestbranding: 1, //
+                    disablekb: 1, // Disable keyboard (AS3, AS2)
+                    fs: 0, //
+                    iv_load_policy: 3                                       // 1: captions, 3: no captions
+                //hd: 0,                                                //
+                //autoplay: 1,                                          //
+                },
+                events: {
+                    'onReady': Y.bind(function () {
+                        this.fire("ready");
+                    }, this),
+                    'onStateChange': Y.bind(this.onStateChange, this)
+                }
+            });
 
-            // JS Youtube Api (same as above)
-            //swfobject.embedSWF("http://www.youtube.com/v/KlicJVPIHsE?enablejsapi=1&playerapiid=ytplayer&version=3",
-            //    this.get("contentBox").generateID(), "425", "356", "8", null, null, {
-            //        allowScriptAccess: "always"
-            //    }, {
-            //        id: "myytplayer"
-            //    });
-            //Y.wedance.app.on("youtubeplayerready", function () {
-            //    this.ytplayer = Y.one("#myytplayer").getDOMNode();
-            //    this.ytplayer.addEventListener("onStateChange", Y.bind(this.onStateChange, this));
-            //}, this);
+        // JS Youtube Api (same as above)
+        //swfobject.embedSWF("http://www.youtube.com/v/" +this.get("videoId") + "?enablejsapi=1&playerapiid=ytplayer&version=3",
+        //    this.get("contentBox").generateID(), "425", "356", "8", null, null, {
+        //        allowScriptAccess: "always"
+        //    }, {
+        //        id: "myytplayer"
+        //    });
+        //Y.wedance.app.on("youtubeplayerready", function () {
+        //    this.ytplayer = Y.one("#myytplayer").getDOMNode();
+        //    this.ytplayer.addEventListener("onStateChange", Y.bind(this.onStateChange, this));
+        //}, this);
         },
-        ready: function() {
-            return this.ready;
-        },
-        onPlayerReady: function() {
-            Y.log("ready");
-            this.ready = true;
-            this.fire("ready");
-        },
+        
         onStateChange: function(e) {
             Y.log("statechange: " + YoutubeVideo.PLAYER_STATE[e.data]);
-            this.fire("playerStateChange", {state: YoutubeVideo.PLAYER_STATE[e.data]})
+            this.fire("playerStateChange", {
+                state: YoutubeVideo.PLAYER_STATE[e.data]
+            })
             switch (e.data) {
                 case YT.PlayerState.PLAYING:
                     this.fire("play");

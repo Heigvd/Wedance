@@ -17,7 +17,7 @@ YUI().use(function (Y) {
                     /* Base app */
                     'wedance-app': {
                         path: 'js/wedance-app-min.js',
-                        requires: ["widget", "datatype-date", "io-base", "json",
+                        requires: ["base", "widget", "datatype-date", "io-base", "json",
                         "pusher", "google-font"]
                     },
 
@@ -26,7 +26,7 @@ YUI().use(function (Y) {
                         path: 'js/wedance-tune-min.js',
                         requires: ['wedance-app', "wedance-movedisplay", "wedance-video",
                         'wedance-score', "wedance-p2pcam",
-                        "dom-screen", "widget-parent", "widget-child",
+                        "dom-screen", "plugin",
                         "simplekaraokedisplay"]
                     },
                     'wedance-picto': {
@@ -47,7 +47,7 @@ YUI().use(function (Y) {
                     },
                     'wedance-score': {
                         path: 'js/wedance-score-min.js',
-                        requires: ["anim"]
+                        requires: ["anim", "widget-parent", "widget-child"]
                     },
 
                     /* Lobby */
