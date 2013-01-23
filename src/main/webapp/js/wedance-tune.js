@@ -4,7 +4,7 @@
 /*
  * @author Francois-Xavier Aeberhard <fx@red-agent.com>
  */
-YUI.add('wedance-track', function (Y) {
+YUI.add('wedance-tune', function (Y) {
     "use strict";
 
     var JoinWidget = Y.Base.create("wedance-joinwidget", Y.Widget, [], {
@@ -44,7 +44,9 @@ YUI.add('wedance-track', function (Y) {
         }
     }, {
         ATTRS: {
+            "@class": {},
             player: {},
+            id: {},
             content: {},
             timings: {
                 getter: function () {
@@ -147,9 +149,9 @@ YUI.add('wedance-track', function (Y) {
     });
     Y.namespace('wedance').Cursor = Cursor;
 
-    var Track = Y.Base.create("wedance-track", Y.Widget, [], {
+    var Tune = Y.Base.create("wedance-tune", Y.Widget, [], {
 
-        CONTENT_TEMPLATE: "<div><div class=\"wedance-track-title\"><span></span></div></div>",
+        CONTENT_TEMPLATE: "<div><div class=\"wedance-tune-title\"><span></span></div></div>",
 
         renderUI: function () {
             var k, m, c, s, cb = this.get("contentBox");
@@ -186,7 +188,7 @@ YUI.add('wedance-track', function (Y) {
             s = new Y.wedance.Scores();                                                   // Render scores display (contains on Y.Wedance.Score per player)
             s.render(cb);
 
-            cb.one(".wedance-track-title span").append(Y.wedance.app.get("tune.name"));
+            cb.one(".wedance-tune-title span").append(Y.wedance.app.get("tune.name"));
         },
 
         bindUI: function () {
@@ -194,5 +196,5 @@ YUI.add('wedance-track', function (Y) {
         }
     });
 
-    Y.namespace('wedance').Track = Track;
+    Y.namespace('wedance').Tune = Tune;
 });

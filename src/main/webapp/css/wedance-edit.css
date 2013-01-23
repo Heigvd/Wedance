@@ -17,6 +17,7 @@
     margin-top: 12px;
     display:inline-block;
     height:100%;
+    background: #383838;
 }
 .yui3-skin-sam  .yui3-wedance-edit .timelines-labels > div:first-child {
     border-top: 1px solid gray;
@@ -74,7 +75,6 @@
     overflow: hidden;
     min-width: 50px;
     height:100px;
-    border-left: 1px solid gray;
     cursor: move;
 }
 .yui3-skin-sam .yui3-wedance-edit .yui3-wedance-simplewidget-content {
@@ -93,9 +93,24 @@
 }
 
 /* Moves timeline styles */
+
+.yui3-skin-sam .yui3-wedance-movestimeline.yui3-dd-drop-active-valid {
+    background: #383838;
+}
+.yui3-skin-sam .yui3-wedance-movestimeline.yui3-dd-drop-over {
+    background: gray;
+}
+/* Karaoke timeline styles */
+.yui3-skin-sam .yui3-wedance-karaoketimeline .yui3-wedance-simplewidget {
+    border: 1px solid gray;
+    border-right: 1px solid gray;
+    background: #383838;
+}
 .yui3-skin-sam .yui3-wedance-karaoketimeline .yui3-wedance-simplewidget span {
     margin: 17px 2px 0;
     display: inline-block;
+    cursor:text;
+    padding: 2px;
 }
 
 /* File explorer style */
@@ -119,6 +134,7 @@
 .yui3-skin-sam .yui3-wedance-filelibrary .movelibrary > div {
     display:inline-block;
     margin:2px;
+    cursor: move;
 }
 
 .yui3-skin-sam .yui3-wedance-filelibrary .yui3-uploader {
@@ -204,4 +220,5 @@
 .yui3-pictoplumb {
     border:none;
     background: none;
+    box-shadow: none;
 }

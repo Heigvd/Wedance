@@ -10,19 +10,6 @@ YUI.add('wedance-picto', function (Y) {
     var Picto = Y.Base.create("wedance-picto", Y.Widget, [], {
         CONTENT_TEMPLATE: null,
 
-        toObject: function () {
-            var i,ret = {}, filter = ["id", "@class", "url", "content", "name"];
-            for (i = 0; i < filter.length; i += 1) {
-                ret[filter[i]] = this.get(filter[i]);
-            }
-            return ret;
-        },
-
-        reDraw: function () {
-            this.get("boundingBox").empty();
-            this.renderUI();
-        },
-
         renderUI: function ()  {
             var color = "#ED008C";
             switch (this.get("@class")) {
@@ -85,7 +72,30 @@ YUI.add('wedance-picto', function (Y) {
                 break;
 
             }
+        },
+
+        bindUI: function () {
+            Y.on("pictoUpdated", function (e) {
+                if (this.get("id") === e.picto.id) {
+                    this.setAttrs(e.picto);
+                    this.reDraw();
+                }
+            }, this);
+        },
+
+        reDraw: function () {
+            this.get("boundingBox").empty();
+            this.renderUI();
+        },
+
+        toObject: function () {
+            var i,ret = {}, filter = ["id", "@class", "url", "content", "name"];
+            for (i = 0; i < filter.length; i += 1) {
+                ret[filter[i]] = this.get(filter[i]);
+            }
+            return ret;
         }
+
     }, {
         ATTRS: {
             "@class": {},

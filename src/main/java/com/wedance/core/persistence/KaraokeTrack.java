@@ -28,6 +28,8 @@ public class KaraokeTrack extends Track {
     @Override
     public void merge(AbstractEntity other) {
         super.merge(other);
+        KaraokeTrack k = (KaraokeTrack)other;
+        this.setContent(k.getContent());
     }
 
     /**

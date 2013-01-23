@@ -14,6 +14,9 @@ YUI.add('wedance-pictoplumb', function (Y) {
         renderUI: function() {
             window.jsPlumb.ready(Y.bind(this.onJsPlumbReady, this));
         },
+        reDraw: function () {
+            // Gotcha
+        },
 
         toObject: function () {
             var i, n, data = Y.JSON.parse(this.get("content")), ret = {},
@@ -103,7 +106,6 @@ YUI.add('wedance-pictoplumb', function (Y) {
             },
             content: {
                 value: "{\"head\": [25, 50],\"neck\": [40, 50],\"ass\": [65, 50],\"lfoot\": [90, 40],\"rfoot\": [90, 60],\"lhand\": [70, 35],\"rhand\": [70, 65],\"lelbow\": [57, 43],\"relbow\": [57, 57],\"lknee\": [70, 40],\"rknee\": [70, 60]}"
-
             }
         }
     });

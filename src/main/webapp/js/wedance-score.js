@@ -12,7 +12,6 @@ YUI.add('wedance-score', function (Y) {
         //CONTENT_TEMPLATE: "<div><div>Name: <span class=\"name\"></span></div><div>Score: <span class=\"score\"></span></div></div>",    // 2 lines, w/ labels
 
         renderUI: function () {
-
             this.swf = new Y.SWF(this.get("contentBox").one(".video-player"), Y.wedance.app.get("base") + "fla/bin-debug/Webcam.swf", {
                 version: "10.2.0",
                 fixedAttributes: {

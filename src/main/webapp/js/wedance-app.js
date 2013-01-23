@@ -14,10 +14,6 @@ YUI.add('wedance-app', function (Y) {
 
     App = Y.Base.create("wedance-app", Y.Base, [], {
 
-        destructor: function () {
-            this.pusher.disconnect();
-        },
-
         /**
          * @methodOf Y.Wedance.App#
          * @name render
@@ -25,7 +21,26 @@ YUI.add('wedance-app', function (Y) {
          */
         render: function () {
             Y.wedance.app = this;
+            this.initPusher();
+            var w = this.create(this.get("widgetCfg"));                         // Render the widget
+            w.render();
 
+            Y.on("pictoUpdated", function (e) {
+                var p = this.findPicto(e.picto.id);
+                if (p) {
+                    Y.mix(p, e.picto, true);
+                }
+            }, this);
+
+            Y.on("pictoAdded", function (e) {
+                this.get("tune.pictoLibrary").push(e.picto);
+            }, this);
+        },
+        destructor: function () {
+            this.pusher.disconnect();
+        },
+
+        initPusher: function () {
             try {
                 Pusher.log = Y.log;
                 //Pusher.channel_auth_endpoint = 'pusher_auth.php';
@@ -54,12 +69,7 @@ YUI.add('wedance-app', function (Y) {
             } catch (e) {
                 Y.log("Unable to initialize pusher", "error");
             }
-
-            var w = this.create(this.get("widgetCfg"));                         // Render the widget
-            w.render();
-
         },
-
         triggerPusher: function (evt, data) {
             Y.log("triggerPusherEvent");
             //data.uid = "roooooger";

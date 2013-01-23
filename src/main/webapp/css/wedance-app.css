@@ -1,5 +1,9 @@
 /**
  * We Dance
+ *
+ * darkgray: #191919
+ * pink: #ED008C
+ *
 */
 /*
  * @author Francois-Xavier Aeberhard <fx@red-agent.com>
@@ -111,7 +115,7 @@ input[type="submit"], input[type="reset"] {
 
 .yui3-wedance-score-content,
 .yui3-wedance-joinwidget,
-.wedance-track-title span {
+.wedance-tune-title span {
     border: 2px solid #ED008C;
     background-color: rgba(0, 0, 0, 0.4);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80ffffff', endColorstr='#00ffffff', GradientType=0);
@@ -199,14 +203,14 @@ input[type="submit"], input[type="reset"] {
     text-align: center;
 }
 
-/* Track styles */
-.yui3-wedance-track > div {
+/* Tune styles */
+.yui3-wedance-tune > div {
     position: relative;
 }
-.wedance-track-title {
+.wedance-tune-title {
     text-align: center;
 }
-.wedance-track-title span {
+.wedance-tune-title span {
     display: inline-block;
     border-top: 0;
     padding: 12px 37px 7px;

@@ -11,11 +11,11 @@
         <ui:define name="body">
             <script type="text/javascript">
                 var app;
-                YUI().use('wedance-track', function(Y) {
+                YUI().use('wedance-tune', function(Y) {
                     Y.once('domready', function() {                             // When dom is ready,
                         app = new Y.wedance.App({
                             widgetCfg: {
-                                type: Y.wedance.Track
+                                type: Y.wedance.Tune
                             },
                             instanceId: #{gameController.instance.id},
                             instance: #{gameController.instance.toJson()},

@@ -20,8 +20,8 @@ YUI().use(function (Y) {
                     },
 
                     /* Player UI */
-                    'wedance-track': {
-                        path: 'js/wedance-track-min.js',
+                    'wedance-tune': {
+                        path: 'js/wedance-tune-min.js',
                         requires: ['wedance-app', "base", "widget", "ricekaraoke", "simplekaraokedisplay",
                         "dom-screen", "io-base", "json", "wedance-movedisplay",
                         "widget-parent", "widget-child", "plugin",
@@ -60,8 +60,9 @@ YUI().use(function (Y) {
                     /* Editor UI */
                     'wedance-edit': {
                         path: 'js/wedance-edit-min.js',
-                        requires: ["wedance-track", "wedance-filelibrary", "resize-plugin", "panel",
+                        requires: ["wedance-tune", "wedance-filelibrary", "resize-plugin", "panel",
                         "widget-position", "widget-stack", "widget-position-align",
+                        "inputex-textarea", "event-outside",
                         "dd-plugin", "dd-proxy", "dd-delegate", "dd-drop-plugin", "dd-constrain", "dd-scroll", "dd-drop"]
                     },
                     'wedance-filelibrary': {
