@@ -26,7 +26,6 @@ YUI.add('wedance-video', function(Y) {
 
     var YoutubeVideo = Y.Base.create("wedance-youtubevideo", VideoWidget, [], {
         renderUI: function() {
-
             this.ready = false;
             Y.use("youtubeapi");
 

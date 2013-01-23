@@ -9,7 +9,7 @@ YUI.add('wedance-p2pcam', function (Y) {
     var P2PCam = Y.Base.create("wedance-score", Y.Widget, [Y.WidgetChild], {
 
         renderUI: function () {
-            this.swf = new Y.SWF(this.get("contentBox").one(".video-player"), Y.wedance.app.get("base") + "fla/bin-debug/Webcam.swf", {
+            this.swf = new Y.SWF(this.get("contentBox").one(".video-player"), Y.wedance.app.get("base") + "fla/bin-debug/Viewer.swf", {
                 version: "10.2.0",
                 fixedAttributes: {
                     allowScriptAccess:"always",                                 // always, sameDomain

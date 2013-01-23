@@ -83,7 +83,7 @@ YUI.add('wedance-tune', function (Y) {
     });
     Y.namespace('wedance').Karaoke = Karaoke;
 
-    var KaraokePlayer = Y.Base.create("wedance-karaokeplayer", Y.wedance.Karaoke, [], {});
+    var KaraokePlayer = Y.Base.create("wedance-karaokeplayer", Karaoke, [], {});
 
     var Moves = Y.Base.create("wedance-moves", Karaoke, [], {}, {
         ATTRS: {

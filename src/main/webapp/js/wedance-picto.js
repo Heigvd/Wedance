@@ -13,63 +13,63 @@ YUI.add('wedance-picto', function (Y) {
         renderUI: function ()  {
             var color = "#ED008C";
             switch (this.get("@class")) {
-            case "UrlPicto":
-                this.get("boundingBox").setStyles({
-                    backgroundImage: "url(" + Y.wedance.app.get("base") + this.get("url") + ")"
-                });
-                break;
+                case "UrlPicto":
+                    this.get("boundingBox").setStyles({
+                        backgroundImage: "url(" + Y.wedance.app.get("base") + this.get("url") + ")"
+                    });
+                    break;
 
-            case "FilePicto":
-                this.get("boundingBox").setStyles({
-                    backgroundImage: "url(" + Y.wedance.app.get("base") + "rest/Picto/Read/" + this.get("id") + ")"
-                });
-                break;
+                case "FilePicto":
+                    this.get("boundingBox").setStyles({
+                        backgroundImage: "url(" + Y.wedance.app.get("base") + "rest/Picto/Read/" + this.get("id") + ")"
+                    });
+                    break;
 
-            case "VectorPicto":
-                var g = new Y.Graphic({
-                    render: this.get("boundingBox")
-                }),
-                l = g.addShape({
-                    type: "path",
-                    stroke: {
-                        weight: 3,
-                        linecap: "round",
-                        color: color
+                case "VectorPicto":
+                    var g = new Y.Graphic({
+                        render: this.get("boundingBox")
+                    }),
+                    l = g.addShape({
+                        type: "path",
+                        stroke: {
+                            weight: 3,
+                            linecap: "round",
+                            color: color
+                        },
+                        fill: {
+                            color: color
+                        }
+                    }),
+                    lineTo = function(src, target) {
+                        l.moveTo(src[1], src[0]);
+                        l.lineTo(target[1], target[0]);
                     },
-                    fill: {
-                        color: color
-                    }
-                }),
-                lineTo = function(src, target) {
-                    l.moveTo(src[1], src[0]);
-                    l.lineTo(target[1], target[0]);
-                },
-                data = Y.JSON.parse(this.get("content"));
+                    data = Y.JSON.parse(this.get("content"));
 
-                g.addShape({
-                    type: "circle",
-                    x: data.head[1] - 10,
-                    y: data.head[0] - 10,
-                    radius: 10,
-                    fill: {
-                        color: color
-                    },
-                    stroke: {
-                        weight:0
-                    }
-                });
-                lineTo(data.head, data.neck);
-                lineTo(data.neck, data.ass);
-                lineTo(data.neck, data.lelbow);
-                lineTo(data.neck, data.relbow);
-                lineTo(data.lelbow, data.lhand);
-                lineTo(data.relbow, data.rhand);
-                lineTo(data.ass, data.rknee);
-                lineTo(data.ass, data.lknee);
-                lineTo(data.rknee, data.rfoot);
-                lineTo(data.lknee, data.lfoot);
-                l.end();
-                break;
+                    g.addShape({
+                        type: "circle",
+                        x: data.head[1] - 10,
+                        y: data.head[0] - 10,
+                        radius: 10,
+                        fill: {
+                            color: color
+                        },
+                        stroke: {
+                            weight:0
+                        }
+                    });
+                    lineTo(data.head, data.neck);
+                    lineTo(data.neck, data.ass);
+                    lineTo(data.neck, data.lelbow);
+                    lineTo(data.neck, data.relbow);
+                    lineTo(data.lelbow, data.lhand);
+                    lineTo(data.relbow, data.rhand);
+                    lineTo(data.ass, data.rknee);
+                    lineTo(data.ass, data.lknee);
+                    lineTo(data.rknee, data.rfoot);
+                    lineTo(data.lknee, data.lfoot);
+                    l.end();
+                    break;
 
             }
         },
@@ -111,4 +111,5 @@ YUI.add('wedance-picto', function (Y) {
         }
     });
     Y.namespace("wedance").Picto = Picto;
+    
 });

@@ -14,18 +14,20 @@ YUI().use(function (Y) {
                 base: './',
                 root: '/',
                 modules: {
+                    /* Base app */
                     'wedance-app': {
                         path: 'js/wedance-app-min.js',
-                        requires: ["base", "widget", "pusher", "google-font","datatype-date" ]
+                        requires: ["widget", "datatype-date", "io-base", "json",
+                        "pusher", "google-font"]
                     },
 
                     /* Player UI */
                     'wedance-tune': {
                         path: 'js/wedance-tune-min.js',
-                        requires: ['wedance-app', "base", "widget", "ricekaraoke", "simplekaraokedisplay",
-                        "dom-screen", "io-base", "json", "wedance-movedisplay",
-                        "widget-parent", "widget-child", "plugin",
-                        "wedance-video", "wedance-picto", 'wedance-score']
+                        requires: ['wedance-app', "wedance-movedisplay", "wedance-video",
+                        'wedance-score', "wedance-p2pcam",
+                        "dom-screen", "widget-parent", "widget-child",
+                        "simplekaraokedisplay"]
                     },
                     'wedance-picto': {
                         path: 'js/wedance-picto-min.js',
@@ -33,47 +35,54 @@ YUI().use(function (Y) {
                     },
                     'wedance-movedisplay': {
                         path: 'js/wedance-movedisplay-min.js',
-                        requires: ["widget", "anim", "ricekaraoke"]
+                        requires: ["widget", "anim", "ricekaraoke", "wedance-picto"]
                     },
                     'wedance-video': {
-                        path: 'js/wedance-video-min.js'
+                        path: 'js/wedance-video-min.js',
+                        requires: ["youtubeapi"]
+                    },
+                    'wedance-p2pcam': {
+                        path: 'js/wedance-video-min.js',
+                        requires: ["swf"]
                     },
                     'wedance-score': {
                         path: 'js/wedance-score-min.js',
-                        requires: ['swf']
+                        requires: ["anim"]
                     },
 
                     /* Lobby */
                     'wedance-lobby': {
                         path: 'js/wedance-lobby-min.js',
-                        requires: ["wedance-app", "button", "io", "json",
-                            'autocomplete', 'autocomplete-highlighters', 'datasource-get', "inputex-autocomplete"]
+                        requires: ["wedance-app",
+                        "button", 'autocomplete', 'autocomplete-highlighters', 'datasource-get',
+                        "inputex-autocomplete"]
                     },
 
                     /* Controller UI */
                     'wedance-controller': {
                         path: 'js/wedance-controller-min.js',
-                        requires: ['wedance-app', "base", "widget", "ricekaraoke", "simplekaraokedisplay",
-                        "dom-screen", "io-base", "json", "button", "inputex-string"]
+                        requires: ['wedance-app', "button", "inputex-string"]
                     },
 
                     /* Editor UI */
                     'wedance-edit': {
                         path: 'js/wedance-edit-min.js',
-                        requires: ["wedance-tune", "wedance-filelibrary", "resize-plugin", "panel",
+                        requires: ["wedance-tune", "wedance-filelibrary",
+                        "resize-plugin", "panel", "event-outside",
                         "widget-position", "widget-stack", "widget-position-align",
-                        "inputex-textarea", "event-outside",
-                        "dd-plugin", "dd-proxy", "dd-delegate", "dd-drop-plugin", "dd-constrain", "dd-scroll", "dd-drop"]
+                        "dd-plugin", "dd-proxy", "dd-delegate", "dd-drop-plugin", "dd-constrain", "dd-scroll", "dd-drop",
+                        "inputex-textarea"]
                     },
                     'wedance-filelibrary': {
                         path: 'js/wedance-filelibrary-min.js',
-                        requires: ["scrollview", "panel", "scrollview",
+                        requires: ["wedance-picto", 'wedance-pictoplumb',
+                        "button", "uploader", "scrollview", "panel", "scrollview",
                         "widget-position", "widget-stack", "widget-position-align",
-                        "jsplumb-yui-all", "jpegcam", "button", "uploader", 'wedance-pictoplumb']
+                        "jsplumb-yui-all", "jpegcam",]
                     },
                     'wedance-pictoplumb': {
                         path: 'js/wedance-pictoplumb-min.js',
-                        requires: ["jsplumb-yui-all"]
+                        requires: ["wedance-picto", "jsplumb-yui-all"]
                     }
                 }
             },
@@ -199,7 +208,7 @@ YUI().use(function (Y) {
                     },
                     'simplekaraokedisplay': {
                         path: "ricekaraoke/simplekaraokedisplay.js",
-                        requires: ["jquery-ui"]
+                        requires: ["jquery-ui", "ricekaraoke"]
                     },
                     'jquery': {
                         path: "jquery/jquery.min.js"

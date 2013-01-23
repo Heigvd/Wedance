@@ -10,7 +10,8 @@ YUI.add('wedance-app', function (Y) {
     var App, pusherAppId = '10827',
     pusherAuthKey = '9d4eb6ada84f3af3c77f',
     pusherSecretKey = 'c0ecc6aa74215d03cc22',
-    Lang = Y.Lang;
+    Lang = Y.Lang,
+    pusherChannelPrefix = "game-";
 
     App = Y.Base.create("wedance-app", Y.Base, [], {
 
@@ -20,19 +21,19 @@ YUI.add('wedance-app', function (Y) {
          * @description render function
          */
         render: function () {
-            Y.wedance.app = this;
-            this.initPusher();
-            var w = this.create(this.get("widgetCfg"));                         // Render the widget
-            w.render();
+            Y.wedance.app = this;                                               // Set up global reference to the app object
+            this.initPusher();                                                  // Init pusher
+            this.create(this.get("widgetCfg")).render();                        // Render the widget
 
-            Y.on("pictoUpdated", function (e) {
+
+            Y.on("pictoUpdated", function (e) {                                 // When a picto is updated, update all references
                 var p = this.findPicto(e.picto.id);
                 if (p) {
                     Y.mix(p, e.picto, true);
                 }
             }, this);
 
-            Y.on("pictoAdded", function (e) {
+            Y.on("pictoAdded", function (e) {                                   // When a picto is added, add it to library
                 this.get("tune.pictoLibrary").push(e.picto);
             }, this);
         },
@@ -47,7 +48,6 @@ YUI.add('wedance-app', function (Y) {
 
                 this.pusher = new Pusher(pusherAuthKey);
 
-
                 this.pusher.connection.bind('error', function (err) {
                     console.log("Pusher error", err);
                     if (err.data && err.data.code === 4004) {
@@ -55,16 +55,13 @@ YUI.add('wedance-app', function (Y) {
                     }
                 });
 
-                //this.channel = pusher.subscribe(pusherChannelPrefix + Y.wedance.app.get("instanceId"));
-                this.channel = this.pusher.subscribe("game-" + Y.wedance.app.get("instanceId"));
+                this.channel = this.pusher.subscribe(pusherChannelPrefix + Y.wedance.app.get("instanceId"));
 
                 this.channel.bind('pusher:subscription_succeeded', Y.bind(function (status) {
                     Y.log("Connected to pusher channel.");
-                //Y.one(".logger").append("c");
-                //Y.wedance.app.triggerPusherEvent('client-connection', {});
                 }, this));
                 this.channel.bind('pusher:subscription_error', function (status) {
-                    alert('Error subscribing to pusher channel.');
+                    Y.log('Error subscribing to pusher channel.' + status, "error");
                 });
             } catch (e) {
                 Y.log("Unable to initialize pusher", "error");
@@ -82,22 +79,6 @@ YUI.add('wedance-app', function (Y) {
             });
         },
 
-        create: function (config) {
-            var child, Fn, type = config.childType || config.type;
-
-            if (type) {
-                Fn = Lang.isString(type) ? Y.wedance[type] || Y[type] : type;
-            }
-
-            if (Lang.isFunction(Fn)) {
-                child = new Fn(config);
-            } else {
-                Y.log("Could not create a child widget because its constructor is either undefined or invalid(" + type + ").", "error", "wedance.App");
-            }
-
-            return child;
-        },
-
         findPicto: function (id) {
             var i, ps = this.get("tune.pictoLibrary");
             for (i = 0; i < ps.length; i += 1) {
@@ -107,7 +88,6 @@ YUI.add('wedance-app', function (Y) {
             }
             return null;
         },
-
         findTrack: function (name) {
             var i, data = this.get("tune.tracks");
             for (i = 0; i < data.length; i += 1) {
@@ -116,6 +96,20 @@ YUI.add('wedance-app', function (Y) {
                 }
             }
             return null;
+        },
+
+        create: function (config) {
+            var child, Fn, type = config.childType || config.type;
+            if (type) {
+                Fn = Lang.isString(type) ? Y.wedance[type] || Y[type] : type;
+            }
+            if (Lang.isFunction(Fn)) {
+                child = new Fn(config);
+            } else {
+                Y.log("Unable to create widget with type:" + type + ").", "error", "wedance.App");
+            }
+
+            return child;
         }
 
     }, {
@@ -154,6 +148,6 @@ YUI.add('wedance-app', function (Y) {
             }
         }
     });
-
     Y.namespace('wedance').App = App;
+
 });
