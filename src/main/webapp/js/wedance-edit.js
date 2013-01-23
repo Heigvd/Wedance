@@ -15,10 +15,11 @@ YUI.add('wedance-edit', function(Y) {
 
             this.set("width", (this.get("data.end") - this.get("data.start")) * 100);
 
-            if (Y.Lang.isNumber(+line[0].text)) {                            // 1st case: line is a picto
+            if (Y.Lang.isNumber(+line[0].text)) {                               // 1st case: line is a picto
                 this.picto = new Y.wedance.Picto(Y.wedance.app.findPicto(+line[0].text));
                 this.picto.render(cb);
-            } else {                                                        // 2nd case: line is a text
+
+            } else {                                                            // 2nd case: line is a text
                 for (i = 0; i < line.length; i += 1) {
                     acc.push(line[i].text);
                 }
@@ -217,11 +218,6 @@ YUI.add('wedance-edit', function(Y) {
                 });
                 this.save();
             }, this);
-        //this.get("contentBox").drop.on("drop:hit", function(e) {
-        //    var drag = e.drag.get('node'),
-        //    drop = e.drop.get('node');
-        //    e.drop.get('node').append(drag);
-        //});
         }
     });
     Y.namespace('wedance').MovesTimeline = MovesTimeline;
@@ -323,7 +319,7 @@ YUI.add('wedance-edit', function(Y) {
             bb.append("<div class=\"timelines yui3-g\"><div class=\"timelines-labels yui3-u\"></div><div class=\"timelines-content yui3-u\"><div class=\"cursor\"></div><div class=\"bg yui3-g\"></div></div></div>");
             bb.one(".timelines-content").setStyles({
                 height: 260
-            //                height: tracks.length * 100 + 20
+            //  height: tracks.length * 100 + 20
             });
             for (i = 0; i < tracks.length; i += 1) {
                 this.renderTrack(tracks[i]);
@@ -359,6 +355,7 @@ YUI.add('wedance-edit', function(Y) {
             }, this);
 
         },
+
         step: function() {
             var t = this.player.getCurrentTime(),
             playerState = this.player.getStatus(),
@@ -369,22 +366,11 @@ YUI.add('wedance-edit', function(Y) {
             bb.one(".cursor").setStyle("width", t * 100);
             bb.one(".timelines-content").getDOMNode().scrollLeft = t * 100 - Y.DOM.winWidth() / 2 + 100;
         },
+
         renderTrack: function(trackCfg) {
             var w, bb = this.get("boundingBox");
 
             trackCfg.player = this.player;
-
-            //var d = Y.JSON.parse(trackCfg.content),
-            //dod = function (x) {
-            //    return Math.round((x+3.1)*100)/100;
-            //};
-            //for (var i=0;i<d.length;i+=1) {
-            //    d[i][0] = dod(d[i][0]);
-            //    d[i][1] = dod(d[i][1]);
-            //}
-            //console.log(trackCfg.content);
-            //trackCfg.content = Y.JSON.stringify(d);
-            //console.log(Y.JSON.stringify(d).replace(/\"/g, "\\\""));
 
             switch (trackCfg.name) {
                 case "moves":
@@ -397,6 +383,18 @@ YUI.add('wedance-edit', function(Y) {
             }
             w.render(bb.one(".timelines-content"));
             bb.one(".timelines-labels").append("<div>" + trackCfg.name + "</div>");
+
+            //var d = Y.JSON.parse(trackCfg.content),
+            //dod = function (x) {
+            //    return Math.round((x+3.1)*100)/100;
+            //};
+            //for (var i=0;i<d.length;i+=1) {
+            //    d[i][0] = dod(d[i][0]);
+            //    d[i][1] = dod(d[i][1]);
+            //}
+            //console.log(trackCfg.content);
+            //trackCfg.content = Y.JSON.stringify(d);
+            //console.log(Y.JSON.stringify(d).replace(/\"/g, "\\\""));
         }
     });
     Y.namespace('wedance').Editor = Editor;

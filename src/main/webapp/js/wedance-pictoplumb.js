@@ -11,11 +11,9 @@ YUI.add('wedance-pictoplumb', function (Y) {
 
         resizeFactor: 4,
 
-        renderUI: function() {
+        syncUI: function() {
+            this.updateHandler.detach();
             window.jsPlumb.ready(Y.bind(this.onJsPlumbReady, this));
-        },
-        reDraw: function () {
-            // Gotcha
         },
 
         toObject: function () {
@@ -24,7 +22,7 @@ YUI.add('wedance-pictoplumb', function (Y) {
             for (i in data) {
                 n = bb.one("." + i);
                 ret[i] = [+n.getStyle("top").replace("px", "") / this.resizeFactor,
-                    +n.getStyle("left").replace("px", "") / this.resizeFactor ];
+                +n.getStyle("left").replace("px", "") / this.resizeFactor ];
             }
             this.set("content", Y.JSON.stringify(ret));
 

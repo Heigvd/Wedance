@@ -23,12 +23,12 @@ YUI.add('wedance-movedisplay', function (Y) {
     }
     Y.namespace("wedance").MovesDisplayEngine = MovesDisplayEngine;
     /**
- * Gets a display for a particular numbered karaoke line. This is called by
- * the RiceKaraoke object primarily.
- *
- * @param {Number} displayIndex
- * @return {MovesDisplay}
- */
+    * Gets a display for a particular numbered karaoke line. This is called by
+    * the RiceKaraoke object primarily.
+    *
+    * @param {Number} displayIndex
+    * @return {MovesDisplay}
+    */
     MovesDisplayEngine.prototype.getDisplay = function(displayIndex) {
         return this._displays[displayIndex];
     };

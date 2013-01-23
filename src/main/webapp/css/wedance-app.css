@@ -191,10 +191,14 @@ input[type="submit"], input[type="reset"] {
     right:10px;
     padding:10px;
     text-align:center;
-    width: 200px;
+    width: 340px;
 }
 .yui3-wedance-joinwidget-hidden {
     display:none;
+}
+.yui3-wedance-joinwidget img {
+    float:left;
+    margin-right: 10px;
 }
 .yui3-wedance-joinwidget .code {
     font-family: 'Luckiest Guy', cursive;

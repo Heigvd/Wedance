@@ -19,7 +19,8 @@ YUI.add('wedance-tune', function (Y) {
         ATTRS: {
             url: {},
             qrUrl: {
-                value: "http://chart.apis.google.com/chart?cht=qr&chs=170x170&chld=Q&choe=UTF-8&chl="
+                //value: "http://chart.apis.google.com/chart?cht=qr&chs=130x130&chld=Q&choe=UTF-8&chl="
+                value: "http://qrickit.com/api/qr?fgdcolor=ED008C&bgdcolor=1d1d1d&qrsize=100&t=p&e=m&d="
             }
         }
     });

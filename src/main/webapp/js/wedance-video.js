@@ -32,13 +32,12 @@ YUI.add('wedance-video', function(Y) {
             } else {
                 Y.log("Youtube api not available", "error", "Y.wedance.YoutubeVideo");
                 window.onYouTubeIframeAPIReady = Y.bind(this.initPlayer, this); // Youtube Iframe Api
-                // window.onYouTubePlayerReady = Y.bind(this.initPlayer, this);    // Youtube Js Api
+                // window.onYouTubePlayerReady = Y.bind(this.initPlayer, this); // Youtube Js Api
             }
         },
 
         initPlayer: function () {
-            // Iframe Youtube Api
-            // ref: https://developers.google.com/youtube/youtube_player_demo
+            // Iframe Youtube Api (ref: https://developers.google.com/youtube/youtube_player_demo)
             this.player = new YT.Player(this.get("contentBox").generateID(), {
                 height: this.get("height"),
                 width: this.get("width"),
@@ -76,7 +75,7 @@ YUI.add('wedance-video', function(Y) {
         //    this.ytplayer.addEventListener("onStateChange", Y.bind(this.onStateChange, this));
         //}, this);
         },
-        
+
         onStateChange: function(e) {
             Y.log("statechange: " + YoutubeVideo.PLAYER_STATE[e.data]);
             this.fire("playerStateChange", {
