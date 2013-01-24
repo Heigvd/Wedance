@@ -115,6 +115,7 @@ input[type="submit"], input[type="reset"] {
 
 .yui3-wedance-score-content,
 .yui3-wedance-joinwidget,
+.yui3-wedance-p2pcam,
 .wedance-tune-title span {
     border: 2px solid #ED008C;
     background-color: rgba(0, 0, 0, 0.4);
@@ -205,6 +206,15 @@ input[type="submit"], input[type="reset"] {
     font-size: 25px;
     padding-top: 5px;
     text-align: center;
+}
+
+/* P2P Cam styles */
+.yui3-wedance-p2pcam {
+    position: absolute;
+    top:10;
+    right:10px;
+    min-width: 360px;
+    width:640px;
 }
 
 /* Tune styles */

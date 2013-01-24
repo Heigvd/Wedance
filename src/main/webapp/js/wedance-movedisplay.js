@@ -7,11 +7,11 @@
 YUI.add('wedance-movedisplay', function (Y) {
 
     function MovesDisplayEngine(containerID, numLines) {
-        var i, elm = document.getElementById(containerID);
+        var i, elm = Y.one("#"+containerID);
         if (!elm) {
             throw new Exception("Can't find element #" + containerID);
         }
-        this._container = jQuery(elm);
+        this._container = elm;
         this._displays = [];
 
         // We create a "display" element for each line of karaoke. In terms of
@@ -45,31 +45,16 @@ YUI.add('wedance-movedisplay', function (Y) {
  */
     function MovesDisplay(engine, container, displayIndex) {
         this.type = RiceKaraokeShow.TYPE_KARAOKE;
-
         this._engine = engine;
 
-        // Create display
-        this._display = jQuery(document.createElement('div'));
-        //this._display.attr('id', 'karaoke-display-' + displayIndex);
-        //this._display.attr('class', 'moves-display');
+        container.append("<div><div class=\"moves-display\"></div></div>");
 
-        // Will contain the karaoke line / regular text
-        this._element = jQuery(document.createElement('div'));
-        this._element.attr('class', 'moves-display');
-        this._display.append(this._element);
-
-        container.append(this._display);
-
-        // Empty overlay
-        this._overlay = null;
-
-        // Set the initial class and clear the display
-        this._currentCSSClass = null;
-        this._setClass();
-        this.clear();
-
-        this.moves = {};
-        this.lastLine = -1;
+        this.picto = new Y.wedance.Picto();
+        this.picto.render(container.one(".moves-display"));
+        this.picto.get("boundingBox").setStyles({
+            top: 0,
+            left: 9999 // far
+        });
     }
 
     /**
@@ -113,10 +98,10 @@ YUI.add('wedance-movedisplay', function (Y) {
  *
  */
     MovesDisplay.prototype._removeOverlay = function() {
-        if (this._overlay != null) {
-            this._overlay.remove();
-            this._overlay = null;
-        }
+    //        if (this._overlay != null) {
+    //            this._overlay.remove();
+    //            this._overlay = null;
+    //        }
     };
 
     /**
@@ -124,9 +109,10 @@ YUI.add('wedance-movedisplay', function (Y) {
  *
  */
     MovesDisplay.prototype.clear = function() {
-        //this._element.html('&nbsp;');
+        console.log("CLEAR!!!!!!!!!!");
+    //this._element.html('&nbsp;');
 
-        this._removeOverlay();
+    //        this._removeOverlay();
     };
 
     /**
@@ -151,10 +137,10 @@ YUI.add('wedance-movedisplay', function (Y) {
  * @param {Number} countdown
  */
     MovesDisplay.prototype.renderReadyCountdown = function(countdown) {
-        var content = '(Ready... ' + countdown + ')';
-        this._setClass();
-        this._element.text(content);
-        this._removeOverlay();
+    //        var content = '(Ready... ' + countdown + ')';
+    //        this._setClass();
+    //        this._element.text(content);
+    //        this._removeOverlay();
     };
 
     /**
@@ -175,21 +161,17 @@ YUI.add('wedance-movedisplay', function (Y) {
     * @param fragmentPercent
     */
     MovesDisplay.prototype.renderKaraoke = function (passed, current, upcoming, fragmentPercent, lineIndex) {
-        if (Y.Lang.isUndefined(lineIndex) || lineIndex === this.lastLine) return;
-        this.lastLine = lineIndex;
+        //        if (Y.Lang.isUndefined(lineIndex) || lineIndex === this.lastLine) return;
+        //        this.lastLine = lineIndex;
 
-        var node, cn = new Y.Node(this._element[0]),
-        w = Y.DOM.winWidth(),
-        pictoCfg = Y.wedance.app.findPicto(+current.text),
-        picto = new Y.wedance.Picto(pictoCfg);
+        //if (this.picto.get("id") !== current.text) {
+        this.picto.setAttrs(Y.wedance.app.findPicto(+current.text));
+        this.picto.syncUI();
+        //console.log("id do not match !!", Y.DOM.winWidth() * (1 - fragmentPercent / 200), fragmentPercent);
+        // }
 
-        picto.render(cn);
-        node = picto.get("boundingBox");
-        node.setStyles({
-            top: 0,
-            left: w
-        });
-
+        this.picto.get("boundingBox").setStyle("left", Y.DOM.winWidth() * (1 - fragmentPercent / 200));
+        return;
         node.plug(Y.Plugin.NodeFX, {
             duration: 3,
             //easing: Y.Easing.elasticOut,

@@ -42,7 +42,7 @@ YUI().use(function (Y) {
                         requires: ["youtubeapi"]
                     },
                     'wedance-p2pcam': {
-                        path: 'js/wedance-video-min.js',
+                        path: 'js/wedance-p2pcam-min.js',
                         requires: ["swf"]
                     },
                     'wedance-score': {

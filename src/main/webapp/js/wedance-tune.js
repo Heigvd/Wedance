@@ -62,7 +62,7 @@ YUI.add('wedance-tune', function (Y) {
                 value: 2
             },
             rate: {
-                value: 0.05
+                value: 0.0005
             },
             delay: {
                 value: 0
@@ -89,7 +89,7 @@ YUI.add('wedance-tune', function (Y) {
     var Moves = Y.Base.create("wedance-moves", Karaoke, [], {}, {
         ATTRS: {
             numDisplayLines: {
-                value: 1
+                value: 10
             },
             engine: {
                 value: Y.wedance.MovesDisplayEngine
@@ -155,7 +155,7 @@ YUI.add('wedance-tune', function (Y) {
         CONTENT_TEMPLATE: "<div><div class=\"wedance-tune-title\"><span></span></div></div>",
 
         renderUI: function () {
-            var k, m, c, s, cb = this.get("contentBox");
+            var k, m, c, s, cam, cb = this.get("contentBox");
 
             this.joinWidget = new JoinWidget({                                  // Join game invite, w/ QR code
                 url: Y.wedance.app.get("base") + "view/controller.html?instanceId=" + Y.wedance.app.get("instanceId")
@@ -186,8 +186,11 @@ YUI.add('wedance-tune', function (Y) {
             });
             c.render(cb);
 
-            s = new Y.wedance.Scores();                                                   // Render scores display (contains on Y.Wedance.Score per player)
+            s = new Y.wedance.Scores();                                         // Render scores display (contains on Y.Wedance.Score per player)
             s.render(cb);
+
+            cam = new Y.wedance.P2PCam();                                       // Render p2p cam widget
+            cam.render(cb);
 
             cb.one(".wedance-tune-title span").append(Y.wedance.app.get("tune.name"));
         },

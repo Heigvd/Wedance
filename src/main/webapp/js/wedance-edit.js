@@ -13,13 +13,12 @@ YUI.add('wedance-edit', function(Y) {
             var acc = [], i, cb = this.get("contentBox"),
             line = this.get("data.line");
 
-            this.set("width", (this.get("data.end") - this.get("data.start")) * 100);
-
             if (Y.Lang.isNumber(+line[0].text)) {                               // 1st case: line is a picto
                 this.picto = new Y.wedance.Picto(Y.wedance.app.findPicto(+line[0].text));
                 this.picto.render(cb);
 
             } else {                                                            // 2nd case: line is a text
+                this.set("width", (this.get("data.end") - this.get("data.start")) * 100);
                 for (i = 0; i < line.length; i += 1) {
                     acc.push(line[i].text);
                 }
@@ -207,7 +206,7 @@ YUI.add('wedance-edit', function(Y) {
             this.get("boundingBox").drop.on("drop:hit", function(e) {
                 var picto_id = e.drag.get("node").get("id"),
                 start = this.width2Time(e.drag.lastXY[0] - e.drop.region[0]),
-                end = start + 1;
+                end = start + 4;
 
                 this.addTimelineItem({
                     start: start,
@@ -384,17 +383,17 @@ YUI.add('wedance-edit', function(Y) {
             w.render(bb.one(".timelines-content"));
             bb.one(".timelines-labels").append("<div>" + trackCfg.name + "</div>");
 
-            //var d = Y.JSON.parse(trackCfg.content),
-            //dod = function (x) {
-            //    return Math.round((x+3.1)*100)/100;
-            //};
-            //for (var i=0;i<d.length;i+=1) {
-            //    d[i][0] = dod(d[i][0]);
-            //    d[i][1] = dod(d[i][1]);
-            //}
-            //console.log(trackCfg.content);
-            //trackCfg.content = Y.JSON.stringify(d);
-            //console.log(Y.JSON.stringify(d).replace(/\"/g, "\\\""));
+        //var d = Y.JSON.parse(trackCfg.content),
+        //dod = function (x) {
+        //    return Math.round((x+3.1)*100)/100;
+        //};
+        //for (var i=0;i<d.length;i+=1) {
+        //    d[i][0] = dod(d[i][0]);
+        //    d[i][1] = dod(d[i][1]);
+        //}
+        //console.log(trackCfg.content);
+        //trackCfg.content = Y.JSON.stringify(d);
+        //console.log(Y.JSON.stringify(d).replace(/\"/g, "\\\""));
         }
     });
     Y.namespace('wedance').Editor = Editor;
